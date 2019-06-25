@@ -21,6 +21,6 @@ namespace BookStore.Model.Address
 
         public string BuildingNumber { get; set; }
 
-        public ICollection<OrderNewProduct> Addresses { get; set; }
+        public ICollection<OrderProduct> Addresses { get; set; }
     }
 }

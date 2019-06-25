@@ -1,4 +1,6 @@
-﻿using BookStore.Model.HelpModels;
+﻿using System.Collections.Generic;
+using BookStore.Model.HelpModels;
+using BookStore.Model.Orders;
 
 namespace BookStore.Model
 {
@@ -15,6 +17,8 @@ namespace BookStore.Model
         public FullName FullName { get; set; }
 
         public string Address { get; set; }
+
+        public ICollection<Order> Orders { get; set; }  
         /* - Username (string)
            - Password (string)
            - Email (string)

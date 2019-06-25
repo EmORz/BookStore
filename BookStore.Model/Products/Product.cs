@@ -4,7 +4,7 @@ using BookStore.Model.HelpModels;
 
 namespace BookStore.Model
 {
-    public class NewProduct : EntityBase<int>
+    public class Product : EntityBase<int>
     {
         public string Name { get; set; }
 
