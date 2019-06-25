@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BookStore.Model.HelpModels;
+using BookStore.Model.Orders;
 
 namespace BookStore.Model.Address
 {
@@ -20,6 +21,6 @@ namespace BookStore.Model.Address
 
         public string BuildingNumber { get; set; }
 
-        public ICollection<OrderNew> Addresses { get; set; }
+        public ICollection<OrderNewProduct> Addresses { get; set; }
     }
 }

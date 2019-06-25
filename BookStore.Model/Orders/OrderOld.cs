@@ -1,7 +1,7 @@
 ﻿using System;
 using BookStore.Model.HelpModels;
 
-namespace BookStore.Model
+namespace BookStore.Model.Orders
 {
     public class OrderOld : EntityBase<string>
     {

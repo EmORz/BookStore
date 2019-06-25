@@ -1,17 +1,11 @@
 ﻿using System;
 using BookStore.Model.HelpModels;
-using BookStore.Model.Address;
 
-namespace BookStore.Model
+namespace BookStore.Model.Orders
 {
-    public class OrderNew : EntityBase<string>
+    public class OrderNewProduct : EntityBase<string>
     {
-        public OrderNew()
-        {
-            this.User= new User();
-            this.Product = new NewProduct();
-        }
-
+    
         public DateTime IssuedOn { get; set; }
 
 
