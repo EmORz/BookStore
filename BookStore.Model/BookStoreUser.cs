@@ -1,11 +1,16 @@
 ﻿using System.Collections.Generic;
 using BookStore.Model.HelpModels;
 using BookStore.Model.Orders;
+using Microsoft.AspNetCore.Identity;
 
 namespace BookStore.Model
 {
-    public class User : EntityBase<string>
+    public class BookStoreUser : IdentityUser
     {
+        public BookStoreUser()
+        {
+            this.Orders = new List<Order>();
+        }
         public string Username { get; set; }
 
         public string Password { get; set; }

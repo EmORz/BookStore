@@ -3,11 +3,9 @@ using BookStore.Model.HelpModels;
 
 namespace BookStore.Model.Orders
 {
-    public class OrderProduct : EntityBase<string>
+    public class OrderProduct 
     {
-    
-        public DateTime IssuedOn { get; set; }
-
+        public string Id { get; set; }
         public string OrderId { get; set; }
         public virtual Order Order { get; set; }
 

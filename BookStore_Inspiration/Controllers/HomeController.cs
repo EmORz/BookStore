@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BookStore_Inspiration.Models;
 using Microsoft.AspNetCore.Mvc;
-using BookStore_Inspiration.Models;
+using System.Diagnostics;
 
 namespace BookStore_Inspiration.Controllers
 {

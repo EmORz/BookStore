@@ -3,8 +3,9 @@ using BookStore.Model.HelpModels;
 
 namespace BookStore.Model
 {
-    public class BookStoreInformation : EntityBase<int>
+    public class BookStoreInformation 
     {
+        public int Id { get; set; }
 
         public BookStoreInformation()
         {

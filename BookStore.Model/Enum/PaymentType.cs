@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BookStore.Model.Orders
+namespace BookStore.Model.Enum
 {
     public enum PaymentType
     {

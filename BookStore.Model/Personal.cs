@@ -2,8 +2,10 @@
 
 namespace BookStore.Model
 {
-    public class Personal : EntityBase<string>
+    public class Personal
     {
+        public string Id { get; set; }
+
         public FullName FullName { get; set; }
 
         public string Email { get; set; }
