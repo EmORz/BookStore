@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewData["Title"] = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Контакти</h1>
+
+<h2>Интернет книжарница</h2>
+<div>
+    <p>Център за обслужване на клиенти
+        тел. 084 440 40 81, 084 480 48 80
+        E-mail: service@inspiration.bg</p>
+</div>
+
+<div>
+    @{
+        string isOpen = "ЗАТВОРЕНО";
+    }
+    @if (DateTime.Now.DayOfWeek != DayOfWeek.Saturday || DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
+    {
+        @if (DateTime.Now.Hour >= 9 && DateTime.Now.Hour < 17)
+         {
+             isOpen = "ОТВОРЕНО";
+        }
+    }
+   
+    Работно време :
+    9.00 - 17.00 ч. - понеделник до петък <h1>@isOpen</h1> 
+</div>
+
