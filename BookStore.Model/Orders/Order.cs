@@ -27,7 +27,7 @@ namespace BookStore.Model.Orders
         public PaymentType PaymentType { get; set; }
 
         public string UserId { get; set; }
-        public BookStoreUser BookStoreUser { get; set; }
+       // public BookStoreUser BookStoreUser { get; set; }
 
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
 

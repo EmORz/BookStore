@@ -15,7 +15,7 @@ namespace BookStore.Model.Address
         public virtual City City { get; set; }
 
         public string UserId { get; set; }
-        public virtual BookStoreUser BookStoreUser { get; set; }
+        //public virtual BookStoreUser BookStoreUser { get; set; }
 
         public string Street { get; set; }
 

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using BookStore.Data;
+using BookStore.Model;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -21,14 +23,13 @@ namespace BookStore_Inspiration
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-    
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<IdentityDbContext>()
-                .AddDefaultTokenProviders();
 
-            services.AddDbContext<IdentityDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<BookStoreDbContext>(options =>
+                options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<BookStoreUser, IdentityRole>()
+                .AddEntityFrameworkStores<BookStoreDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -36,28 +37,13 @@ namespace BookStore_Inspiration
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //using (var serviceScope = app.ApplicationServices.CreateScope())
-            //{
-            //    using (var context = serviceScope.ServiceProvider.GetRequiredService<BookStoreDbContext>())
-            //    {
-            //        //context.Database.EnsureCreated();
-            //        //if (!context.Roles.Any())
-            //        //{
-            //        //    context.Roles.Add(new IdentityRole()
-            //        //    {
-            //        //        Name = "Admin",
-            //        //        NormalizedName = "ADMIN"
-            //        //    });
-            //        //    context.Roles.Add(new IdentityRole()
-            //        //    {
-            //        //        Name = "User",
-            //        //        NormalizedName = "USER"
-            //        //    });
-            //        //}
-
-            //        //context.SaveChanges();
-            //    }
-            //}
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetRequiredService<BookStoreDbContext>())
+                {
+                    context.Database.EnsureCreated();
+                }
+            }
 
             app.UseDeveloperExceptionPage();
 

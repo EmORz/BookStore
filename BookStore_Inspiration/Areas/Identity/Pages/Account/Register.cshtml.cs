@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using BookStore.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -15,13 +16,13 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<BookStoreUser> _signInManager;
+        private readonly UserManager<BookStoreUser> _userManager;
       
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager
+            UserManager<BookStoreUser> userManager,
+            SignInManager<BookStoreUser> signInManager
            )
         {
             _userManager = userManager;
@@ -36,6 +37,15 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Display(Name = "Username")]
+            public string Username { get; set; }
+
+            [Display(Name = "FirstName")]
+            public string Firstname { get; set; }
+
+            [Display(Name = "LastName")]
+            public string Lastname { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -51,6 +61,13 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
             [Display(Name = "Потвърди парола")]
             [Compare("Password", ErrorMessage = "Паролите не съвпадат.")]
             public string ConfirmPassword { get; set; }
+
+            [Display(Name = "Телефонен номер")]
+            public string Phonenumber { get; set; }
+
+            [Display(Name = "Адрес")]
+            public string Address { get; set; }
+     
         }
 
         public void OnGet(string returnUrl = null)
@@ -63,20 +80,18 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new BookStoreUser
+                {
+                    UserName = Input.Username,
+                    Email = Input.Email,
+                    FirstName = Input.Firstname,
+                    LastName = Input.Lastname,
+                    PhoneNumber = Input.Phonenumber,
+                    Address = Input.Address
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-
-
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { userId = user.Id, code = code },
-                        protocol: Request.Scheme);
-
-           
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }

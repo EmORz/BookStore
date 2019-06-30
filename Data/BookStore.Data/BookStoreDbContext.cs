@@ -11,7 +11,7 @@ namespace BookStore.Data
 {
     public class BookStoreDbContext : IdentityDbContext<BookStoreUser, IdentityRole, string>
     {
-        //public DbSet<FullName> FullNames { get; set; }
+       // public DbSet<BookStoreUser> BookStoreUsers { get; set; }
         //public DbSet<Order> Orders { get; set; }
         //public DbSet<OrderProduct> OrderProducts { get; set; }
         //public DbSet<Address> Addresses { get; set; }
@@ -31,7 +31,6 @@ namespace BookStore.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-     
 
       
 

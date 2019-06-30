@@ -7,23 +7,22 @@ namespace BookStore.Model
 {
     public class BookStoreUser : IdentityUser
     {
-        public BookStoreUser()
-        {
-            this.Orders = new List<Order>();
-        }
-        public string Username { get; set; }
+        //public BookStoreUser()
+        //{
+        //    this.Orders = new List<Order>();
+        //}
 
-        public string Password { get; set; }
 
-        public string Email { get; set; }
+        public string FirstName { get; set; }
 
-        public string Phonenumber { get; set; }
+        public string LastName { get; set; }
 
-        public FullName FullName { get; set; }
+
+        //public FullName FullName { get; set; }
 
         public string Address { get; set; }
 
-        public ICollection<Order> Orders { get; set; }  
+        //public ICollection<Order> Orders { get; set; }  
         /* - Username (string)
            - Password (string)
            - Email (string)
