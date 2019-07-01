@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using BookStore.Model;
+using BookStore.Model.HelpModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -20,6 +21,7 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
         private readonly UserManager<BookStoreUser> _userManager;
       
 
+
         public RegisterModel(
             UserManager<BookStoreUser> userManager,
             SignInManager<BookStoreUser> signInManager
@@ -27,6 +29,7 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
         {
             _userManager = userManager;
             _signInManager = signInManager;
+
       
         }
 
@@ -37,6 +40,8 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            
+
             [Display(Name = "Username")]
             public string Username { get; set; }
 
@@ -80,6 +85,7 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
+              
                 var user = new BookStoreUser
                 {
                     UserName = Input.Username,

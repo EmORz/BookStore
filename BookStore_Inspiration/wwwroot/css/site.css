@@ -9,6 +9,12 @@ a.navbar-brand {
 
 /* Sticky footer styles
 -------------------------------------------------- */
+.bg-eventures {
+    background-color: #AFEeEE
+}
+.text-eventures {
+    color: #AFEEeE
+}
 html {
   font-size: 14px;
 }

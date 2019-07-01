@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace BookStore_Inspiration.Areas.Identity.Pages.Account
@@ -18,11 +19,13 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<BookStoreUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly UserManager<BookStoreUser> _userManager;
 
-        public LoginModel(SignInManager<BookStoreUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<BookStoreUser> signInManager, ILogger<LoginModel> logger, UserManager<BookStoreUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -39,6 +42,8 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
         {
             [Required]
             public string Username { get; set; }
+
+ 
 
             [Required]
             [DataType(DataType.Password)]
@@ -69,17 +74,29 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
+
+
             if (ModelState.IsValid)
             {
+                
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: true);
-                if (result.Succeeded)
+
+               
+                var user = await _userManager.Users
+                    .FirstOrDefaultAsync(u => u.UserName == Input.Username || u.Email == Input.Username);
+
+
+                if (user!=null)
                 {
+                    var result =
+                        await _signInManager.PasswordSignInAsync(user.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
-       
+              
+
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");

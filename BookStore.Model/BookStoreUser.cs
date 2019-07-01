@@ -18,7 +18,6 @@ namespace BookStore.Model
         public string LastName { get; set; }
 
 
-        //public FullName FullName { get; set; }
 
         public string Address { get; set; }
 
