@@ -9,9 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{C5D5491D-9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{6BCF725E-4645-484C-BD53-16741B853574}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStore.Data", "Data\BookStore.Data\BookStore.Data.csproj", "{84F64C54-360D-42D7-80E4-2959A1FB58B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookStore.Data", "Data\BookStore.Data\BookStore.Data.csproj", "{84F64C54-360D-42D7-80E4-2959A1FB58B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStore.Model", "BookStore.Model\BookStore.Model.csproj", "{3F5085E0-7479-4479-B1D4-1B8E2F07443E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookStore.Model", "BookStore.Model\BookStore.Model.csproj", "{3F5085E0-7479-4479-B1D4-1B8E2F07443E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{E6376F4C-F2B4-405C-A484-EDBCBCE06DB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStore.Services", "BookStore.Services\BookStore.Services.csproj", "{0F3712F1-9BB0-4AED-99C5-5B95017A9456}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +35,10 @@ Global
 		{3F5085E0-7479-4479-B1D4-1B8E2F07443E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F5085E0-7479-4479-B1D4-1B8E2F07443E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F5085E0-7479-4479-B1D4-1B8E2F07443E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F3712F1-9BB0-4AED-99C5-5B95017A9456}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F3712F1-9BB0-4AED-99C5-5B95017A9456}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F3712F1-9BB0-4AED-99C5-5B95017A9456}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F3712F1-9BB0-4AED-99C5-5B95017A9456}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +47,7 @@ Global
 		{2CBD0704-CEEF-46FE-BFBA-205EB9D43D50} = {6BCF725E-4645-484C-BD53-16741B853574}
 		{84F64C54-360D-42D7-80E4-2959A1FB58B6} = {C5D5491D-95C7-484B-A94E-5A1429135A0A}
 		{3F5085E0-7479-4479-B1D4-1B8E2F07443E} = {C5D5491D-95C7-484B-A94E-5A1429135A0A}
+		{0F3712F1-9BB0-4AED-99C5-5B95017A9456} = {E6376F4C-F2B4-405C-A484-EDBCBCE06DB9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B5AACADF-673E-48C0-B97E-2F68DCD2C6A0}

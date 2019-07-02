@@ -5,7 +5,11 @@ namespace BookStore.Model.Address
 {
     public class Address 
     {
+        /*string street, string description, string city, string postcode*/
         public string Id { get; set; }
+
+        public string Street { get; set; }
+
         public string Description { get; set; }
 
         public string Country { get; set; }
@@ -16,7 +20,7 @@ namespace BookStore.Model.Address
         public string UserId { get; set; }
         public virtual BookStoreUser BookStoreUser { get; set; }
 
-        public string Street { get; set; }
+    
 
         public string BuildingNumber { get; set; }
 
