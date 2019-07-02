@@ -1,12 +1,12 @@
-﻿using BookStore.Model.HelpModels;
-
-namespace BookStore.Model
+﻿namespace BookStore.Model
 {
     public class Personal
     {
         public string Id { get; set; }
 
-        public FullName FullName { get; set; }
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
 
         public string Email { get; set; }
 

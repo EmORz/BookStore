@@ -1,7 +1,4 @@
-﻿using System;
-using BookStore.Model.HelpModels;
-
-namespace BookStore.Model.Orders
+﻿namespace BookStore.Model.Orders
 {
     public class OrderProduct 
     {

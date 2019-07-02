@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using BookStore.Model.Enum;
-using BookStore.Model.HelpModels;
+﻿using BookStore.Model.Enum;
+using System.Collections.Generic;
 
 namespace BookStore.Model
 {

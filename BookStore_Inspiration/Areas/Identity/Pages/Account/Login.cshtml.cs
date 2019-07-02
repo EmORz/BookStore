@@ -99,7 +99,7 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
 
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Няма потребител с тези данни.Моля, регистрирайте се!");
                     return Page();
                 }
             }

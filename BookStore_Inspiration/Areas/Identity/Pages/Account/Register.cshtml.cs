@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using BookStore.Model;
-using BookStore.Model.HelpModels;
+﻿using BookStore.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace BookStore_Inspiration.Areas.Identity.Pages.Account
 {
@@ -92,8 +86,8 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
                     Email = Input.Email,
                     FirstName = Input.Firstname,
                     LastName = Input.Lastname,
-                    PhoneNumber = Input.Phonenumber,
-                    Address = Input.Address
+                    PhoneNumber = Input.Phonenumber
+            
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

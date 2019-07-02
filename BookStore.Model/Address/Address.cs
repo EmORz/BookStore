@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using BookStore.Model.HelpModels;
-using BookStore.Model.Orders;
+﻿using BookStore.Model.Orders;
+using System.Collections.Generic;
 
 namespace BookStore.Model.Address
 {
@@ -15,12 +14,12 @@ namespace BookStore.Model.Address
         public virtual City City { get; set; }
 
         public string UserId { get; set; }
-        //public virtual BookStoreUser BookStoreUser { get; set; }
+        public virtual BookStoreUser BookStoreUser { get; set; }
 
         public string Street { get; set; }
 
         public string BuildingNumber { get; set; }
 
-        public ICollection<OrderProduct> Addresses { get; set; }
+        public ICollection<Order> Addresses { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using BookStore.Model.HelpModels;
 
 namespace BookStore.Model
 {
@@ -10,12 +9,20 @@ namespace BookStore.Model
         public BookStoreInformation()
         {
             this.Personals = new List<Personal>();
+            this.Products = new List<Product>();
         }
-        public string Name { get; set; }
+        public string NameOfBookStore { get; set; }
+
+      
+
 
         public string Address { get; set; }
 
         public List<Personal> Personals { get; set; }
+
+        public List<Product> Products { get; set; }
+
+
 
         /*### BookStoreData
            - Id (int)

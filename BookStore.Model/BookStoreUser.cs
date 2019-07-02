@@ -1,27 +1,27 @@
-﻿using System.Collections.Generic;
-using BookStore.Model.HelpModels;
-using BookStore.Model.Orders;
+﻿using BookStore.Model.Orders;
+using BookStore.Model.Address;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
 namespace BookStore.Model
 {
     public class BookStoreUser : IdentityUser
     {
-        //public BookStoreUser()
-        //{
-        //    this.Orders = new List<Order>();
-        //}
+        public BookStoreUser()
+        {
+            this.Addresses = new List<Address.Address>();
+        }
 
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
+    
 
+        public virtual ICollection<Address.Address> Addresses { get; set; }
 
-        public string Address { get; set; }
-
-        //public ICollection<Order> Orders { get; set; }  
+        public ICollection<Order> Orders { get; set; }  
         /* - Username (string)
            - Password (string)
            - Email (string)
