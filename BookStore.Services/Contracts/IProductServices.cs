@@ -7,11 +7,11 @@ namespace BookStore.Services.Contracts
     {
         void AddProduct(Product product);
 
-        Product GetProductById(int id);
+        Product GetProductById(string id);
 
         IEnumerable<Product> GetAllProducts();
 
-        bool ProductExists(int id);
+        bool ProductExists(string id);
 
         bool EditProduct(Product product);
 

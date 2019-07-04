@@ -2,7 +2,7 @@
 
 namespace BookStore_Inspiration.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         public IActionResult Book()
         {

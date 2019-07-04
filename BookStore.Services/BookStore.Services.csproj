@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BookStore.Model\BookStore.Model.csproj" />
+    <ProjectReference Include="..\Data\BookStore.Data\BookStore.Data.csproj" />
   </ItemGroup>
 
 </Project>

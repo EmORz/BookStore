@@ -22,12 +22,7 @@ namespace BookStore.Model
         public virtual ICollection<Film> Films { get; set; }
         public virtual ICollection<Other> Others { get; set; }
 
-        /*### Product New
-  - Id (int)
-  - Name (string)
-  - Type (enum) (books/music/film etc . . .)
-  - Price (decimal)
-  - In Stock - (int:: quantity in stock)*/
+     
 
     }
 }

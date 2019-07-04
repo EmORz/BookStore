@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore_Inspiration.Controllers
 {
-    public class InfoController : Controller
+    public class InfoController : BaseController
     {
         public IActionResult ForUs()
         {

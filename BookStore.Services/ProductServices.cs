@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using BookStore.Data;
 using BookStore.Model;
 using BookStore.Services.Contracts;
 
@@ -6,33 +9,67 @@ namespace BookStore.Services
 {
     public class ProductServices : IProductServices
     {
-        public void AddProduct(Product product)
+        private readonly BookStoreDbContext context;
+
+        public ProductServices(BookStoreDbContext context)
         {
-            throw new System.NotImplementedException();
+            this.context = context;
         }
 
-        public Product GetProductById(int id)
+        public void AddProduct(Product product)
         {
-            throw new System.NotImplementedException();
+            if (product==null)
+            {
+                return;
+            }
+
+            this.context.Products.Add(product);
+            this.context.SaveChanges();
+        }
+
+        public Product GetProductById(string id)
+        {
+            var currentProduct = this.context.Products.FirstOrDefault(x => x.Id == id);
+            return currentProduct;
         }
 
         public IEnumerable<Product> GetAllProducts()
         {
-            throw new System.NotImplementedException();
+            var allProducts = this.context.Products.ToList();
+            return allProducts;
         }
 
-        public bool ProductExists(int id)
+        public bool ProductExists(string id)
         {
-            throw new System.NotImplementedException();
+            var isProductExist = this.context.Products.Any(x => x.Id == id);
+
+            return isProductExist;
+
         }
 
         public bool EditProduct(Product product)
         {
-            throw new System.NotImplementedException();
+            if (this.ProductExists(product.Id))
+            {
+                return false;
+            }
+
+            try
+            {
+                this.context.Products.Update(product);
+                this.context.SaveChanges();
+            }
+            catch 
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public IEnumerable<Product> GetProductsBySearch(string searchString)
         {
+            //todo по какво ще търся? каква ще е логиката?
             throw new System.NotImplementedException();
         }
     }
