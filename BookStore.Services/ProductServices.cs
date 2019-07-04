@@ -69,7 +69,10 @@ namespace BookStore.Services
 
         public IEnumerable<Product> GetProductsBySearch(string searchString)
         {
-            //todo по какво ще търся? каква ще е логиката?
+            var tokens = searchString.Split(new string[] {",", ".", " "}, StringSplitOptions.RemoveEmptyEntries);
+
+            var products = this.context.Products.Where(x => tokens.All(c => x.Name.ToLower().Contains(c.ToLower())));
+            //todo its not good
             throw new System.NotImplementedException();
         }
     }
