@@ -1,5 +1,7 @@
 ﻿using BookStore.Data;
 using BookStore.Model;
+using BookStore.Services;
+using BookStore.Services.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -30,6 +32,11 @@ namespace BookStore_Inspiration
             services.AddIdentity<BookStoreUser, IdentityRole>()
                 .AddEntityFrameworkStores<BookStoreDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddScoped<IUserServices, UserServices>();
+            services.AddScoped<IProductServices, ProductServices>();
+            services.AddScoped<IOrderServices, OrderServices>();
+            services.AddScoped<IAddressesServices, AddressesServices>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

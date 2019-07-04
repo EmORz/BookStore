@@ -16,7 +16,7 @@ namespace BookStore_Inspiration.Controllers
         public IActionResult Details(string id)
         {
             var product = this.productServices.GetProductById(id);
-            if (product==null)
+            if (product == null)
             {
                 return NotFound();
             }
