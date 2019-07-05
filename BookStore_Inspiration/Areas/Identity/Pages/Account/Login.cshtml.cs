@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using BookStore.Model;
 using Microsoft.AspNetCore.Authorization;
+using BookStore.Model;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace BookStore_Inspiration.Areas.Identity.Pages.Account
@@ -19,13 +18,11 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<BookStoreUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        private readonly UserManager<BookStoreUser> _userManager;
 
-        public LoginModel(SignInManager<BookStoreUser> signInManager, ILogger<LoginModel> logger, UserManager<BookStoreUser> userManager)
+        public LoginModel(SignInManager<BookStoreUser> signInManager, ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;
-            _userManager = userManager;
         }
 
         [BindProperty]
@@ -41,15 +38,14 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            public string Username { get; set; }
-
- 
+            [EmailAddress]
+            public string Email { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Запомни ме?")]
+            [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }
 
@@ -74,32 +70,28 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
-
-
             if (ModelState.IsValid)
             {
-                
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-
-               
-                var user = await _userManager.Users
-                    .FirstOrDefaultAsync(u => u.UserName == Input.Username || u.Email == Input.Username);
-
-
-                if (user!=null)
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                if (result.Succeeded)
                 {
-                    var result =
-                        await _signInManager.PasswordSignInAsync(user.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: true);
-
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
-              
-
+                if (result.RequiresTwoFactor)
+                {
+                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                }
+                if (result.IsLockedOut)
+                {
+                    _logger.LogWarning("User account locked out.");
+                    return RedirectToPage("./Lockout");
+                }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Няма потребител с тези данни.Моля, регистрирайте се!");
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();
                 }
             }
