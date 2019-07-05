@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookStore_Inspiration.Areas.Administrator.Comtrollers
+namespace BookStore_Inspiration.Areas.Administrator.Controllers
 {
     [Area("Administrator")]
     [Authorize(Roles = "Admin")]

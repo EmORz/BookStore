@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using BookStore.Model;
+﻿using BookStore.Model;
 using BookStore.Services.Contracts;
 using BookStore_Inspiration.Areas.Administrator.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
-namespace BookStore_Inspiration.Areas.Administrator.Comtrollers
+namespace BookStore_Inspiration.Areas.Administrator.Controllers
 {
     public class ProductController : AdministratorController
     {

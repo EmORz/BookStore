@@ -73,7 +73,9 @@ namespace BookStore.Services
 
             var products = this.context.Products.Where(x => tokens.All(c => x.Name.ToLower().Contains(c.ToLower())));
             //todo its not good
-            throw new System.NotImplementedException();
+
+            return products;
+
         }
     }
 }

@@ -22,11 +22,6 @@ namespace BookStore.Model
         public virtual ICollection<Address.Address> Addresses { get; set; }
 
         public ICollection<Order> Orders { get; set; }  
-        /* - Username (string)
-           - Password (string)
-           - Email (string)
-           - Phonenumber
-           - Full Name (string)
-           - Address (string)*/
+    
     }
 }
