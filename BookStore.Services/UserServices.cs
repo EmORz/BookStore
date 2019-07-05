@@ -1,10 +1,17 @@
-﻿using BookStore.Model;
+﻿using BookStore.Data;
+using BookStore.Model;
 using BookStore.Services.Contracts;
 
 namespace BookStore.Services
 {
     public class UserServices : IUserServices
     {
+        private readonly BookStoreDbContext context;
+
+        public UserServices(BookStoreDbContext context)
+        {
+            this.context = context;
+        }
         public BookStoreUser GetUserByUsername(string username)
         {
             throw new System.NotImplementedException();
@@ -12,27 +19,58 @@ namespace BookStore.Services
 
         public void EditFirstName(BookStoreUser user, string firstName)
         {
-            throw new System.NotImplementedException();
+            if (user == null)
+            {
+                return;
+            }
+
+            user.FirstName = firstName;
+            this.context.SaveChanges();
         }
 
         public void EditLastName(BookStoreUser user, string lastName)
         {
-            throw new System.NotImplementedException();
+            if (user == null)
+            {
+                return;
+            }
+
+            user.LastName = lastName;
+            this.context.SaveChanges();
         }
 
         public void EditUsername(BookStoreUser user, string userName)
         {
-            throw new System.NotImplementedException();
+            if (user == null)
+            {
+                return;
+            }
+
+            user.UserName = userName;
+            this.context.SaveChanges();
         }
 
         public void EditEmail(BookStoreUser user, string email)
         {
-            throw new System.NotImplementedException();
+            if (user == null)
+            {
+                return;
+            }
+
+            user.Email = email;
+            this.context.SaveChanges();
         }
 
+   
         public void EditPhonenumber(BookStoreUser user, string phonenumber)
         {
-            throw new System.NotImplementedException();
+            if (user == null)
+            {
+                return;
+            }
+
+            user.PhoneNumber = phonenumber;
+            this.context.SaveChanges();
         }
     }
 }

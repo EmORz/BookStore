@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using BookStore.Model;
+using BookStore.Services.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +17,18 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<BookStoreUser> _userManager;
         private readonly SignInManager<BookStoreUser> _signInManager;
+        private readonly IUserServices _userService;
         private readonly IEmailSender _emailSender;
 
         public IndexModel(
             UserManager<BookStoreUser> userManager,
             SignInManager<BookStoreUser> signInManager,
+            IUserServices userService,
             IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userService = userService;
             _emailSender = emailSender;
         }
 
@@ -47,6 +51,13 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -60,13 +71,16 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var email = await _userManager.GetEmailAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            
 
-            Username = userName;
+            Username = this.User.Identity.Name;
 
             Input = new InputModel
             {
                 Email = email,
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                FirstName = user.FirstName,
+                LastName = user.LastName
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
@@ -107,6 +121,16 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account.Manage
                     var userId = await _userManager.GetUserIdAsync(user);
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
+            }
+
+            if (Input.FirstName != user.FirstName)
+            {
+                _userService.EditFirstName(user, Input.FirstName);
+            }
+
+            if (Input.LastName != user.LastName)
+            {
+                _userService.EditLastName(user, Input.LastName);
             }
 
             await _signInManager.RefreshSignInAsync(user);
