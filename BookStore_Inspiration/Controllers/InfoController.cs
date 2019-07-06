@@ -17,5 +17,19 @@ namespace BookStore_Inspiration.Controllers
         {
             return View();
         }
+
+        public IActionResult PaymentMethods()
+        {
+            return View();
+        }
+
+        public IActionResult Deliver()
+        {
+            return View();
+        }
+        public IActionResult SearchBox()
+        {
+            return View();
+        }
     }
 }
