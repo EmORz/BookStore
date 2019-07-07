@@ -42,7 +42,7 @@ namespace BookStore_Inspiration.Areas.Administrator.Controllers
             return RedirectToAction(nameof(All));
         }
         //edit
-        public IActionResult Edit(string id)
+        public IActionResult Edit(int id)
         {
             var product = this.productServices.GetProductById(id);
             if (product==null)

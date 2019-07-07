@@ -27,7 +27,7 @@ namespace BookStore.Services
             this.context.SaveChanges();
         }
 
-        public Product GetProductById(string id)
+        public Product GetProductById(int id)
         {
             var currentProduct = this.context.Products.FirstOrDefault(x => x.Id == id);
             return currentProduct;
@@ -39,7 +39,7 @@ namespace BookStore.Services
             return allProducts;
         }
 
-        public bool ProductExists(string id)
+        public bool ProductExists(int id)
         {
             var isProductExist = this.context.Products.Any(x => x.Id == id);
 

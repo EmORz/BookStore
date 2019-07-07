@@ -13,7 +13,7 @@ namespace BookStore_Inspiration.Controllers
             this.productServices = productServices;
         }
 
-        public IActionResult Details(string id)
+        public IActionResult Details(int id)
         {
             var product = this.productServices.GetProductById(id);
             if (product == null)

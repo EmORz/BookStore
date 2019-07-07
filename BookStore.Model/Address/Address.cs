@@ -6,7 +6,7 @@ namespace BookStore.Model.Address
     public class Address 
     {
         /*string street, string description, string city, string postcode*/
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string Street { get; set; }
 

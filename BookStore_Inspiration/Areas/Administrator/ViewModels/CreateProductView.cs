@@ -5,7 +5,7 @@ namespace BookStore_Inspiration.Areas.Administrator.ViewModels
 {
     public class CreateProductView
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Display(Name = "Име")]
         public string Name { get; set; }
