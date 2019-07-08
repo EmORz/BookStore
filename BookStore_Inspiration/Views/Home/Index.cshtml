@@ -1,8 +1,12 @@
-﻿@{
+﻿@using BookStore.Data
+@{
     ViewData["Title"] = "Home Page";
 }
+@inject BookStoreDbContext data
 
 <div class="text-center">
-    <h1 class="display-4">WelcCome</h1>
+    <h1 class="display-4">Добре дошли в нашият сайт!</h1>
+   
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+<p>Към @DateTime.Now има регистрирани общо @data.BookStoreUsers.Count() потребители!</p>

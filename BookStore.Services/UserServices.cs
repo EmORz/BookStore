@@ -1,4 +1,5 @@
-﻿using BookStore.Data;
+﻿using System.Linq;
+using BookStore.Data;
 using BookStore.Model;
 using BookStore.Services.Contracts;
 
@@ -14,7 +15,7 @@ namespace BookStore.Services
         }
         public BookStoreUser GetUserByUsername(string username)
         {
-            throw new System.NotImplementedException();
+            return this.context.BookStoreUsers.FirstOrDefault(x => x.UserName == username);
         }
 
         public void EditFirstName(BookStoreUser user, string firstName)
