@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using BookStore.Data;
 using BookStore.Model;
 using BookStore.Services.Contracts;
@@ -16,6 +17,12 @@ namespace BookStore.Services
         public BookStoreUser GetUserByUsername(string username)
         {
             return this.context.BookStoreUsers.FirstOrDefault(x => x.UserName == username);
+        }
+
+        public IList<BookStoreUser> GetAllUsers()
+        {
+            var allUsers = this.context.BookStoreUsers.ToList();
+            return allUsers;
         }
 
         public void EditFirstName(BookStoreUser user, string firstName)

@@ -1,10 +1,13 @@
-﻿using BookStore.Model;
+﻿using System.Collections.Generic;
+using BookStore.Model;
 
 namespace BookStore.Services.Contracts
 {
     public interface IUserServices
     {
         BookStoreUser GetUserByUsername(string username);
+
+        IList<BookStoreUser> GetAllUsers();
 
         void EditFirstName(BookStoreUser user, string firstName);
 
