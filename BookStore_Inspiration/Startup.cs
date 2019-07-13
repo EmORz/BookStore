@@ -36,10 +36,14 @@ namespace BookStore_Inspiration
                 .AddEntityFrameworkStores<BookStoreDbContext>()
                 .AddDefaultTokenProviders();
 
+            #region ServiceRefistration
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IProductServices, ProductServices>();
             services.AddScoped<IOrderServices, OrderServices>();
             services.AddScoped<IAddressesServices, AddressesServices>();
+
+            #endregion
+
 
             #region PassWordSettings
 
@@ -65,6 +69,8 @@ namespace BookStore_Inspiration
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            #region DBSets
+
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
                 using (var context = serviceScope.ServiceProvider.GetRequiredService<BookStoreDbContext>())
@@ -89,6 +95,10 @@ namespace BookStore_Inspiration
                     }
                 }
             }
+
+            #endregion
+
+            
 
             app.UseDeveloperExceptionPage();
 

@@ -1,12 +1,12 @@
 ﻿using BookStore.Model;
 using BookStore.Services.Contracts;
-using BookStore_Inspiration.Areas.Administrator.ViewModels;
+using BookStore_Inspiration.Areas.Administration.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
-namespace BookStore_Inspiration.Areas.Administrator.Controllers
+namespace BookStore_Inspiration.Areas.Administration.Controllers
 {
-    public class ProductController : AdministratorController
+    public class ProductController : AdminController
     {
         private readonly IProductServices productServices;
 

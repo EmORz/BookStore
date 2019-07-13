@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BookStore.Model.Enum;
 
-namespace BookStore_Inspiration.Areas.Administrator.ViewModels
+namespace BookStore_Inspiration.Areas.Administration.ViewModels
 {
-    public class CreateProductView
+    public class EditProductViewModel
     {
         public int Id { get; set; }
 

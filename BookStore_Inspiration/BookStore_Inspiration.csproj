@@ -21,4 +21,9 @@
     <ProjectReference Include="..\Data\BookStore.Data\BookStore.Data.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Areas\Administration\Views\" />
+  </ItemGroup>
+
 </Project>
