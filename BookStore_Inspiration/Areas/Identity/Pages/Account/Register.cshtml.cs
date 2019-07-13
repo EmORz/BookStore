@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 
 namespace BookStore_Inspiration.Areas.Identity.Pages.Account
@@ -16,18 +17,23 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
+      
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<BookStoreUser> _signInManager;
         private readonly UserManager<BookStoreUser> _userManager;
+        private readonly IEmailSender _emailSender;
 
 
 
         public RegisterModel(
             UserManager<BookStoreUser> userManager,
+            RoleManager<IdentityRole> roleManager,
             SignInManager<BookStoreUser> signInManager
            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
 
 
         }
@@ -84,7 +90,7 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-
+                var isRoot = !_userManager.Users.Any();
                 var user = new BookStoreUser
                 {
                     UserName = Input.Username,
@@ -97,6 +103,14 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    if (isRoot)
+                    {
+                        await _userManager.AddToRoleAsync(user, "Admin");
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, "User");
+                    }
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
