@@ -1,5 +1,4 @@
 ﻿using BookStore.Model.Orders;
-using BookStore.Model.Address;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 
@@ -16,6 +15,11 @@ namespace BookStore.Model
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public string UCN { get; set; }
+
+
+        //add ucn todo ucn
 
     
 

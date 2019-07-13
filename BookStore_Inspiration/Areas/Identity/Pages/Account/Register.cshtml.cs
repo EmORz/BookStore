@@ -75,8 +75,10 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
             [Display(Name = "Телефонен номер")]
             public string Phonenumber { get; set; }
 
-            [Display(Name = "Адрес")]
-            public string Address { get; set; }
+            [Required]
+            [Display(Name = "ЕГН")]
+            [StringLength(10, ErrorMessage = "ЕГН трябва да бъде точно 10 цифри!", MinimumLength = 10)]
+            public string UCN { get; set; }
 
         }
 
@@ -88,6 +90,10 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
+            if (!IsValidUCN(Input.UCN))
+            {
+                return BadRequest("ЕГН което въвеждаш е невалидно! Опитай пак с валидни данни.");
+            }
             if (ModelState.IsValid)
             {
                 var isRoot = !_userManager.Users.Any();
@@ -97,7 +103,8 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
                     Email = Input.Email,
                     FirstName = Input.Firstname,
                     LastName = Input.Lastname,
-                    PhoneNumber = Input.Phonenumber
+                    PhoneNumber = Input.Phonenumber,
+                    UCN = Input.UCN
 
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -122,6 +129,25 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        private bool IsValidUCN(string input)
+        {
+            var total = 0;
+            var last = input[input.Length - 1];
+            int[] numChec = { 2, 4, 8, 5, 10, 9, 7, 3, 6 };
+            for (int r = 0; r < input.Length - 1; r++)
+            {
+                var temp = int.Parse(input[r].ToString()) * numChec[r];
+                total += temp;
+            }
+            var rem = total % 11;
+            if (rem.ToString() == last.ToString())
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
