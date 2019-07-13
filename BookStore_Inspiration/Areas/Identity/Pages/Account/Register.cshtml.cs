@@ -63,11 +63,11 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            [DataType(DataType.Password)]
+            //[DataType(DataType.Password)]
             [Display(Name = "Парола")]
             public string Password { get; set; }
 
-            [DataType(DataType.Password)]
+            //[DataType(DataType.Password)]
             [Display(Name = "Потвърди парола")]
             [Compare("Password", ErrorMessage = "Паролите не съвпадат.")]
             public string ConfirmPassword { get; set; }
