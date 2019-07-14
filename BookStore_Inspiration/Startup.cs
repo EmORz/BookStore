@@ -63,6 +63,7 @@ namespace BookStore_Inspiration
 
             #endregion
 
+            //todo add google authentication
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
