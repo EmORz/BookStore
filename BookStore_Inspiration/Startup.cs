@@ -5,7 +5,6 @@ using BookStore.Services.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +35,7 @@ namespace BookStore_Inspiration
                 .AddEntityFrameworkStores<BookStoreDbContext>()
                 .AddDefaultTokenProviders();
 
-            #region ServiceRefistration
+            #region ServiceRegistration
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IProductServices, ProductServices>();
             services.AddScoped<IOrderServices, OrderServices>();
@@ -68,6 +67,12 @@ namespace BookStore_Inspiration
             {
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            });
+
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
