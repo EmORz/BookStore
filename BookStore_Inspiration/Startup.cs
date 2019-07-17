@@ -12,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Account = Microsoft.VisualStudio.Services.Account.Account;
 
 namespace BookStore_Inspiration
 {
