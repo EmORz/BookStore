@@ -1,13 +1,16 @@
 ﻿@using BookStore.Data
+
 @using BookStore.Services.Contracts
 @{
     ViewData["Title"] = "Home Page";
 }
 @inject IUserServices UserServices
 
+
+
 <div class="text-center">
     <h1 class="display-4">Добре дошли в нашият сайт!</h1>
-   
+
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 <p>Към @DateTime.Now има регистрирани общо @UserServices.GetAllUsers().Count потребители!</p>

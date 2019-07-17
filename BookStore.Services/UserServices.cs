@@ -1,24 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using BookStore.Data;
 using BookStore.Model;
 using BookStore.Services.Contracts;
 
 namespace BookStore.Services
 {
-    public class PersonalUserDataForSpecialOfert
-    {
-        public string Year { get; set; }
-        public string Month { get; set; }
-        public string Day { get; set; }
-        public string Gender { get; set; }
-    }
-
     public class UserServices : IUserServices
     {
         private readonly BookStoreDbContext context;
 
-        //todo - is it good ide?
+       private static string PasswordHash = "DB28C8F1-D3A0-4C82-ABB0-96E7E97825FE";
+       private static readonly string SaltKey = "f9@4%aEb";
+       private static readonly string VIKey = "Aeb4!98@b47oytrE";
+
+        //todo - is it good idea?
         private PersonalUserDataForSpecialOfert ClientData(string input)
         {
             PersonalUserDataForSpecialOfert info = new PersonalUserDataForSpecialOfert();
@@ -93,14 +93,10 @@ namespace BookStore.Services
         {
             this.context = context;
         }
-
-        public PersonalUserDataForSpecialOfert GetUserByUCN(string ucn)
+        public BookStoreUser GetUserByUcn(string ucn)
         {
             var user = this.context.BookStoreUsers.FirstOrDefault(x => x.UCN == ucn);
-            var usn = user?.UCN;
-            var clientData = this.ClientData(usn);
-
-            return clientData;
+            return user;
         }
         public BookStoreUser GetUserByUsername(string username)
         {
@@ -111,6 +107,55 @@ namespace BookStore.Services
         {
             var allUsers = this.context.BookStoreUsers.ToList();
             return allUsers;
+        }
+
+        public string EncryptData(string input)
+        {
+            byte[] plainTextBytes = Encoding.UTF8.GetBytes(input);
+
+            byte[] keyBytes = new Rfc2898DeriveBytes(PasswordHash, Encoding.ASCII.GetBytes(SaltKey)).GetBytes(256 / 8);
+            var symmetricKey = new RijndaelManaged() { Mode = CipherMode.CBC, Padding = PaddingMode.Zeros };
+            var encryptor = symmetricKey.CreateEncryptor(keyBytes, Encoding.ASCII.GetBytes(VIKey));
+
+            byte[] cipherTextBytes;
+
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
+                {
+                    cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
+                    cryptoStream.FlushFinalBlock();
+                    cipherTextBytes = memoryStream.ToArray();
+                    cryptoStream.Close();
+                }
+                memoryStream.Close();
+            }
+            var temp = Convert.ToBase64String(cipherTextBytes);
+
+            return temp;
+
+        }
+
+        public string DecryptData(string encryptUcn)
+        {
+            var user = this.context.BookStoreUsers.FirstOrDefault(x => x.UCN == encryptUcn);
+
+            var tempEnc = user.UCN;
+
+            byte[] cipherTextBytes = Convert.FromBase64String(tempEnc);
+            byte[] keyBytes = new Rfc2898DeriveBytes(PasswordHash, Encoding.ASCII.GetBytes(SaltKey)).GetBytes(256 / 8);
+            var symmetricKey = new RijndaelManaged() { Mode = CipherMode.CBC, Padding = PaddingMode.None };
+
+            var decryptor = symmetricKey.CreateDecryptor(keyBytes, Encoding.ASCII.GetBytes(VIKey));
+            var memoryStream = new MemoryStream(cipherTextBytes);
+            var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
+            byte[] plainTextBytes = new byte[cipherTextBytes.Length];
+
+            int decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
+            memoryStream.Close();
+            cryptoStream.Close();
+            var temp = Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount).TrimEnd("\0".ToCharArray());
+            return temp;
         }
 
         public void EditFirstName(BookStoreUser user, string firstName)

@@ -5,6 +5,7 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using BookStore.Model;
+using BookStore.Services.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,7 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
       
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<BookStoreUser> _signInManager;
+        private readonly IUserServices _userServices;
         private readonly UserManager<BookStoreUser> _userManager;
         private readonly IEmailSender _emailSender;
 
@@ -28,11 +30,13 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
         public RegisterModel(
             UserManager<BookStoreUser> userManager,
             RoleManager<IdentityRole> roleManager,
-            SignInManager<BookStoreUser> signInManager
+            SignInManager<BookStoreUser> signInManager,
+            IUserServices userServices
            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userServices = userServices;
             _roleManager = roleManager;
 
 
@@ -104,7 +108,7 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
                     FirstName = Input.Firstname,
                     LastName = Input.Lastname,
                     PhoneNumber = Input.Phonenumber,
-                    UCN = Input.UCN
+                    UCN = _userServices.EncryptData(Input.UCN)
 
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
