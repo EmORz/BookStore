@@ -9,10 +9,12 @@ namespace BookStore_Inspiration.Areas.Administration.Controllers
     public class ProductController : AdminController
     {
         private readonly IProductServices productServices;
+        private readonly ICloudinaryServices cloudinaryServices;
 
-        public ProductController(IProductServices productServices)
+        public ProductController(IProductServices productServices, ICloudinaryServices cloudinaryServices)
         {
             this.productServices = productServices;
+            this.cloudinaryServices = cloudinaryServices;
         }
 
 

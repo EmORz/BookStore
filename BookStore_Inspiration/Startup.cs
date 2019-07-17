@@ -2,6 +2,7 @@
 using BookStore.Model;
 using BookStore.Services;
 using BookStore.Services.Contracts;
+using CloudinaryDotNet;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Account = Microsoft.VisualStudio.Services.Account.Account;
 
 namespace BookStore_Inspiration
 {
@@ -35,11 +37,21 @@ namespace BookStore_Inspiration
                 .AddEntityFrameworkStores<BookStoreDbContext>()
                 .AddDefaultTokenProviders();
 
+            CloudinaryDotNet.Account cloudinaryCredentials = new CloudinaryDotNet.Account(
+                this.Configuration["Cloudinary:CloudName"],
+                this.Configuration["Cloudinary:ApiKey"],
+                this.Configuration["Cloudinary:ApiSecret"]);
+
+            Cloudinary cloudinaryUtility = new Cloudinary(cloudinaryCredentials);
+
+            services.AddSingleton(cloudinaryUtility);
+
             #region ServiceRegistration
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IProductServices, ProductServices>();
             services.AddScoped<IOrderServices, OrderServices>();
             services.AddScoped<IAddressesServices, AddressesServices>();
+            services.AddTransient<ICloudinaryServices, CloudinaryServices>();
 
             #endregion
 
