@@ -1,4 +1,6 @@
-﻿using BookStore.Data;
+﻿using System.Reflection;
+using AspNetCoreTemplate.Services.Mapping;
+using BookStore.Data;
 using BookStore.Model;
 using BookStore.Services;
 using BookStore.Services.Contracts;
@@ -92,6 +94,11 @@ namespace BookStore_Inspiration
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            //todo add other services 
+            AutoMapperConfig.RegisterMappings(
+                typeof(UserServices).GetTypeInfo().Assembly);
+
+
             #region DBSets
 
             using (var serviceScope = app.ApplicationServices.CreateScope())
