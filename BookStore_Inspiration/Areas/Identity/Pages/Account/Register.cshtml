@@ -52,7 +52,7 @@
         <div class="form-group" align="center">
 
             <label asp-for="Input.UCN" class="font-weight-bold"></label>
-            <input asp-for="Input.UCN" class="form-control" type="text" placeholder="ЕГН ..." />
+            <input asp-for="Input.UCN" class="form-control" type="password" placeholder="ЕГН ..." />
             <span asp-validation-for="Input.UCN" class="text-danger"></span>
         </div>
         <hr class="mt-3 bg-eventures hr-2" />
@@ -64,6 +64,8 @@
     </form>
 
 </div>
+
+<input type="button" class="btn btn-primary" value="Върни се назад" onclick="history.back(-1)" />
 
 
 

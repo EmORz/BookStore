@@ -1,5 +1,7 @@
-﻿using BookStore.Services.Contracts;
+﻿using System.Net;
+using BookStore.Services.Contracts;
 using BookStore_Inspiration.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore_Inspiration.Controllers
@@ -33,22 +35,25 @@ namespace BookStore_Inspiration.Controllers
             return View(DetailsProductViewModel);
         }
 
-
+        [Authorize()]
         public IActionResult Book()
         {
             return View();
         }
 
+        [Authorize]
         public IActionResult Film()
         {
             return View();
         }
 
+        [Authorize]
         public IActionResult Music()
         {
             return View();
         }
 
+        [Authorize]
         public IActionResult Other()
         {
             return View();

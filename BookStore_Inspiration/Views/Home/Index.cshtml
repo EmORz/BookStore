@@ -6,11 +6,21 @@
 }
 @inject IUserServices UserServices
 
-
+@{
+    var userName = @User.Identity.Name;
+    var countOfUsers = UserServices.GetAllUsers().Count;
+}
 
 <div class="text-center">
-    <h1 class="display-4">Добре дошли в нашият сайт!</h1>
-
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+  
+    @if (!this.User.Identity.IsAuthenticated)
+    {
+        <h1 class="display-4">Добре дошли в нашият сайт!</h1>
+        <p>За да разгледате предлаганите артикули и да направите поръчка, трябва да се регистрирате и използвате акаунта си <a href="/Identity/Account/Register">Регистрация</a>  <a href="/Identity/Account/Login">Вход</a>.</p>
+    }
+    else
+    { 
+        <h1 class="display-4">Добре дошли в нашият сайт @userName!</h1>
+    }
 </div>
-<p>Към @DateTime.Now има регистрирани общо @UserServices.GetAllUsers().Count потребители!</p>
+<p>Към @DateTime.Now има регистрирани общо @countOfUsers потребители!</p>
