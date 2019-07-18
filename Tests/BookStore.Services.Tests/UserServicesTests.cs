@@ -3,6 +3,7 @@ using BookStore.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using BookStore.Services.Contracts;
 using Xunit;
 
@@ -11,6 +12,35 @@ namespace BookStore.Services.Tests
     public class UserServicesTests
     {
         //For tests are use automate generate UCN from this site => https://georgi.unixsol.org/programs/egn.php?a=gen&s=0&d=0&m=0&y=0&n=5&r=0
+
+        [Fact]
+        public void TestDecriptDataShoulDecriptUcn()
+        {
+            var options = new DbContextOptionsBuilder<BookStoreDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
+            //
+
+            var dbContext = new BookStoreDbContext(options);
+
+            var userServices = new UserServices(dbContext);
+
+            var testUser = new BookStoreUser()
+            {
+                UserName = "DesiUser",
+                //For tests are use automate generate UCN from this site => https://georgi.unixsol.org/programs/egn.php?a=gen&s=0&d=0&m=0&y=0&n=5&r=0
+                UCN = userServices.EncryptData("6602100531")
+            };
+
+            dbContext.Users.Add(testUser);
+            dbContext.SaveChanges();
+            var userFromDbUcn = dbContext.BookStoreUsers.SingleOrDefault(x => x.UserName == "DesiUser")?.UCN;
+
+            var isMatchrUcn = userServices.DecryptData(userFromDbUcn) == "6602100531";
+           
+
+            Assert.True(isMatchrUcn);
+        }
         [Fact]
         public void TestToGetUserByEncryptUcn()
         {

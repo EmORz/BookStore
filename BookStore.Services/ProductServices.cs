@@ -66,7 +66,7 @@ namespace BookStore.Services
 
         public bool EditProduct(Product product)
         {
-            if (this.ProductExists(product.Id))
+            if (!this.ProductExists(product.Id))
             {
                 return false;
             }

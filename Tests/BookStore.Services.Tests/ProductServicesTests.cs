@@ -191,6 +191,40 @@ namespace BookStore.Services.Tests
 
         }
 
+        [Fact]
+        public void ProductEditShouldEditInformationForProduct()
+        {
+            var options = new DbContextOptionsBuilder<BookStoreDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
+            //
+            var dbContext = new BookStoreDbContext(options);
+            var productServices = new ProductServices(dbContext);
+            //
+            var testProduct1 = new Product()
+            {
+                Id = 1,
+                Name = "Бай Ганьо1",
+                ProductTypes = ProductTypes.Book,
+                Price = 153.03M,
+                Quantity = 1
+
+            };
+
+            var dataP1 = testProduct1.Name;
+            dbContext.Products.Add(testProduct1);
+            dbContext.SaveChanges();
+            testProduct1.Name = "Бай Ганьо от Алеко";
+
+            var productFromDB = productServices.EditProduct(testProduct1);
+
+            var isNameOfEditProductIsEdited = productServices.GetProductById(1).Name == "Бай Ганьо от Алеко";
+
+            Assert.True(isNameOfEditProductIsEdited);
+
+        }
+
+
         /*
            
            public bool EditProduct(Product product)
