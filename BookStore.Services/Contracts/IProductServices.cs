@@ -5,6 +5,7 @@ namespace BookStore.Services.Contracts
 {
     public interface IProductServices
     {
+        bool Create(Product product);
         void AddProduct(Product product);
 
         Product GetProductById(int id);

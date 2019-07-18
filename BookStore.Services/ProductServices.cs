@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BookStore.Data;
+﻿using BookStore.Data;
 using BookStore.Model;
 using BookStore.Services.Contracts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BookStore.Services
 {
@@ -14,6 +14,23 @@ namespace BookStore.Services
         public ProductServices(BookStoreDbContext context)
         {
             this.context = context;
+        }
+
+        public bool Create(Product product)
+        {
+            Product temp = new Product()
+            {
+                Name = product.Name,
+                ProductTypes = product.ProductTypes,
+                Price = product.Price,
+                Quantity = product.Quantity
+                
+            };
+
+            context.Products.Add(product);
+            int result = context.SaveChanges();
+
+            return result > 0;
         }
 
         public void AddProduct(Product product)
