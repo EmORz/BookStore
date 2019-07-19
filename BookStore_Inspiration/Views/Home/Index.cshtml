@@ -11,16 +11,19 @@
     var countOfUsers = UserServices.GetAllUsers().Count;
 }
 
-<div class="text-center">
-  
-    @if (!this.User.Identity.IsAuthenticated)
-    {
-        <h1 class="display-4">Добре дошли в нашият сайт!</h1>
-        <p>За да разгледате предлаганите артикули и да направите поръчка, трябва да се регистрирате и използвате акаунта си <a href="/Identity/Account/Register">Регистрация</a>  <a href="/Identity/Account/Login">Вход</a>.</p>
-    }
-    else
-    { 
-        <h1 class="display-4">Добре дошли в нашият сайт @userName!</h1>
-    }
-</div>
+    <div class="text-center">
+
+        @if (!this.User.Identity.IsAuthenticated)
+        {
+            <h1 class="display-4">Добре дошли в нашият сайт!</h1>
+            <p>За да разгледате предлаганите артикули и да направите поръчка, трябва да се регистрирате и използвате акаунта си <a href="/Identity/Account/Register">Регистрация</a>  <a href="/Identity/Account/Login">Вход</a>.</p>
+
+            <iframe src="https://calendar.google.com/calendar/embed?src=oaubcn4pvr4pslts0t8fub07ks%40group.calendar.google.com&ctz=Europe%2FSofia" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+
+        }
+        else
+        {
+            <h1 class="display-4">Добре дошли в нашият сайт @userName!</h1>
+        }
+    </div>
 <p>Към @DateTime.Now има регистрирани общо @countOfUsers потребители!</p>
