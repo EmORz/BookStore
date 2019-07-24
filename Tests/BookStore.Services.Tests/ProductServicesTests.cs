@@ -224,30 +224,104 @@ namespace BookStore.Services.Tests
 
         }
 
+        [Fact]
+        public void GetProductsBySearchShouldReturnListOfProducts()
+        {
 
-        /*
-           
-           public bool EditProduct(Product product)
-           {
-           if (this.ProductExists(product.Id))
-           {
-           return false;
-           }
-           
-           try
-           {
-           this.context.Products.Update(product);
-           this.context.SaveChanges();
-           }
-           catch 
-           {
-           return false;
-           }
-           
-           return true;
-           }
-           
-           public IEnumerable<Product> GetProductsBySearch(string searchString)
+
+            var options = new DbContextOptionsBuilder<BookStoreDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
+
+            var dbContext = new BookStoreDbContext(options);
+
+            List<Product> productsList = new List<Product>();
+            var testProduct1 = new Product()
+            {
+                Id = 1,
+                Name = "Бай Ганьо1",
+                ProductTypes = ProductTypes.Book,
+                Price = 153.03M,
+                Quantity = 1
+            };
+
+            var testProduct2 = new Product()
+            {
+                Id = 2,
+                Name = "Бай Ганьо2",
+                ProductTypes = ProductTypes.Book,
+                Price = 175.03M,
+                Quantity = 1000
+            };
+            productsList.Add(testProduct1);
+            productsList.Add(testProduct2);
+
+            dbContext.Products.AddRange(productsList);
+            dbContext.SaveChanges();
+
+            var nameControll1 = "Бай Ганьо1";
+            var nameControll2 = "Бай Ганьо2";
+
+
+            //
+            var productServices = new ProductServices(dbContext);
+            //
+
+         
+
+            string searchString = "Бай Ганьо1, Бай Ганьо6";
+            //var tokens = searchString.Split(new string[] { ",", ".", " " }, StringSplitOptions.RemoveEmptyEntries);
+
+            var listOfProductResult = productServices.GetProductsBySearch(searchString).Distinct().ToList();
+
+            foreach (var product in listOfProductResult)
+            {
+                    Assert.True(product.Name == nameControll1 || product.Name == nameControll2);
+            }
+
+
+
+
+            
+        }
+
+        private static List<Product> LoadData()
+        {
+            var options = new DbContextOptionsBuilder<BookStoreDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
+
+            var dbContext = new BookStoreDbContext(options);
+
+            List<Product> productsList = new List<Product>();
+            var testProduct1 = new Product()
+            {
+                Id = 1,
+                Name = "Бай Ганьо1",
+                ProductTypes = ProductTypes.Book,
+                Price = 153.03M,
+                Quantity = 1
+            };
+
+            var testProduct2 = new Product()
+            {
+                Id = 1,
+                Name = "Бай Ганьо2",
+                ProductTypes = ProductTypes.Book,
+                Price = 175.03M,
+                Quantity = 1000
+            }; 
+            productsList.Add(testProduct1);
+            productsList.Add(testProduct2);
+
+            dbContext.Products.Add(testProduct1);
+            dbContext.SaveChanges();
+
+            return productsList;
+        }
+
+
+        /*      public IEnumerable<Product> GetProductsBySearch(string searchString)
            {
            var tokens = searchString.Split(new string[] {",", ".", " "}, StringSplitOptions.RemoveEmptyEntries);
            
@@ -257,5 +331,8 @@ namespace BookStore.Services.Tests
            return products;
            
            }*/
+
+
+
     }
 }

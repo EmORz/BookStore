@@ -24,7 +24,7 @@ namespace BookStore.Services
                 ProductTypes = product.ProductTypes,
                 Price = product.Price,
                 Quantity = product.Quantity
-                
+
             };
 
             context.Products.Add(product);
@@ -35,7 +35,7 @@ namespace BookStore.Services
 
         public void AddProduct(Product product)
         {
-            if (product==null)
+            if (product == null)
             {
                 return;
             }
@@ -76,7 +76,7 @@ namespace BookStore.Services
                 this.context.Products.Update(product);
                 this.context.SaveChanges();
             }
-            catch 
+            catch
             {
                 return false;
             }
@@ -86,12 +86,26 @@ namespace BookStore.Services
 
         public IEnumerable<Product> GetProductsBySearch(string searchString)
         {
-            var tokens = searchString.Split(new string[] {",", ".", " "}, StringSplitOptions.RemoveEmptyEntries);
+            var tokens = searchString.Split(new string[] { ",", ".", " " }, StringSplitOptions.RemoveEmptyEntries);
+            var productsAll = this.context.Products.ToList();
+            var searchResult = new List<Product>();
+            foreach (var product in productsAll)
+            {
+                var productName = product.Name.ToLower().Split(new string[] { ",", ".", " " }, StringSplitOptions.RemoveEmptyEntries);
 
-            var products = this.context.Products.Where(x => tokens.All(c => x.Name.ToLower().Contains(c.ToLower())));
-            //todo its not good
+                for (int i = 0; i < tokens.Length; i++)
+                {
+                    var test = productName.Contains(tokens[i].ToLower());
+                    if (test)
+                    {
+                        searchResult.Add(product);
+                    }
+                }
 
-            return products;
+            }
+
+
+            return searchResult;
 
         }
     }
