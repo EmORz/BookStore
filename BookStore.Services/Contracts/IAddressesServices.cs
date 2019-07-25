@@ -7,6 +7,8 @@ namespace BookStore.Services.Contracts
     {
         Address CreateAddress(string street, string description, string city, string postcode);
 
+        City GetOrCreateCity(string name, string postCode);
+
         void AddAddressToUser(string username, Address address);
 
         IEnumerable<Address> GetAllUserAddresses(string name);

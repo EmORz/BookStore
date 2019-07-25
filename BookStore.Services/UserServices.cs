@@ -13,7 +13,7 @@ namespace BookStore.Services
     public class UserServices : IUserServices
     {
         private readonly BookStoreDbContext context;
-
+        
        private static string PasswordHash = "DB28C8F1-D3A0-4C82-ABB0-96E7E97825FE";
        private static readonly string SaltKey = "f9@4%aEb";
        private static readonly string VIKey = "Aeb4!98@b47oytrE";
@@ -164,7 +164,7 @@ namespace BookStore.Services
             {
                 return;
             }
-
+            
             user.FirstName = firstName;
             this.context.SaveChanges();
         }
