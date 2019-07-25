@@ -17,6 +17,8 @@ namespace BookStore.Services.Contracts
         void EditFirstName(BookStoreUser user, string firstName);
 
         void EditLastName(BookStoreUser user, string lastName);
+        void EditUCN(BookStoreUser user, string ucn);
+        void DeleteUCN(BookStoreUser user);
 
         void EditUsername(BookStoreUser user, string userName);
 

@@ -58,6 +58,10 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account.Manage
 
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
+
+
+            [Display(Name = "UCN")]
+            public string UCN { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -80,7 +84,8 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account.Manage
                 Email = email,
                 PhoneNumber = phoneNumber,
                 FirstName = user.FirstName,
-                LastName = user.LastName
+                LastName = user.LastName,
+                UCN =  user.UCN
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
@@ -133,6 +138,20 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account.Manage
                 _userService.EditLastName(user, Input.LastName);
             }
 
+            if (Input.UCN != user.UCN)
+            {
+                if (Input.UCN == null)
+                {
+                    _userService.DeleteUCN(user);
+                }
+                else
+                {
+                    //var decr = _userService.DecryptData(_userService.EncryptData(Input.UCN));
+                    _userService.EditUCN(user, _userService.EncryptData(Input.UCN));
+                }
+
+
+            }
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();

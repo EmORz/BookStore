@@ -79,10 +79,10 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
             [Display(Name = "Телефонен номер")]
             public string Phonenumber { get; set; }
 
-            [Required]
-            [Display(Name = "ЕГН")]
-            [StringLength(10, ErrorMessage = "ЕГН трябва да бъде точно 10 цифри!", MinimumLength = 10)]
-            public string UCN { get; set; }
+            //[Required]
+            //[Display(Name = "ЕГН")]
+            //[StringLength(10, ErrorMessage = "ЕГН трябва да бъде точно 10 цифри!", MinimumLength = 10)]
+            //public string UCN { get; set; }
 
         }
 
@@ -94,10 +94,10 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-            if (!IsValidUCN(Input.UCN))
-            {
-                return BadRequest("ЕГН което въвеждаш е невалидно! Опитай пак с валидни данни.");
-            }
+            //if (!IsValidUCN(Input.UCN))
+            //{
+            //    return BadRequest("ЕГН което въвеждаш е невалидно! Опитай пак с валидни данни.");
+            //}
             if (ModelState.IsValid)
             {
                 var isRoot = !_userManager.Users.Any();
@@ -108,7 +108,7 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
                     FirstName = Input.Firstname,
                     LastName = Input.Lastname,
                     PhoneNumber = Input.Phonenumber,
-                    UCN = _userServices.EncryptData(Input.UCN)
+                    //UCN = _userServices.EncryptData(Input.UCN)
 
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);

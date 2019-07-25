@@ -180,6 +180,23 @@ namespace BookStore.Services
             this.context.SaveChanges();
         }
 
+        public void EditUCN(BookStoreUser user, string ucn)
+        {
+            if (user == null)
+            {
+                return;
+            }
+
+            user.UCN = ucn;
+            this.context.SaveChanges();
+        }
+
+        public void DeleteUCN(BookStoreUser user)
+        {
+            user.UCN = null;
+            this.context.SaveChanges();
+        }
+
         public void EditUsername(BookStoreUser user, string userName)
         {
             if (user == null)
