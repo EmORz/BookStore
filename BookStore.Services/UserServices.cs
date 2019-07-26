@@ -13,43 +13,209 @@ namespace BookStore.Services
     public class UserServices : IUserServices
     {
         private readonly BookStoreDbContext context;
-        
-       private static string PasswordHash = "DB28C8F1-D3A0-4C82-ABB0-96E7E97825FE";
-       private static readonly string SaltKey = "f9@4%aEb";
-       private static readonly string VIKey = "Aeb4!98@b47oytrE";
 
-        //todo - is it good idea?
-        private PersonalUserDataForSpecialOfert ClientData(string input)
+        private static readonly string PasswordHash = "DB28C8F1-D3A0-4C82-ABB0-96E7E97825FE";
+        private static readonly string SaltKey = "f9@4%aEb";
+        private static readonly string VIKey = "Aeb4!98@b47oytrE";
+
+        public UserServices(BookStoreDbContext context)
+        {
+            this.context = context;
+        }
+        public BookStoreUser GetUserByUcn(string ucn)
+        {
+            var user = this.context.BookStoreUsers.FirstOrDefault(x => x.UCN == ucn);
+            return user;
+        }
+
+        public IList<PersonalUserDataForSpecialOfert> ClientMetric(string ucn)
         {
             PersonalUserDataForSpecialOfert info = new PersonalUserDataForSpecialOfert();
+            List<PersonalUserDataForSpecialOfert> listOfData = new List<PersonalUserDataForSpecialOfert>();
+
+
+            if (!IsValidUCN(ucn))
+            {
+                info.IsValidUCN = false;
+                info.Gender = "n";
+                info.Month = "n";
+                info.Region = "n";
+                info.Year = "n";
+                info.Day = "n";
+                listOfData.Add(info);
+                return listOfData;
+            }
+
+            #region Varable
             var year = "";
             var month = "";
             var day = "";
             var gender = "";
             var valid1 = "";
             var valid2 = "";
+            var region = "";
+            #endregion
 
-            for (int i = 0; i < input.Length; i++)
+
+            #region BgRegion
+            for (int g = 0; g < ucn.Length - 1; g++)
+            {
+                if (g > 5)
+                {
+
+                    region += (ucn[g]);
+                }
+            }
+            //=>
+
+            var numRegio = int.Parse(region);
+
+            var currentRegio = "";
+
+            if (numRegio >= 0 && numRegio <= 43)
+            {
+                currentRegio = "Благоевград";
+            }
+            if (numRegio >= 44 && numRegio <= 93)
+            {
+                currentRegio = "Бургас";
+            }
+            if (numRegio >= 94 && numRegio <= 139)
+            {
+                currentRegio = "Варна";
+            }
+            if (numRegio >= 140 && numRegio <= 169)
+            {
+                currentRegio = "Велико Търново";
+            }
+            if (numRegio >= 170 && numRegio <= 183)
+            {
+                currentRegio = "Видин";
+            }
+            if (numRegio >= 184 && numRegio <= 217)
+            {
+                currentRegio = "Враца";
+            }
+            if (numRegio >= 218 && numRegio <= 233)
+            {
+                currentRegio = "Габрово";
+            }
+            if (numRegio >= 234 && numRegio <= 281)
+            {
+                currentRegio = "Кърджали";
+            }
+            if (numRegio >= 282 && numRegio <= 301)
+            {
+                currentRegio = "Кюстендил";
+            }
+            if (numRegio >= 302 && numRegio <= 319)
+            {
+                currentRegio = "Ловеч";
+            }
+            if (numRegio >= 320 && numRegio <= 341)
+            {
+                currentRegio = "Монтана";
+            }
+            if (numRegio >= 342 && numRegio <= 377)
+            {
+                currentRegio = "Пазарджик";
+            }
+            if (numRegio >= 378 && numRegio <= 395)
+            {
+                currentRegio = "Перник";
+            }
+            if (numRegio >= 396 && numRegio <= 435)
+            {
+                currentRegio = "Плевен";
+            }
+            if (numRegio >= 436 && numRegio <= 501)
+            {
+                currentRegio = "Пловдив";
+            }
+            if (numRegio >= 502 && numRegio <= 501)
+            {
+                currentRegio = "Пловдив";
+            }
+            if (numRegio >= 502 && numRegio <= 527)
+            {
+                currentRegio = "Разград";
+            }
+            if (numRegio >= 528 && numRegio <= 555)
+            {
+                currentRegio = "Русе";
+            }
+            if (numRegio >= 556 && numRegio <= 575)
+            {
+                currentRegio = "Силистра";
+            }
+            if (numRegio >= 576 && numRegio <= 601)
+            {
+                currentRegio = "Сливен";
+            }
+            if (numRegio >= 602 && numRegio <= 623)
+            {
+                currentRegio = "Смолян";
+            }
+            if (numRegio >= 624 && numRegio <= 721)
+            {
+                currentRegio = "София - град";
+            }
+            if (numRegio >= 722 && numRegio <= 751)
+            {
+                currentRegio = "София - област";
+            }
+            if (numRegio >= 752 && numRegio <= 789)
+            {
+                currentRegio = "Стара загора";
+            }
+            if (numRegio >= 790 && numRegio <= 821)
+            {
+                currentRegio = "Добрич (Толбухин)";
+            }
+            if (numRegio >= 822 && numRegio <= 843)
+            {
+                currentRegio = "Търговище";
+            }
+            if (numRegio >= 844 && numRegio <= 871)
+            {
+                currentRegio = "Хасково";
+            }
+            if (numRegio >= 872 && numRegio <= 903)
+            {
+                currentRegio = "Шумен";
+            }
+            if (numRegio >= 904 && numRegio <= 925)
+            {
+                currentRegio = "Ямбол";
+            }
+            if (numRegio >= 926 && numRegio <= 999)
+            {
+                currentRegio = "Друг/Неизвестен";
+            }
+
+            #endregion
+
+            for (int i = 0; i < ucn.Length; i++)
             {
                 if (i < 2)
                 {
-                    year += input[i];
+                    year += ucn[i];
                 }
                 else if (i >= 2 && i <= 3)
                 {
-                    month += input[i];
+                    month += ucn[i];
                 }
                 else if (i >= 4 && i <= 5)
                 {
-                    day += input[i];
+                    day += ucn[i];
                 }
                 else if (i >= 6 && i <= 7)
                 {
-                    valid1 += input[i];
+                    valid1 += ucn[i];
                 }
                 else if (i >= 8 && i <= 9)
                 {
-                    valid2 += input[i];
+                    valid2 += ucn[i];
                 }
             }
 
@@ -61,7 +227,6 @@ namespace BookStore.Services
                     gender = (temp % 2 == 0 ? "Man" : "Woman");
                 }
             }
-
             //add 40  or add 20
             var monthNum = int.Parse(month);
             var currentYear = "";
@@ -81,23 +246,16 @@ namespace BookStore.Services
                 currentYear = "19" + year;
             }
 
+            info.Region = currentRegio;
             info.Year = currentYear;
             info.Month = monthNum.ToString();
             info.Day = day;
             info.Gender = gender;
+            listOfData.Add(info);
 
-            return info;
+            return listOfData;
+        }
 
-        }
-        public UserServices(BookStoreDbContext context)
-        {
-            this.context = context;
-        }
-        public BookStoreUser GetUserByUcn(string ucn)
-        {
-            var user = this.context.BookStoreUsers.FirstOrDefault(x => x.UCN == ucn);
-            return user;
-        }
         public BookStoreUser GetUserByUsername(string username)
         {
             return this.context.BookStoreUsers.FirstOrDefault(x => x.UserName == username);
@@ -164,7 +322,7 @@ namespace BookStore.Services
             {
                 return;
             }
-            
+
             user.FirstName = firstName;
             this.context.SaveChanges();
         }
@@ -219,7 +377,7 @@ namespace BookStore.Services
             this.context.SaveChanges();
         }
 
-   
+
         public void EditPhonenumber(BookStoreUser user, string phonenumber)
         {
             if (user == null)
@@ -230,5 +388,32 @@ namespace BookStore.Services
             user.PhoneNumber = phonenumber;
             this.context.SaveChanges();
         }
+
+        #region Private Methods
+
+        private bool IsValidUCN(string input)
+        {
+            if (input.Length!=10)
+            {
+                return false;
+            }
+            var total = 0;
+            var last = input[input.Length - 1];
+            int[] numChec = { 2, 4, 8, 5, 10, 9, 7, 3, 6 };
+            for (int r = 0; r < input.Length - 1; r++)
+            {
+                var temp = int.Parse(input[r].ToString()) * numChec[r];
+                total += temp;
+            }
+            var rem = total % 11;
+            if (rem.ToString() == last.ToString())
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
     }
 }

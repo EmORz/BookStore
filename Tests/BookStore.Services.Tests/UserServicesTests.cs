@@ -14,6 +14,90 @@ namespace BookStore.Services.Tests
         //For tests are use automate generate UCN from this site => https://georgi.unixsol.org/programs/egn.php?a=gen&s=0&d=0&m=0&y=0&n=5&r=0
 
         [Fact]
+        public void TestClientMetricIsReturnCorrectNotValidUcnData()
+        {
+            var options = new DbContextOptionsBuilder<BookStoreDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
+            //
+
+            var dbContext = new BookStoreDbContext(options);
+
+            var userServices = new UserServices(dbContext);
+
+            //insert user in Db and Encrypt his data
+            var testUser = new BookStoreUser()
+            {
+                UserName = "DesiUser",
+                //For tests are use automate generate UCN from this site => https://georgi.unixsol.org/programs/egn.php?a=gen&s=0&d=0&m=0&y=0&n=5&r=0
+                //insert not valid ucn
+                UCN = userServices.EncryptData("3008015552")
+            };
+            dbContext.Users.Add(testUser);
+            dbContext.SaveChanges();
+            //Get User from Db, special her encrypt UCN
+            var userFromDbUcn = dbContext.BookStoreUsers.SingleOrDefault(x => x.UserName == "DesiUser")?.UCN;
+            //Decrypt ucn
+            var clearUcn = userServices.DecryptData(userFromDbUcn);
+            //
+            var clientInfo = userServices.ClientMetric(clearUcn);
+
+            var isValidUcn = clientInfo[0].IsValidUCN == false;
+            var gender = clientInfo[0].Gender == "n";
+            var year = clientInfo[0].Year == "n";
+            var month = clientInfo[0].Month == "n";
+            var region = clientInfo[0].Region == "n";
+
+            Assert.True(isValidUcn);
+            Assert.True(gender);
+            Assert.True(year);
+            Assert.True(month);
+            Assert.True(region);
+        }
+
+        [Fact]
+        public void TestClientMetricIsReturnCorrectValidData()
+        {
+            var options = new DbContextOptionsBuilder<BookStoreDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
+            //
+
+            var dbContext = new BookStoreDbContext(options);
+
+            var userServices = new UserServices(dbContext);
+
+            //insert user in Db and Encrypt his data
+            var testUser = new BookStoreUser()
+            {
+                UserName = "DesiUser",
+                //For tests are use automate generate UCN from this site => https://georgi.unixsol.org/programs/egn.php?a=gen&s=0&d=0&m=0&y=0&n=5&r=0
+                UCN = userServices.EncryptData("3008015152")
+            };
+            dbContext.Users.Add(testUser);
+            dbContext.SaveChanges();
+            //Get User from Db, special her encrypt UCN
+            var userFromDbUcn = dbContext.BookStoreUsers.SingleOrDefault(x => x.UserName == "DesiUser")?.UCN;
+            //Decrypt ucn
+            var clearUcn = userServices.DecryptData(userFromDbUcn);
+            //
+            var clientInfo = userServices.ClientMetric(clearUcn);
+
+            var isValidUcn = clientInfo[0].IsValidUCN;
+            var gender = clientInfo[0].Gender == "Woman";
+            var year = clientInfo[0].Year == "1930";
+            var month = clientInfo[0].Month == "8";
+            var region = clientInfo[0].Region == "Разград";
+            
+            ;
+            Assert.True(isValidUcn);
+            Assert.True(gender);
+            Assert.True(year);
+            Assert.True(month);
+            Assert.True(region);
+        }
+
+        [Fact]
         public void TestDecriptDataShoulDecriptUcn()
         {
             var options = new DbContextOptionsBuilder<BookStoreDbContext>()

@@ -5,6 +5,7 @@ namespace BookStore.Services.Contracts
 {
     public interface IUserServices
     {
+        IList<PersonalUserDataForSpecialOfert> ClientMetric(string ucn);
         BookStoreUser GetUserByUsername(string username);
         BookStoreUser GetUserByUcn(string ucn);
 
@@ -18,6 +19,7 @@ namespace BookStore.Services.Contracts
 
         void EditLastName(BookStoreUser user, string lastName);
         void EditUCN(BookStoreUser user, string ucn);
+
         void DeleteUCN(BookStoreUser user);
 
         void EditUsername(BookStoreUser user, string userName);
