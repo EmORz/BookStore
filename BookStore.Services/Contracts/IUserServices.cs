@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BookStore.Model;
+using BookStore.Services.Helper;
 
 namespace BookStore.Services.Contracts
 {

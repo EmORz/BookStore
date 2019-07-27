@@ -4,11 +4,14 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>aspnet-BookStore_Inspiration-2CA97601-D4C0-4D90-B6DD-47769BEA111A</UserSecretsId>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <ApplicationInsightsResourceId>/subscriptions/ba543fae-8b77-471f-b403-8a68bda4fce7/resourcegroups/bookstoreinspiration/providers/microsoft.insights/components/bookstoreinspiration</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/ba543fae-8b77-471f-b403-8a68bda4fce7/resourcegroups/bookstoreinspiration/providers/microsoft.insights/components/bookstoreinspiration</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
 
   <ItemGroup>
     <PackageReference Include="CloudinaryDotNet" Version="1.0.27" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
@@ -27,6 +30,11 @@
 
   <ItemGroup>
     <Folder Include="Areas\Administration\Views\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 </Project>

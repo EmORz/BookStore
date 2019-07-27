@@ -1,4 +1,4 @@
-﻿namespace BookStore.Services
+﻿namespace BookStore.Services.Helper
 {
     public class PersonalUserDataForSpecialOfert
     {

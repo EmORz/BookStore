@@ -7,6 +7,7 @@ using System.Text;
 using BookStore.Data;
 using BookStore.Model;
 using BookStore.Services.Contracts;
+using BookStore.Services.Helper;
 
 namespace BookStore.Services
 {
