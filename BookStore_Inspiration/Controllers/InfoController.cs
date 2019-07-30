@@ -4,7 +4,7 @@ using Authorization = System.Net.Authorization;
 
 namespace BookStore_Inspiration.Controllers
 {
-    public class InfoController : BaseController
+    public class InfoController : Controller
     {
         private readonly IUserServices userServices;
 

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore_Inspiration.Controllers
 {
-    public class ProductController : BaseController
+    public class ProductController : Controller
     {
         private readonly IProductServices productServices;
 

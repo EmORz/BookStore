@@ -76,17 +76,17 @@ namespace BookStore_Inspiration
             #endregion
 
             //todo add google authentication
-            //services.AddAuthentication().AddFacebook(facebookOptions =>
-            //{
-            //    facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-            //    facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-            //});
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            });
 
-            //services.AddAuthentication().AddGoogle(googleOptions =>
-            //{
-            //    googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-            //    googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-            //});
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -128,7 +128,7 @@ namespace BookStore_Inspiration
 
             #endregion
 
-            
+
 
             app.UseDeveloperExceptionPage();
 

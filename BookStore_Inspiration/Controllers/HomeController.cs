@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace BookStore_Inspiration.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
         public IActionResult Index()
         {
