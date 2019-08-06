@@ -6,7 +6,7 @@ namespace BookStore.Model
     public class Product 
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+       // public string Name { get; set; }
 
         public ProductTypes ProductTypes { get; set; }
 
@@ -14,6 +14,20 @@ namespace BookStore.Model
         public decimal Price { get; set; }
 
         public int Quantity { get; set; }
+
+        //
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public string Author { get; set; }
+
+        public string Publishing { get; set; }
+
+        public string ISBN { get; set; }
+
+        public string YearOfPublishing { get; set; }
+
 
         public virtual ICollection<Image> Images { get; set; }
 

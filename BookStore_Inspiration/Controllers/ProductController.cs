@@ -1,8 +1,11 @@
 ﻿using System.Net;
 using BookStore.Services.Contracts;
 using BookStore_Inspiration.ViewModels;
+using BookStore_Inspiration.ViewModels.Product;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Services.Notifications;
 
 namespace BookStore_Inspiration.Controllers
 {
@@ -26,7 +29,7 @@ namespace BookStore_Inspiration.Controllers
             var DetailsProductViewModel = new DetailsProductViewModel()
             {
                 Id = product.Id,
-                Name = product.Name,
+                //Name = product.Name,
                 Price = product.Price,
                 Quantity = product.Quantity,
                 ProductTypes = product.ProductTypes.ToString()
@@ -35,10 +38,28 @@ namespace BookStore_Inspiration.Controllers
             return View(DetailsProductViewModel);
         }
 
+        
         [Authorize()]
         public IActionResult Book()
         {
             return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public IActionResult Create(CreateProductBindingModel createProduct)
+        {
+            productServices.Create(createProduct.Title, createProduct.ProductTypes, createProduct.Price,
+                createProduct.Quantity, createProduct.Description, createProduct.Author, createProduct.Publishing,
+                createProduct.YearOfPublishing);
+            return this.Redirect("/");
         }
 
         [Authorize]

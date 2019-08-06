@@ -4,6 +4,7 @@ using BookStore.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BookStore.Model.Enum;
 
 namespace BookStore.Services
 {
@@ -16,18 +17,24 @@ namespace BookStore.Services
             this.context = context;
         }
 
-        public bool Create(Product product)
+        public bool Create(string Title, string productType, decimal price, int quantity, string description, string author, string publishng, string yearOfPublishing)
         {
+            var productTypeTemp = Enum.TryParse<ProductTypes>(productType, true, out ProductTypes resultProductType);
+
             Product temp = new Product()
             {
-                Name = product.Name,
-                ProductTypes = product.ProductTypes,
-                Price = product.Price,
-                Quantity = product.Quantity
+                Title = Title,
+                ProductTypes = resultProductType,
+                Price = price,
+                Quantity = quantity,
+                Author = author,
+                Description = description,
+                Publishing = publishng,
+                YearOfPublishing = yearOfPublishing
 
             };
 
-            context.Products.Add(product);
+            context.Products.Add(temp);
             int result = context.SaveChanges();
 
             return result > 0;
@@ -91,7 +98,7 @@ namespace BookStore.Services
             var searchResult = new List<Product>();
             foreach (var product in productsAll)
             {
-                var productName = product.Name.ToLower().Split(new string[] { ",", ".", " " }, StringSplitOptions.RemoveEmptyEntries);
+                var productName = product.Title.ToLower().Split(new string[] { ",", ".", " " }, StringSplitOptions.RemoveEmptyEntries);
 
                 for (int i = 0; i < tokens.Length; i++)
                 {
@@ -103,7 +110,6 @@ namespace BookStore.Services
                 }
 
             }
-
 
             return searchResult;
 

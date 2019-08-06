@@ -19,30 +19,30 @@ namespace BookStore_Inspiration.Areas.Administration.Controllers
 
 
         //create
-        public IActionResult Create()
-        {
-            return this.View();
-        }
-        [HttpPost]
-        public IActionResult Create(CreateProductView createProductView)
-        {
-            if (!ModelState.IsValid)
-            {
-                return this.View();
-            }
+        //public IActionResult Create()
+        //{
+        //    return this.View();
+        //}
+        //[HttpPost]
+        //public IActionResult Create(CreateProductView createProductView)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return this.View();
+        //    }
 
-            var product = new Product()
-            {
-                Id = createProductView.Id,
-                Name = createProductView.Name,
-                Quantity = createProductView.Quantity,
-                Price = createProductView.Price,
-                ProductTypes = createProductView.ProductTypes
-            };
-            this.productServices.AddProduct(product);
+        //    var product = new Product()
+        //    {
+        //        Id = createProductView.Id,
+        //        Name = createProductView.Name,
+        //        Quantity = createProductView.Quantity,
+        //        Price = createProductView.Price,
+        //        ProductTypes = createProductView.ProductTypes
+        //    };
+        //    this.productServices.AddProduct(product);
 
-            return RedirectToAction(nameof(All));
-        }
+        //    return RedirectToAction(nameof(All));
+        //}
         //edit
         public IActionResult Edit(int id)
         {
@@ -53,7 +53,7 @@ namespace BookStore_Inspiration.Areas.Administration.Controllers
             }
             var model = new EditProductViewModel()
             {
-                Name = product.Name,
+                //Name = product.Name,
                 Price = product.Price,
                 ProductTypes = product.ProductTypes,
                 Quantity = product.Quantity
@@ -71,7 +71,7 @@ namespace BookStore_Inspiration.Areas.Administration.Controllers
             var product = new Product()
             {
                 Id = model.Id,
-                Name = model.Name,
+                //Name = model.Name,
                 Price = model.Price,
                 Quantity = model.Quantity,
                 ProductTypes = model.ProductTypes

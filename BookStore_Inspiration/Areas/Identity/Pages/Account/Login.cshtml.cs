@@ -17,15 +17,17 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<BookStoreUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly UserManager<BookStoreUser> _userManager;
 
-        public LoginModel(SignInManager<BookStoreUser> signInManager, ILogger<LoginModel> logger, UserManager<BookStoreUser> userManager)
+        public LoginModel(SignInManager<BookStoreUser> signInManager, ILogger<LoginModel> logger, UserManager<BookStoreUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _signInManager = signInManager;
             _logger = logger;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
 

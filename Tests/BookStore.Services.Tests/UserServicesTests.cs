@@ -72,7 +72,7 @@ namespace BookStore.Services.Tests
             {
                 UserName = "DesiUser",
                 //For tests are use automate generate UCN from this site => https://georgi.unixsol.org/programs/egn.php?a=gen&s=0&d=0&m=0&y=0&n=5&r=0
-                UCN = userServices.EncryptData("8007276320")
+                UCN = userServices.EncryptData("3008085036")
             };
             dbContext.Users.Add(testUser);
             dbContext.SaveChanges();
