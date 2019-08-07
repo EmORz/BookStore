@@ -1,0 +1,85 @@
+﻿@model BookStore_Inspiration.ViewModels.Product.EditProductViewModel
+
+@{
+    ViewData["Title"] = "Редактирай продукт";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h3 class="mobile-fondsize-20 text-muted text-center">@ViewData["Title"]</h3>
+<hr class="w-50" />
+<div class="container">
+    <form asp-controller="Products" asp-action="Create" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="Author" class="control-label"></label>
+                <input asp-for="Author" class="form-control" />
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="ProductTypes" class="control-label"></label>
+                <select asp-for="ProductTypes" class="form-control">
+                    <option value="book">Book</option>
+                    <option value="music">Music</option>
+                    <option value="film">Film</option>
+                    <option value="other">Other</option>
+                </select>
+                @*<input asp-for="ProductTypes" class="form-control" />*@
+                <span asp-validation-for="ProductTypes" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Quantity" class="control-label"></label>
+            <input asp-for="Quantity" class="form-control" />
+            <span asp-validation-for="Quantity" class="text-danger"></span>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+        </div>
+
+ 
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" placeholder="въведи описание" class="form-control"></textarea>
+              
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Publishing" class="control-label"></label>
+                <input asp-for="Publishing" class="form-control" />
+                <span asp-validation-for="Publishing" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="ISBN" class="control-label"></label>
+                <input asp-for="ISBN" class="form-control" />
+                <span asp-validation-for="ISBN" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="YearOfPublishing" class="control-label"></label>
+                <input asp-for="YearOfPublishing" class="form-control" />
+                <span asp-validation-for="YearOfPublishing" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group text-center">
+            <button type="submit" value="" class="btn btn-primary">Редактирай продукт</button>
+        </div>
+    </form>

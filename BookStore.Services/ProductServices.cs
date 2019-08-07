@@ -73,6 +73,8 @@ namespace BookStore.Services
 
         public bool EditProduct(Product product)
         {
+
+
             if (!this.ProductExists(product.Id))
             {
                 return false;
@@ -113,6 +115,20 @@ namespace BookStore.Services
 
             return searchResult;
 
+        }
+
+        public void Delete(int id)
+        {
+            var productFromDb = this.context.Products.FirstOrDefault(x => x.Id == id);
+
+            if (productFromDb == null)
+            {
+                throw new ArgumentNullException(nameof(productFromDb));
+
+            }
+
+            this.context.Products.Remove(productFromDb);
+            this.context.SaveChanges();
         }
     }
 }

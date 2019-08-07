@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Reflection.Metadata;
 using AspNetCoreTemplate.Services.Mapping;
 using BookStore.Data;
 using BookStore.Model;
@@ -53,6 +54,7 @@ namespace BookStore_Inspiration
             services.AddScoped<IOrderServices, OrderServices>();
             services.AddScoped<IAddressesServices, AddressesServices>();
             services.AddTransient<ICloudinaryServices, CloudinaryServices>();
+            services.AddTransient<IImagesService, ImagesService>();
 
             #endregion
 

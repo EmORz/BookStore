@@ -1,0 +1,71 @@
+﻿@model BookStore_Inspiration.ViewModels.Product.AllProductsViewModel
+
+@{
+    ViewData["Title"] = "Продукти";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h3 class="mobile-fondsize-20 text-muted text-center">@ViewData["Title"]</h3>
+<hr class="w-50" />
+<div id="products" class="mt-3">
+    
+    @{
+        var products = Model.Products;
+
+    }
+    <table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Description</th>
+            <th scope="col">ProductTypes</th>
+            <th scope="col">ISBN</th>
+            <th scope="col">Price</th>
+            <th scope="col">Publishing</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Delete</th>
+            <th scope="col">Edit</th>
+        </tr>
+    </thead>
+    @for (int i = 0; i < products.Count; i++)
+    {
+        <tbody>
+        <tr>
+            <th scope="row">@i</th>
+            <td>@products[i].Title</td>
+            <td>@products[i].Author</td>
+            <td>@products[i].Description</td>
+            <td>@products[i].ProductTypes</td>
+            <td>@products[i].ISBN</td>
+            <td>@products[i].Price</td>
+            <td>@products[i].Publishing</td>
+            <td>@products[i].Quantity</td>>
+            @{
+                var text = "Remove Product";
+            }
+            <td>
+             
+                <span class="table-remove">
+                    <button type="button"
+                            class="btn btn-default btn-rounded btn-sm my-0 mobile-fondsize-20">@Html.ActionLink(text, "Delete", "Product", new {id = products[i].Id})</button>
+                </span>
+            </td>
+            <td>
+             
+                <span class="table-remove">
+                    <button type="button"
+                            class="btn btn-default btn-rounded btn-sm my-0 mobile-fondsize-20">@Html.ActionLink("Edit Product", "Edit", "Product", new {id = products[i].Id})</button>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    }
+    </table >
+
+    }
+</div>
+
+
