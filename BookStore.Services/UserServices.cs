@@ -356,6 +356,22 @@ namespace BookStore.Services
             this.context.SaveChanges();
         }
 
+        public void DeleteUser(string id)
+        {
+            var userFromDb = this.context.BookStoreUsers.FirstOrDefault(x => x.Id == id);
+
+            userFromDb.UserName = "xxx";
+            userFromDb.FirstName = "xxx";
+            userFromDb.LastName = "xxx";
+            userFromDb.UCN = "xxx";
+            userFromDb.PhoneNumber = "xxx";
+            userFromDb.Email = "xxx";
+
+            this.context.BookStoreUsers.Update(userFromDb);
+            this.context.SaveChanges();
+
+        }
+
         public void EditUsername(BookStoreUser user, string userName)
         {
             if (user == null)
