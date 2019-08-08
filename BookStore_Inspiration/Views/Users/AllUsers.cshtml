@@ -1,5 +1,5 @@
 ﻿
-@model BookStore_Inspiration.ViewModels.User.CollectionOfUsers
+@model BookStore_Inspiration.ViewModels.User.Index.CollectionOfUsers
 @{
     ViewData["Title"] = "Списък с потребители";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -15,19 +15,18 @@
 
 <table class="table table-bordered">
     <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">Title</th>
-        <th scope="col">Author</th>
-        <th scope="col">Description</th>
-        <th scope="col">ProductTypes</th>
-        <th scope="col">ISBN</th>
-        <th scope="col">Price</th>
-        <th scope="col">Publishing</th>
-        <th scope="col">Quantity</th>
-        <th scope="col">Delete</th>
-        <th scope="col">Edit</th>
-    </tr>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Id</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">FirstName</th>
+            <th scope="col">LastName</th>
+            <th scope="col">Phonenumber</th>
+            <th scope="col">UCN</th>
+            <th scope="col">Delete</th>
+
+        </tr>
     </thead>
     @for (int i = 0; i < users.Count; i++)
     {
@@ -40,7 +39,8 @@
                 <td>@users[i].FirstName</td>
                 <td>@users[i].Lastname</td>
                 <td>@users[i].Phonenumber</td>
-          
+                <td>@users[i].UCN</td>
+
                 @{
                     var text = "Delete User";
                 }
@@ -51,22 +51,16 @@
                                 class="btn btn-default btn-rounded btn-sm my-0 mobile-fondsize-20">
                             @Html.ActionLink(text, "Delete", "Users", new { id = users[i].Id })
                         </button>
-                        </span>
-                    </td>
-                    @*<td>
+                    </span>
+                </td>
+                
 
-                        <span class="table-remove">
-                            <button type="button"
-                                    class="btn btn-default btn-rounded btn-sm my-0 mobile-fondsize-20">
-                                @Html.ActionLink("Edit Product", "Edit", "Product", new { id = users[i].Id })
-                                </button>
-                            </span>
-                        </td>*@
-                    </tr>
+
+            </tr>
         </tbody>
     }
 </table >
 
-}
-<h1>All</h1>
+
+
     </div>

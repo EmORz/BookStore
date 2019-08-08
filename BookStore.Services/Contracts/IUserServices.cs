@@ -8,6 +8,7 @@ namespace BookStore.Services.Contracts
     {
         IList<PersonalUserDataForSpecialOfert> ClientMetric(string ucn);
         BookStoreUser GetUserByUsername(string username);
+        BookStoreUser GetUserById(string id);
         BookStoreUser GetUserByUcn(string ucn);
 
         IList<BookStoreUser> GetAllUsers();
@@ -23,6 +24,7 @@ namespace BookStore.Services.Contracts
 
         void DeleteUCN(BookStoreUser user);
         void DeleteUser(string id);
+        bool EditAdmin(BookStoreUser user);
 
         void EditUsername(BookStoreUser user, string userName);
 

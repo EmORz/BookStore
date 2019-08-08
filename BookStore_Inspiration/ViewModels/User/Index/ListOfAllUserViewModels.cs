@@ -1,4 +1,4 @@
-﻿namespace BookStore_Inspiration.ViewModels.User
+﻿namespace BookStore_Inspiration.ViewModels.User.Index
 {
     public class ListOfAllUserViewModels
     {

@@ -23,6 +23,14 @@ namespace BookStore.Services
         {
             this.context = context;
         }
+
+        public BookStoreUser GetUserById(string id)
+        {
+            var userFromDb = this.context.BookStoreUsers.FirstOrDefault(x => x.Id == id);
+
+            return userFromDb;
+        }
+
         public BookStoreUser GetUserByUcn(string ucn)
         {
             var user = this.context.BookStoreUsers.FirstOrDefault(x => x.UCN == ucn);
@@ -372,6 +380,29 @@ namespace BookStore.Services
 
         }
 
+        public bool EditAdmin(BookStoreUser user)
+        {
+            var id = user.Id;
+            if (user == null)
+            {
+                return false;
+            }
+            var userFromDn = this.context.BookStoreUsers.FirstOrDefault(x => x.Id == id);
+            userFromDn.FirstName = user.FirstName;
+            userFromDn.LastName = user.LastName;
+            userFromDn.Email = user.Email;
+            userFromDn.PhoneNumber = user.PhoneNumber;
+
+
+
+            this.context.BookStoreUsers.Update(user);
+            this.context.SaveChanges();
+
+
+
+            return true;
+        }
+
         public void EditUsername(BookStoreUser user, string userName)
         {
             if (user == null)
@@ -410,7 +441,7 @@ namespace BookStore.Services
 
         private bool IsValidUCN(string input)
         {
-            if (input.Length!=10)
+            if (input.Length != 10)
             {
                 return false;
             }

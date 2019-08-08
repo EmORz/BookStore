@@ -1,16 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using BookStore.Model;
+﻿using BookStore.Model;
 using BookStore.Model.Enum;
 using BookStore.Services.Contracts;
-using BookStore_Inspiration.Areas.Administration.ViewModels;
 using BookStore_Inspiration.ViewModels;
 using BookStore_Inspiration.ViewModels.Product;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Services.Notifications;
+using System;
+using System.Linq;
 
 namespace BookStore_Inspiration.Controllers
 {
@@ -51,7 +47,7 @@ namespace BookStore_Inspiration.Controllers
             
             if (product == null)
             {
-                return NotFound();
+                return new NotFoundResult();
             }
             var model = new EditProductViewModel()
             {
