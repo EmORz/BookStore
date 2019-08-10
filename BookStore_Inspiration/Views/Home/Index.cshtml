@@ -22,21 +22,33 @@
 
             <iframe src="https://calendar.google.com/calendar/embed?src=oaubcn4pvr4pslts0t8fub07ks%40group.calendar.google.com&ctz=Europe%2FSofia" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
 
-            @foreach (var product in Model.Products)
-             {
-                 @product.Author
-                 @product.Title
-                 @product.Description
-             }
         }
         @if (User.IsInRole("Admin") && User.Identity.IsAuthenticated)
         {
             <h1 class="display-4">Добре дошли администратор => @userName!</h1>
             <h3>Желаем Ви приятна работа :) </h3>
         }
-        else
+        @if (User.IsInRole("User") && User.Identity.IsAuthenticated)
         {
             <h1 class="display-4">Добре дошли в нашият сайт @userName!</h1>
+
+            @foreach (var product in Model.Products)
+            {
+                @product.Author
+                @product.Title
+                @product.Description
+            }
+        }
+        @if (!(User.IsInRole("User") || User.IsInRole("Admin")) && User.Identity.IsAuthenticated)
+        {
+            <h1 class="display-4">Добре дошли в нашият сайт @userName!</h1>
+
+            @foreach (var product in Model.Products)
+             {
+                 @product.Author
+                 @product.Title
+                 @product.Description
+             }
         }
     </div>
 <p>Към @DateTime.Now има регистрирани общо @countOfUsers потребители!</p>
