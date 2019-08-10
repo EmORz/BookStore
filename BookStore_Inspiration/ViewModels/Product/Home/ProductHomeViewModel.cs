@@ -22,5 +22,7 @@
         public string ISBN { get; set; }
 
         public string YearOfPublishing { get; set; }
+
+        public int UsersCount { get; set; }
     }
 }

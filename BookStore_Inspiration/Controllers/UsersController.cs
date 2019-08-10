@@ -6,6 +6,7 @@ using BookStore_Inspiration.ViewModels.User.Index;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using BookStore_Inspiration.ViewModels.User;
 
 namespace BookStore_Inspiration.Controllers
 {
@@ -19,6 +20,21 @@ namespace BookStore_Inspiration.Controllers
             _userServices = userServices;
             this.context = context;
         }
+
+        public IActionResult Counter()
+        {
+           var users = _userServices.GetAllUsers().Count;
+           var counter = new CounterOfUsers
+           {
+               CountOfUsers = users
+           };
+
+           return this.View(counter);
+
+
+        }
+
+
         [Authorize(Roles = "Admin")]
         public IActionResult AllUsers()
         {

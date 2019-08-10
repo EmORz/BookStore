@@ -18,7 +18,7 @@
 
 <div class="container">
 
-    @if (User.IsInRole("User") && User.Identity.IsAuthenticated)
+    @if (User.IsInRole("User") && User.Identity.IsAuthenticated || User.Identity.IsAuthenticated)
     {
 
         <hr class="hr-2 bg-primary">

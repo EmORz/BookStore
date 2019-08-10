@@ -8,10 +8,12 @@ namespace BookStore_Inspiration.Controllers
     public class HomeController : Controller
     {
         private readonly IProductServices _productServices;
+        private readonly IUserServices _userServices;
 
-        public HomeController(IProductServices productServices)
+        public HomeController(IProductServices productServices, IUserServices userServices)
         {
             _productServices = productServices;
+            _userServices = userServices;
         }
         public IActionResult Index()
         {
@@ -26,7 +28,8 @@ namespace BookStore_Inspiration.Controllers
                 Publishing = product.Publishing,
                 Quantity = product.Quantity,
                 Title = product.Title,
-                YearOfPublishing = product.YearOfPublishing
+                YearOfPublishing = product.YearOfPublishing,
+                UsersCount = _userServices.GetAllUsers().Count
             }).ToList();
 
             AllProductsHomeViewModel all = new AllProductsHomeViewModel()

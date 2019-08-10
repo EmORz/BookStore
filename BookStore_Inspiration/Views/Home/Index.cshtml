@@ -2,82 +2,71 @@
 @model BookStore_Inspiration.ViewModels.Product.Home.AllProductsHomeViewModel
 
 
+
 @using BookStore.Services.Contracts
+@using BookStore_Inspiration.ViewModels.User
 @{
     ViewData["Title"] = "Home Page";
 }
-@inject IUserServices UserServices
+
+
 
 @{
     var userName = @User.Identity.Name;
-    var countOfUsers = UserServices.GetAllUsers().Count;
+    var countOfUsers = Model.Products.Select(x => x.UsersCount).FirstOrDefault();
 }
 
-    <div class="text-center">
+<div class="text-center">
 
-        @if (!this.User.Identity.IsAuthenticated)
-        {
-            <h1 class="display-4">Добре дошли в нашият сайт!</h1>
-            <p>За да разгледате предлаганите артикули и да направите поръчка, трябва да се регистрирате и използвате акаунта си <a href="/Identity/Account/Register">Регистрация</a>  <a href="/Identity/Account/Login">Вход</a>.</p>
+    @if (!this.User.Identity.IsAuthenticated)
+    {
+        <h1 class="display-4">Добре дошли в нашият сайт!</h1>
+        <p>За да разгледате предлаганите артикули и да направите поръчка, трябва да се регистрирате и използвате акаунта си <a href="/Identity/Account/Register">Регистрация</a>  <a href="/Identity/Account/Login">Вход</a>.</p>
 
-            <iframe src="https://calendar.google.com/calendar/embed?src=oaubcn4pvr4pslts0t8fub07ks%40group.calendar.google.com&ctz=Europe%2FSofia" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+        <iframe src="https://calendar.google.com/calendar/embed?src=oaubcn4pvr4pslts0t8fub07ks%40group.calendar.google.com&ctz=Europe%2FSofia" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
 
-        }
-        @if (User.IsInRole("Admin") && User.Identity.IsAuthenticated)
-        {
-            <h1 class="display-4">Добре дошли администратор => @userName!</h1>
-            <h3>Желаем Ви приятна работа :) </h3>
-        }
-        @if (User.IsInRole("User") && User.Identity.IsAuthenticated)
-        {
-            <h1 class="display-4">Добре дошли в нашият сайт @userName!</h1>
+    }
+    @if (User.IsInRole("Admin") && User.Identity.IsAuthenticated)
+    {
+        <h1 class="display-4">Добре дошли администратор => @userName!</h1>
+        <h3>Желаем Ви приятна работа :) </h3>
+    }
+    @if (User.IsInRole("User") && User.Identity.IsAuthenticated || User.Identity.IsAuthenticated)
+    {
+        <h1 class="display-4">Добре дошли в нашият сайт @userName!</h1>
 
-            @*@foreach (var product in Model.Products)
+          
+        <hr class="hr-2 bg-primary">
+        <div id="products" class="mt-3">
+            @for (int i = 0; i < Model.Products.Count; i += 5)
             {
-                @product.Author
-                @product.Title
-                @product.Description
-            }*@
-            <hr class="hr-2 bg-primary">
-            <div id="products" class="mt-3">
-                @for (int i = 0; i < Model.Products.Count; i += 5)
-                {
-                    <div class="products-row row d-flex justify-content-around my-5">
-                        @for (int j = i; j < i + 5; j++)
+                <div class="products-row row d-flex justify-content-around my-5">
+                    @for (int j = i; j < i + 5; j++)
+                    {
+                        if (j < Model.Products.Count)
                         {
-                            if (j < Model.Products.Count)
-                            {
-                        <div class="product col-md-2">
+                            <div class="product col-md-2">
 
-                            <h5 class="text-center mt-3">@Model.Products[j].Title</h5>
-                            <h5 class="text-center mt-3">@Model.Products[j].Author</h5>
-                            <h5 class="text-center mt-3">@Model.Products[j].Description</h5>
-                            <h5 class="text-center mt-3">@Model.Products[j].ISBN</h5>
-                            <h5 class="text-center mt-3">@Model.Products[j].Publishing</h5>
-                            <h5 class="text-center mt-3">@Model.Products[j].YearOfPublishing</h5>
-                            <h5 class="text-center mt-3">Price: $@Model.Products[j].Price.ToString("F2")</h5>
-                        </div>
-                            }
-                            else
-                            {
-                                <div class="product col-md-2 empty">
-                                </div>
-                            }
+                                <h5 class="text-center mt-3">@Model.Products[j].Title</h5>
+                                <h5 class="text-center mt-3">@Model.Products[j].Author</h5>
+                                <h5 class="text-center mt-3">@Model.Products[j].Description</h5>
+                                <h5 class="text-center mt-3">@Model.Products[j].ISBN</h5>
+                                <h5 class="text-center mt-3">@Model.Products[j].Publishing</h5>
+                                <h5 class="text-center mt-3">@Model.Products[j].YearOfPublishing</h5>
+                                <h5 class="text-center mt-3">Price: $@Model.Products[j].Price.ToString("F2")</h5>
+                            </div>
                         }
-                    </div>
-                }
-            </div>
-        }
-        @if (!(User.IsInRole("User") || User.IsInRole("Admin")) && User.Identity.IsAuthenticated)
-        {
-            <h1 class="display-4">Добре дошли в нашият сайт @userName!</h1>
+                        else
+                        {
+                            <div class="product col-md-2 empty">
+                            </div>
+                        }
+                    }
+                </div>
+            }
+        </div>
+    }
+ 
+</div>
 
-            @foreach (var product in Model.Products)
-             {
-                 @product.Author
-                 @product.Title
-                 @product.Description
-             }
-        }
-    </div>
 <p>Към @DateTime.Now има регистрирани общо @countOfUsers потребители!</p>

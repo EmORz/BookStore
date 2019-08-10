@@ -21,5 +21,7 @@
         public string ISBN { get; set; }
 
         public string YearOfPublishing { get; set; }
+
+       
     }
 }

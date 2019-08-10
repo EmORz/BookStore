@@ -15,11 +15,14 @@ namespace BookStore_Inspiration.Controllers
     {
         private readonly IProductServices productServices;
         private readonly IImagesService imagesService;
+        private readonly IUserServices _userServices;
 
-        public ProductController(IProductServices productServices, IImagesService imagesService)
+        public ProductController(IProductServices productServices,
+            IImagesService imagesService, IUserServices userServices)
         {
             this.productServices = productServices;
             this.imagesService = imagesService;
+            _userServices = userServices;
         }
 
         public IActionResult Details(int id)
@@ -128,6 +131,8 @@ namespace BookStore_Inspiration.Controllers
                 Publishing = x.Publishing,
                 Quantity = x.Quantity,
                 YearOfPublishing = x.YearOfPublishing
+            
+                
             }).ToList();
             AllProductsViewModel products = new AllProductsViewModel();
             products.Products.AddRange(product);

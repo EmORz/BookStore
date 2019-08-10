@@ -12,7 +12,7 @@
 
 <div id="main" class="col2-left-layout">
     
-    @if (User.IsInRole("User") && User.Identity.IsAuthenticated)
+    @if (User.IsInRole("User") && User.Identity.IsAuthenticated|| User.Identity.IsAuthenticated)
     {
 
         <hr class="hr-2 bg-primary">
