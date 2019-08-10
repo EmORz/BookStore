@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using BookStore_Inspiration.ViewModels.Product.Home;
 
 namespace BookStore_Inspiration.Controllers
 {
@@ -94,11 +95,6 @@ namespace BookStore_Inspiration.Controllers
 
 
 
-        [Authorize()]
-        public IActionResult Book()
-        {
-            return View();
-        }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
@@ -153,22 +149,109 @@ namespace BookStore_Inspiration.Controllers
             return this.Redirect("/");
         }
 
+
+        [Authorize()]
+        public IActionResult Book()
+        {
+            var allProducts = productServices.GetAllProducts()
+                .Where(type => type.ProductTypes == ProductTypes.Book)
+                .Select(product => new ProductHomeViewModel
+            {
+                Author = product.Author,
+                Description = product.Description,
+                Id = product.Id,
+                ISBN = product.ISBN,
+                Price = product.Price,
+                ProductTypes = product.ProductTypes.ToString(),
+                Publishing = product.Publishing,
+                Quantity = product.Quantity,
+                Title = product.Title,
+                YearOfPublishing = product.YearOfPublishing
+            }).ToList();
+
+            AllProductsHomeViewModel all = new AllProductsHomeViewModel()
+            {
+                Products = allProducts
+            };
+            return View(all);
+        }
+
         [Authorize]
         public IActionResult Film()
         {
-            return View();
+            var allProducts = productServices.GetAllProducts()
+                .Where(type => type.ProductTypes == ProductTypes.Film)
+                .Select(product => new ProductHomeViewModel
+            {
+                Author = product.Author,
+                Description = product.Description,
+                Id = product.Id,
+                ISBN = product.ISBN,
+                Price = product.Price,
+                ProductTypes = product.ProductTypes.ToString(),
+                Publishing = product.Publishing,
+                Quantity = product.Quantity,
+                Title = product.Title,
+                YearOfPublishing = product.YearOfPublishing
+            }).ToList();
+
+            AllProductsHomeViewModel all = new AllProductsHomeViewModel()
+            {
+                Products = allProducts
+            };
+            return View(all);
         }
 
         [Authorize]
         public IActionResult Music()
         {
-            return View();
+            var allProducts = productServices.GetAllProducts()
+                .Where(type => type.ProductTypes == ProductTypes.Music)
+                .Select(product => new ProductHomeViewModel
+            {
+                Author = product.Author,
+                Description = product.Description,
+                Id = product.Id,
+                ISBN = product.ISBN,
+                Price = product.Price,
+                ProductTypes = product.ProductTypes.ToString(),
+                Publishing = product.Publishing,
+                Quantity = product.Quantity,
+                Title = product.Title,
+                YearOfPublishing = product.YearOfPublishing
+            }).ToList();
+
+            AllProductsHomeViewModel all = new AllProductsHomeViewModel()
+            {
+                Products = allProducts
+            };
+            return View(all);
         }
 
         [Authorize]
         public IActionResult Other()
         {
-            return View();
+            var allProducts = productServices.GetAllProducts()
+                .Where(type => type.ProductTypes == ProductTypes.Other)
+                .Select(product => new ProductHomeViewModel
+            {
+                Author = product.Author,
+                Description = product.Description,
+                Id = product.Id,
+                ISBN = product.ISBN,
+                Price = product.Price,
+                ProductTypes = product.ProductTypes.ToString(),
+                Publishing = product.Publishing,
+                Quantity = product.Quantity,
+                Title = product.Title,
+                YearOfPublishing = product.YearOfPublishing
+            }).ToList();
+
+            AllProductsHomeViewModel all = new AllProductsHomeViewModel()
+            {
+                Products = allProducts
+            };
+            return View(all);
         }
     }
 }
