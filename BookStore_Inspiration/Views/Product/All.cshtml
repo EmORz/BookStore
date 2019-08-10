@@ -12,6 +12,8 @@
     
     @{
         var products = Model.Products;
+        var total = 0M;
+
 
     }
     <table class="table table-bordered">
@@ -26,6 +28,7 @@
             <th scope="col">Price</th>
             <th scope="col">Publishing</th>
             <th scope="col">Quantity</th>
+            <th scope="col">Total</th>
             <th scope="col">Delete</th>
             <th scope="col">Edit</th>
         </tr>
@@ -33,34 +36,42 @@
     @for (int i = 0; i < products.Count; i++)
     {
         <tbody>
-        <tr>
-            <th scope="row">@i</th>
-            <td>@products[i].Title</td>
-            <td>@products[i].Author</td>
-            <td>@products[i].Description</td>
-            <td>@products[i].ProductTypes</td>
-            <td>@products[i].ISBN</td>
-            <td>@products[i].Price</td>
-            <td>@products[i].Publishing</td>
-            <td>@products[i].Quantity</td>>
-            @{
-                var text = "Remove Product";
-            }
-            <td>
-             
-                <span class="table-remove">
-                    <button type="button"
-                            class="btn btn-default btn-rounded btn-sm my-0 mobile-fondsize-20">@Html.ActionLink(text, "Delete", "Product", new {id = products[i].Id})</button>
-                </span>
-            </td>
-            <td>
-             
-                <span class="table-remove">
-                    <button type="button"
-                            class="btn btn-default btn-rounded btn-sm my-0 mobile-fondsize-20">@Html.ActionLink("Edit Product", "Edit", "Product", new {id = products[i].Id})</button>
-                </span>
-            </td>
-        </tr>
+            <tr>
+                <th scope="row">@i</th>
+                <td>@products[i].Title</td>
+                <td>@products[i].Author</td>
+                <td>@products[i].Description</td>
+                <td>@products[i].ProductTypes</td>
+                <td>@products[i].ISBN</td>
+                <td>@products[i].Price</td>
+                <td>@products[i].Publishing</td>
+                <td>@products[i].Quantity</td>>
+                @{
+                    total = products[i].Price * products[i].Quantity;
+                }
+                <td>@total</td>>
+                @{
+                    var text = "Remove Product";
+                }
+                <td>
+
+                    <span class="table-remove">
+                        <button type="button"
+                                class="btn btn-default btn-rounded btn-sm my-0 mobile-fondsize-20">
+                            @Html.ActionLink(text, "Delete", "Product", new { id = products[i].Id })
+                            </button>
+                        </span>
+                    </td>
+                    <td>
+
+                        <span class="table-remove">
+                            <button type="button"
+                                    class="btn btn-default btn-rounded btn-sm my-0 mobile-fondsize-20">
+                                @Html.ActionLink("Edit Product", "Edit", "Product", new { id = products[i].Id })
+                                </button>
+                            </span>
+                        </td>
+                    </tr>
         </tbody>
     }
     </table >

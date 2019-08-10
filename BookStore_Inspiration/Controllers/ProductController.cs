@@ -86,7 +86,7 @@ namespace BookStore_Inspiration.Controllers
             };
             this.productServices.EditProduct(product);
 
-            return this.Redirect("/");
+            return this.Redirect("/Product/All");
 
         }
         //

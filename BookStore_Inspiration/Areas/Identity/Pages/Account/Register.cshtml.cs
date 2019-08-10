@@ -114,6 +114,7 @@ namespace BookStore_Inspiration.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                  
                     if (isRoot)
                     {
                         await _userManager.AddToRoleAsync(user, "Admin");

@@ -1,4 +1,6 @@
 ﻿@using BookStore.Data
+@model BookStore_Inspiration.ViewModels.Product.Home.AllProductsHomeViewModel
+
 
 @using BookStore.Services.Contracts
 @{
@@ -20,6 +22,12 @@
 
             <iframe src="https://calendar.google.com/calendar/embed?src=oaubcn4pvr4pslts0t8fub07ks%40group.calendar.google.com&ctz=Europe%2FSofia" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
 
+            @foreach (var product in Model.Products)
+             {
+                 @product.Author
+                 @product.Title
+                 @product.Description
+             }
         }
         @if (User.IsInRole("Admin") && User.Identity.IsAuthenticated)
         {
