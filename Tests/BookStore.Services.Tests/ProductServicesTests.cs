@@ -326,7 +326,7 @@
 //           var tokens = searchString.Split(new string[] {",", ".", " "}, StringSplitOptions.RemoveEmptyEntries);
            
 //           var products = this.context.Products.Where(x => tokens.All(c => x.Name.ToLower().Contains(c.ToLower())));
-//           //todo its not good
+//       
            
 //           return products;
            

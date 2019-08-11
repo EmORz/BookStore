@@ -363,7 +363,7 @@ namespace BookStore.Services.Tests
             Assert.Equal(2, currentUsersCollection.Count);
         }
 
-        //todo seed method for data
+
         private BookStoreDbContext SeedBoolStoreUsers()
         {
             var options = new DbContextOptionsBuilder<BookStoreDbContext>()

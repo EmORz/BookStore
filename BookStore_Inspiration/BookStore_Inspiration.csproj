@@ -37,4 +37,11 @@
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Update="Views\Info\SearchResult.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

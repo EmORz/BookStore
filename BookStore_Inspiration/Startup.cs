@@ -77,7 +77,7 @@ namespace BookStore_Inspiration
 
             #endregion
 
-            //todo add google authentication
+          
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
@@ -96,7 +96,7 @@ namespace BookStore_Inspiration
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //todo add other services 
+    
             AutoMapperConfig.RegisterMappings(
                 typeof(UserServices).GetTypeInfo().Assembly);
 

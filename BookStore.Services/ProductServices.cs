@@ -1,10 +1,10 @@
 ﻿using BookStore.Data;
 using BookStore.Model;
+using BookStore.Model.Enum;
 using BookStore.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BookStore.Model.Enum;
 
 namespace BookStore.Services
 {
@@ -93,22 +93,47 @@ namespace BookStore.Services
             return true;
         }
 
-        public IEnumerable<Product> GetProductsBySearch(string searchString)
+        //todo search box service
+        //заглавие, автор, ISBN или търсите книга от определено издателство
+        public IEnumerable<SearchProductViewModel> GetProductsBySearch(string searchString)
         {
-            var tokens = searchString.Split(new string[] { ",", ".", " " }, StringSplitOptions.RemoveEmptyEntries);
-            var productsAll = this.context.Products.ToList();
-            var searchResult = new List<Product>();
+
+            var tokens = searchString.Trim().ToLower();
+            var productsAll = this.context.Products.Select(x => new SearchProductViewModel
+            {
+                Title = x.Title,
+                Author = x.Author,
+                ISBN = x.ISBN,
+                Publishing = x.Publishing
+
+            }).ToList();
+            var searchResult = new List<SearchProductViewModel>();
             foreach (var product in productsAll)
             {
-                var productName = product.Title.ToLower().Split(new string[] { ",", ".", " " }, StringSplitOptions.RemoveEmptyEntries);
-
-                for (int i = 0; i < tokens.Length; i++)
+                if (product.Author==null)
                 {
-                    var test = productName.Contains(tokens[i].ToLower());
-                    if (test)
-                    {
-                        searchResult.Add(product);
-                    }
+                    product.Author = "xxx";
+                }
+                if (product.ISBN == null)
+                {
+                    product.ISBN = "xxx";
+                }
+                if (product.Publishing == null)
+                {
+                    product.Publishing = "xxx";
+                }
+                if (product.Title == null)
+                {
+                    product.Title = "xxx";
+                }
+              
+                var check = product?.Title.ToLower() == tokens
+                            || product?.Author.ToLower() == tokens
+                            || product?.ISBN.ToLower() == tokens
+                            || product?.Publishing.ToLower() == tokens;
+                if (check)
+                {
+                    searchResult.Add(product);
                 }
 
             }
@@ -130,5 +155,21 @@ namespace BookStore.Services
             this.context.Products.Remove(productFromDb);
             this.context.SaveChanges();
         }
+    }
+
+    public class SearchResultViewModels
+    {
+        public List<SearchProductViewModel> Result { get; set; } = new List<SearchProductViewModel>();
+    }
+
+    public class SearchProductViewModel
+    {
+        public string Title { get; set; }
+
+        public string Author { get; set; }
+
+        public string Publishing { get; set; }
+
+        public string ISBN { get; set; }
     }
 }
