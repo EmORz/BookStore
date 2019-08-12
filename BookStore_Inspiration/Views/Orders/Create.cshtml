@@ -1,0 +1,41 @@
+﻿
+
+@model BookStore_Inspiration.ViewModels.Orders.Create.CreateOrderViewModel
+
+@{
+    ViewData["Title"] = "Данни за поръчката";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<h3 class="mobile-fondsize-20 text-muted text-center">@ViewData["Title"]</h3>
+<hr class="w-50 align-items-center" />
+<div class="row h-50">
+    <div class="col-md-6">
+
+        <form>
+            <div class="h5 font-weight-bold text-center">Данни на получателя:</div>
+            <div class="form-group">
+                <label asp-for="FullName"></label>
+                <input asp-for="FullName" class="form-control" placeholder="Име и фамилия"/>
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber"></label>
+                <input asp-for="PhoneNumber" class="form-control" placeholder="Телефонен номер"/>
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="h5 font-weight-bold text-center">Данни за доставката:</div>
+
+
+            <div class="text-right mt-3 mb-3">
+                <button type="submit" class="form-group btn btn-success btn-lg btn-block mb-0">Продължи с поръчката</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+

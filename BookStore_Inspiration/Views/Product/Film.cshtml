@@ -24,16 +24,22 @@
                     {
                         if (j < Model.Products.Count)
                         {
-                            <div class="product col-md-2">
+                    <div class="product col-md-2">
 
-                                <h5 class="text-center mt-3">@Model.Products[j].Title</h5>
-                                <h5 class="text-center mt-3">@Model.Products[j].Author</h5>
-                                <h5 class="text-center mt-3">@Model.Products[j].Description</h5>
-                                <h5 class="text-center mt-3">@Model.Products[j].ISBN</h5>
-                                <h5 class="text-center mt-3">@Model.Products[j].Publishing</h5>
-                                <h5 class="text-center mt-3">@Model.Products[j].YearOfPublishing</h5>
-                                <h5 class="text-center mt-3">Price: $@Model.Products[j].Price.ToString("F2")</h5>
-                            </div>
+                        <h5 class="text-center mt-3">@Model.Products[j].Title</h5>
+                        <h5 class="text-center mt-3">@Model.Products[j].Author</h5>
+                        <h5 class="text-center mt-3">@Model.Products[j].Description</h5>
+                        <h5 class="text-center mt-3">@Model.Products[j].ISBN</h5>
+                        <h5 class="text-center mt-3">@Model.Products[j].Publishing</h5>
+                        <h5 class="text-center mt-3">@Model.Products[j].YearOfPublishing</h5>
+                        <h5 class="text-center mt-3">Price: $@Model.Products[j].Price.ToString("F2")</h5>
+
+                        <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
+
+                            <a asp asp-controller="Orders" asp-action="Create" class="btn btn-primary btn-md"><i></i> Купи</a>
+
+                        </div>
+                    </div>
                         }
                         else
                         {
