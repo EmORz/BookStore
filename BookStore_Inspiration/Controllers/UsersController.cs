@@ -10,6 +10,18 @@ using BookStore_Inspiration.ViewModels.User;
 
 namespace BookStore_Inspiration.Controllers
 {
+    public class EditClientFirstLastNamePhoneNumber
+    {
+        
+        public string Firstname { get; set; }
+
+
+        public string Lastname { get; set; }
+
+        public string Phonenumber { get; set; }
+
+
+    }
     public class UsersController : Controller
     {
         private readonly IUserServices _userServices;
@@ -21,6 +33,21 @@ namespace BookStore_Inspiration.Controllers
             this.context = context;
         }
 
+        public IActionResult EditClientData(EditClientFirstLastNamePhoneNumber edit)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.RedirectToAction("Create", "Orders");
+            }
+
+            var tempUser = _userServices.GetUserByUsername(this.User.Identity.Name);
+            _userServices.EditFirstName(tempUser, edit.Firstname);
+            _userServices.EditLastName(tempUser, edit.Lastname);
+            _userServices.EditPhonenumber(tempUser, edit.Phonenumber);
+
+            return this.RedirectToAction("Create", "Orders");
+
+        }
         public IActionResult Counter()
         {
            var users = _userServices.GetAllUsers().Count;

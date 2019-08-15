@@ -36,7 +36,7 @@ namespace BookStore_Inspiration.Controllers
             var DetailsProductViewModel = new DetailsProductViewModel()
             {
                 Id = product.Id,
-                //Name = product.Name,
+                Name = product.Title,
                 Price = product.Price,
                 Quantity = product.Quantity,
                 ProductTypes = product.ProductTypes.ToString()
@@ -45,6 +45,7 @@ namespace BookStore_Inspiration.Controllers
             return View(DetailsProductViewModel);
         }
         //
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             var product = this.productServices.GetProductById(id);
@@ -68,6 +69,7 @@ namespace BookStore_Inspiration.Controllers
             return this.View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Edit(EditProductViewModel model)
         {
@@ -115,7 +117,7 @@ namespace BookStore_Inspiration.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult All()
         {
