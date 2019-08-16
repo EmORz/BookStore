@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BookStore.Data;
+using BookStore.Model;
 using BookStore.Model.Address;
 using BookStore.Services.Contracts;
 using BookStore_Inspiration.ViewModels.Orders.Create;
@@ -12,13 +14,32 @@ namespace BookStore_Inspiration.Controllers
         private readonly IUserServices _userServices;
         private readonly IAddressesServices _addressesServices;
         private readonly IProductServices _productServices;
+        private readonly BookStoreDbContext _db;
 
-        public OrdersController(IUserServices userServices, IAddressesServices addressesServices, IProductServices productServices)
+        public OrdersController(IUserServices userServices, IAddressesServices addressesServices, IProductServices productServices, BookStoreDbContext db)
         {
             _userServices = userServices;
             _addressesServices = addressesServices;
             _productServices = productServices;
+            _db = db;
         }
+
+        [HttpPost]
+        public IActionResult Create(CreateOrderViewModel order)
+        {
+            var productFromDb = _productServices.GetProductById(order.ProductOrderViewModel.ProductId);
+                productFromDb.Quantity--;
+            
+
+
+            this._db.Products.Update(productFromDb);
+            this._db.SaveChanges();
+
+
+            return Redirect("/");
+
+        }
+
         public IActionResult Create(int id)
         {
             var user = this._userServices.GetUserByUsername(this.User.Identity.Name);
@@ -27,9 +48,10 @@ namespace BookStore_Inspiration.Controllers
 
             var productsView = new ProductOrderViewModel()
             {
+                ProductId = product.Id,
                 Title = product.Title,
                 Price = product.Price,
-                Quantity = 1
+                AvailableQuantity = product.Quantity
             };
 
             var address = _addressesServices.GetAllUserAddresses(User.Identity.Name).ToList();
@@ -41,12 +63,6 @@ namespace BookStore_Inspiration.Controllers
                 Street = x.Street,
                 Id = x.Id
             }).ToList();
-
-     
-
-         
-
-
 
             if (user.FirstName==null)
             {

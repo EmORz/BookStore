@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using BookStore.Model.Enum;
 
 namespace BookStore_Inspiration.ViewModels.Orders.Create
 {
@@ -14,6 +15,8 @@ namespace BookStore_Inspiration.ViewModels.Orders.Create
 
         public int? DeliveryAddressId { get; set; }
 
+        public PaymentType PaymentType { get; set; }
+
 
 
         public string FullName { get; set; }
@@ -25,11 +28,12 @@ namespace BookStore_Inspiration.ViewModels.Orders.Create
 
     public class ProductOrderViewModel
     {
+        public int ProductId { get; set; }
         public string Title { get; set; }
 
         public decimal Price { get; set; }
 
-        public int Quantity { get; set; }
+        public int AvailableQuantity { get; set; }
     }
 
     public class OrderAdressViewModel

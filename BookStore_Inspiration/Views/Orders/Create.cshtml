@@ -73,7 +73,7 @@
         }
         else
         {
-            <form>
+            <form method="post" asp-controller="Orders" asp-action="Create">
                 <div class="h5 font-weight-bold mt-3 text-center">Адрес за доставка:</div>
                 <div class="form-group border-primary mb-0">
                     <ul class="list-group">
@@ -100,22 +100,52 @@
                     <input asp-for="PhoneNumber" class="form-control" placeholder="Телефонен номер" />
                     <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 </div>
-                <div class="h5 font-weight-bold text-center">Данни за продукта:</div>
-                <p>
-                    @Model.ProductOrderViewModel.Title
-
-                </p>
+                <div class="h5 font-weight-bold text-center">Метод на плащане:</div>
+                <div class="form-group">
+             
+                    <div>
+                        <input asp-for="PaymentType" type="radio" id="Card" value="Card">
+                        <label for="Card">Visa, MasterCard и др.</label>
+                    </div>
+           
+                    <div>
+                        <input asp-for="PaymentType" type="radio" id="CashОnDelivery" value="CashОnDelivery">
+                        <label for="CashОnDelivery">Наложен платеж</label>
+                    </div>
+                </div>
+                <span asp-validation-for="PaymentType" class="text-danger"></span>
                 
-                <p>
-                    @Model.ProductOrderViewModel.Price
+                
+                
+                <div class="h5 font-weight-bold text-center">Данни за продукта:</div>
+                <div class="form-group">
 
-                </p>
+                    <div>
+                        <input asp-for="ProductOrderViewModel.Price" class="form-control">
+                        <label for="ProductOrderViewModel.Price">Cena</label>
+                    </div>
+                    <div>
+                        <input asp-for="ProductOrderViewModel.AvailableQuantity" class="form-control">
+                        <label for="ProductOrderViewModel.Price">Koli4estvo => DB</label>
+                    </div>
+                    <div>
+                        <input asp-for="ProductOrderViewModel.Title" class="form-control">
+                        <label for="ProductOrderViewModel.Title">Name of product</label>
+                    </div>
+                    <div>
+                        <input asp-for="ProductOrderViewModel.ProductId" class="form-control">
+                        <label for="ProductOrderViewModel.ProductId">Id of product</label>
+                    </div>
+                </div>
+                <span asp-validation-for="ProductOrderViewModel" class="text-danger"></span>
+                
+                
 
                
 
 
                 <div class="text-right mt-3 mb-3">
-                    <button type="submit" class="form-group btn btn-success btn-lg btn-block mb-0">Продължи с поръчката</button>
+                    <button type="submit" class="form-group btn btn-success btn-lg btn-block mb-0">Направи поръчка</button>
                 </div>
             </form>
         }

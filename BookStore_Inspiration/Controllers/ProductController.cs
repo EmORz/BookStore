@@ -90,6 +90,7 @@ namespace BookStore_Inspiration.Controllers
                 Description = model.Description,
                 ISBN = model.ISBN
             };
+            product.Quantity--;
             this.productServices.EditProduct(product);
 
             return this.Redirect("/Product/All");
