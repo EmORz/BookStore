@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BookStore.Data;
 using BookStore.Model;
@@ -28,12 +29,29 @@ namespace BookStore_Inspiration.Controllers
         public IActionResult Create(CreateOrderViewModel order)
         {
             var productFromDb = _productServices.GetProductById(order.ProductOrderViewModel.ProductId);
-                productFromDb.Quantity--;
-            
+            var temporalEnterQuantity = productFromDb.Quantity - order.ProductOrderViewModel.ClientsQuantity;
+            var tempText = new List<string>();
+            tempText.Add($"ClientName: {this.User.Identity.Name}");
+            tempText.Add($"ProductId: {productFromDb.Id}");
 
+            if (temporalEnterQuantity > 0)
+            {
+                productFromDb.Quantity = temporalEnterQuantity;
+                tempText.Add($"Quantity: {order.ProductOrderViewModel.ClientsQuantity}");
+                tempText.Add($"Price: {productFromDb.Price}");
+                tempText.Add($"Total: {order.ProductOrderViewModel.ClientsQuantity * productFromDb.Price}");
+                tempText.Add($"DateTimeOfPurchase: {DateTime.Now}");
+                tempText.Add($"***********************************");
+            }
+            else
+            {
+              tempText.Add($"Quantity: NO");
+            }
 
             this._db.Products.Update(productFromDb);
             this._db.SaveChanges();
+
+            System.IO.File.AppendAllLines($"C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\OrderResult.txt", tempText );
 
 
             return Redirect("/");
@@ -50,8 +68,7 @@ namespace BookStore_Inspiration.Controllers
             {
                 ProductId = product.Id,
                 Title = product.Title,
-                Price = product.Price,
-                AvailableQuantity = product.Quantity
+                Price = product.Price
             };
 
             var address = _addressesServices.GetAllUserAddresses(User.Identity.Name).ToList();
@@ -64,7 +81,7 @@ namespace BookStore_Inspiration.Controllers
                 Id = x.Id
             }).ToList();
 
-            if (user.FirstName==null)
+            if (user.FirstName == null)
             {
                 user.FirstName = "XXX";
             }
@@ -83,7 +100,7 @@ namespace BookStore_Inspiration.Controllers
             var createOrderViewModel = new CreateOrderViewModel
             {
 
-            
+
                 FullName = fullName,
                 PhoneNumber = user.PhoneNumber,
                 OrderAddressesViewModel = addressViewModel,

@@ -47,7 +47,7 @@
                         {
                     <div class="product col-md-2">
 
-                        <h5 class="text-center mt-3">@Model.Products[j].Id</h5>
+                        <h5 class="text-center mt-3">ID @Model.Products[j].Id</h5>
                         <h5 class="text-center mt-3">@Model.Products[j].Title</h5>
                         <h5 class="text-center mt-3">@Model.Products[j].Author</h5>
                         <h5 class="text-center mt-3">@Model.Products[j].Description</h5>
@@ -57,17 +57,19 @@
                         <h5 class="text-center mt-3">Price: $@Model.Products[j].Price.ToString("F2")</h5>
                         
                         
-                    <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
-                            <button type="button"
-                                    class="btn btn-default btn-rounded btn-sm my-0 mobile-fondsize-20">
-                                @Html.ActionLink("Купи", "Create", "Orders", new { id = @Model.Products[j].Id })
+                        <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
+                            @{
+                                string url = Url.Action("Create", "Orders", new {id = @Model.Products[j].Id});
+                            }
+                            
+                            <button type="button" class="btn btn-primary btn-md" onclick="location.href='@url'" >
+                                Купи
                             </button>
+                            
+
                         </div>
 
-                        @*<div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
-
-                            <a asp asp-controller="Orders" asp-action="Create" class="btn btn-primary btn-md"><i></i> Купи</a>
-                        </div>*@
+                     
                     </div>
                         
                         }

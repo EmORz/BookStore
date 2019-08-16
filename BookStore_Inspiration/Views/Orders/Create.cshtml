@@ -121,33 +121,38 @@
                 <div class="form-group">
 
                     <div>
-                        <input asp-for="ProductOrderViewModel.Price" class="form-control">
-                        <label for="ProductOrderViewModel.Price">Cena</label>
-                    </div>
-                    <div>
-                        <input asp-for="ProductOrderViewModel.AvailableQuantity" class="form-control">
-                        <label for="ProductOrderViewModel.Price">Koli4estvo => DB</label>
-                    </div>
-                    <div>
                         <input asp-for="ProductOrderViewModel.Title" class="form-control">
                         <label for="ProductOrderViewModel.Title">Name of product</label>
                     </div>
                     <div>
-                        <input asp-for="ProductOrderViewModel.ProductId" class="form-control">
-                        <label for="ProductOrderViewModel.ProductId">Id of product</label>
+                        <input asp-for="ProductOrderViewModel.Price" class="form-control">
+                        <label for="ProductOrderViewModel.Price">Цена за 1 бр.</label>
+                    </div>
+                    <div>
+                        <input asp-for="ProductOrderViewModel.ClientsQuantity" class="form-control" placeholder="Въведи количество на продукта">
+                        <label for="ProductOrderViewModel.ClientsQuantity">Количество на поръчката</label>
+                    </div>
+                    <div>
+                        <input asp-for="ProductOrderViewModel.ProductId" class="form-control" type="hidden" readonly="">
+                 
+                    </div>
+
+                    @{
+                        var total = @Model.ProductOrderViewModel.Price * @Model.ProductOrderViewModel.ClientsQuantity;
+                    }
+
+                    <div>
+                        <label for="total">@total.ToString("F2")</label>
                     </div>
                 </div>
                 <span asp-validation-for="ProductOrderViewModel" class="text-danger"></span>
-                
-                
-
-               
 
 
                 <div class="text-right mt-3 mb-3">
                     <button type="submit" class="form-group btn btn-success btn-lg btn-block mb-0">Направи поръчка</button>
                 </div>
             </form>
+       
         }
       
     

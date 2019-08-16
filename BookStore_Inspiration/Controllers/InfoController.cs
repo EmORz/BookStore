@@ -45,7 +45,7 @@ namespace BookStore_Inspiration.Controllers
         }
 
         [HttpGet]
-        //todo search box Controller
+
         public IActionResult SearchBox()
         {
 
@@ -74,7 +74,7 @@ namespace BookStore_Inspiration.Controllers
                 temp.Add(isbn);
                 temp.Add(publishing);
             }
-            System.IO.File.WriteAllLines("C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\SearchResult.txt", temp);
+            System.IO.File.AppendAllLines("C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\SearchResult.txt", temp);
 
             return Redirect("Result");
         }
@@ -84,6 +84,16 @@ namespace BookStore_Inspiration.Controllers
         public IActionResult Result()
         {
             var result = System.IO.File.ReadAllLines("C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\SearchResult.txt");
+
+            return View(result);
+        }
+
+        [HttpGet]
+        //todo search box Controller
+        public IActionResult Receipts()
+        {
+            var result = System.IO.File.ReadAllLines($"C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\OrderResult.txt");
+
 
             return View(result);
         }

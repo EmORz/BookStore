@@ -33,7 +33,7 @@ namespace BookStore_Inspiration.ViewModels.Orders.Create
 
         public decimal Price { get; set; }
 
-        public int AvailableQuantity { get; set; }
+        public int ClientsQuantity { get; set; } = 1;
     }
 
     public class OrderAdressViewModel
