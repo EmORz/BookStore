@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using BookStore_Inspiration.ViewModels.Product.Home;
+using BookStore.Services;
 
 namespace BookStore_Inspiration.Controllers
 {
@@ -16,13 +17,15 @@ namespace BookStore_Inspiration.Controllers
         private readonly IProductServices productServices;
         private readonly IImagesService imagesService;
         private readonly IUserServices _userServices;
+        private readonly ICloudinaryServices _cloudinaryService;
 
         public ProductController(IProductServices productServices,
-            IImagesService imagesService, IUserServices userServices)
+            IImagesService imagesService, IUserServices userServices, ICloudinaryServices cloudinaryService)
         {
             this.productServices = productServices;
             this.imagesService = imagesService;
             _userServices = userServices;
+            _cloudinaryService = cloudinaryService;
         }
 
         public IActionResult Details(int id)
@@ -64,7 +67,8 @@ namespace BookStore_Inspiration.Controllers
                 ProductTypes = product.ProductTypes.ToString(),
                 Publishing = product.Publishing,
                 Quantity = product.Quantity,
-                YearOfPublishing = product.YearOfPublishing
+                YearOfPublishing = product.YearOfPublishing,
+   
             };
             return this.View(model);
         }
@@ -77,8 +81,11 @@ namespace BookStore_Inspiration.Controllers
             {
                 return View();
             }
-
+            string pictureUrl = this._cloudinaryService.UploadPictureAsync(
+                model.Picture,
+                model.Title);
             Enum.TryParse<ProductTypes>(model.ProductTypes, true, out ProductTypes result);
+
             var product = new Product()
             {
                 Id = model.Id,
@@ -88,9 +95,9 @@ namespace BookStore_Inspiration.Controllers
                 ProductTypes = result,
                 Author = model.Author,
                 Description = model.Description,
-                ISBN = model.ISBN
+                ISBN = model.ISBN,
+                Picture = pictureUrl
             };
-            product.Quantity--;
             this.productServices.EditProduct(product);
 
             return this.Redirect("/Product/All");
@@ -150,10 +157,13 @@ namespace BookStore_Inspiration.Controllers
             {
                 return Redirect("/");
             }
+            string pictureUrl = this._cloudinaryService.UploadPictureAsync(
+                createProduct.Picture,
+                createProduct.Title);
 
             productServices.Create(createProduct.Title, createProduct.ProductTypes, createProduct.Price,
                 createProduct.Quantity, createProduct.Description, createProduct.Author, createProduct.Publishing,
-                createProduct.YearOfPublishing);
+                createProduct.YearOfPublishing, pictureUrl);
             return this.Redirect("/");
         }
 
@@ -174,8 +184,9 @@ namespace BookStore_Inspiration.Controllers
                 Publishing = product.Publishing,
                 Quantity = product.Quantity,
                 Title = product.Title,
-                YearOfPublishing = product.YearOfPublishing
-            }).ToList();
+                YearOfPublishing = product.YearOfPublishing,
+                Picture = product.Picture
+                }).ToList();
 
             AllProductsHomeViewModel all = new AllProductsHomeViewModel()
             {
@@ -200,8 +211,9 @@ namespace BookStore_Inspiration.Controllers
                 Publishing = product.Publishing,
                 Quantity = product.Quantity,
                 Title = product.Title,
-                YearOfPublishing = product.YearOfPublishing
-            }).ToList();
+                YearOfPublishing = product.YearOfPublishing,
+                Picture = product.Picture
+                }).ToList();
 
             AllProductsHomeViewModel all = new AllProductsHomeViewModel()
             {
@@ -226,8 +238,9 @@ namespace BookStore_Inspiration.Controllers
                 Publishing = product.Publishing,
                 Quantity = product.Quantity,
                 Title = product.Title,
-                YearOfPublishing = product.YearOfPublishing
-            }).ToList();
+                YearOfPublishing = product.YearOfPublishing,
+                Picture = product.Picture
+                }).ToList();
 
             AllProductsHomeViewModel all = new AllProductsHomeViewModel()
             {
@@ -252,8 +265,9 @@ namespace BookStore_Inspiration.Controllers
                 Publishing = product.Publishing,
                 Quantity = product.Quantity,
                 Title = product.Title,
-                YearOfPublishing = product.YearOfPublishing
-            }).ToList();
+                YearOfPublishing = product.YearOfPublishing,
+                Picture = product.Picture
+                }).ToList();
 
             AllProductsHomeViewModel all = new AllProductsHomeViewModel()
             {

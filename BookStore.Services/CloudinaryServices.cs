@@ -15,13 +15,13 @@ namespace BookStore.Services
         {
             _cloudinaryUtility = cloudinaryUtility;
         }
-        public async Task<string> UploadPictureAsync(IFormFile pictureFile, string fileName)
+        public string UploadPictureAsync(IFormFile pictureFile, string fileName)
         {
             byte[] destinationData;
 
             using (var ms = new MemoryStream())
             {
-                await pictureFile.CopyToAsync(ms);
+                pictureFile.CopyToAsync(ms);
                 destinationData = ms.ToArray();
             }
 

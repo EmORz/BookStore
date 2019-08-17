@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BookStore.Model.Enum;
+using Microsoft.AspNetCore.Http;
 
 namespace BookStore_Inspiration.ViewModels.Product
 {
@@ -24,5 +25,7 @@ namespace BookStore_Inspiration.ViewModels.Product
         public string ISBN { get; set; }
 
         public string YearOfPublishing { get; set; }
+
+        public IFormFile Picture { get; set; }
     }
 }

@@ -5,6 +5,6 @@ namespace BookStore.Services.Contracts
 {
     public interface ICloudinaryServices
     {
-        Task<string> UploadPictureAsync(IFormFile pictureFile, string fileName);
+        string UploadPictureAsync(IFormFile pictureFile, string fileName);
     }
 }

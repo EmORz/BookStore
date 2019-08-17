@@ -24,5 +24,7 @@
         public string YearOfPublishing { get; set; }
 
         public int UsersCount { get; set; }
+
+        public string Picture { get; set; }
     }
 }

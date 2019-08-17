@@ -29,6 +29,8 @@ namespace BookStore.Model
         public string YearOfPublishing { get; set; }
 
 
+        public string Picture { get; set; }
+
         public virtual ICollection<Image> Images { get; set; }
 
         public virtual ICollection<Book> Books { get; set; }

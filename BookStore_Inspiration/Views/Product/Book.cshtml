@@ -40,7 +40,11 @@
                         <h5 class="text-center mt-3">@Model.Products[j].Publishing</h5>
                         <h5 class="text-center mt-3">@Model.Products[j].YearOfPublishing</h5>
                         <h5 class="text-center mt-3">Price: $@Model.Products[j].Price.ToString("F2")</h5>
-
+                        <div class="image-holder d-flex justify-content-center">
+                          
+                            <img  class="img-thumbnail product-image" src="@Model.Products[j].Picture" alt="...">
+                          
+                        </div>
 
                         <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
                             @{

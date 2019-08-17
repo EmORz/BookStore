@@ -29,7 +29,8 @@ namespace BookStore_Inspiration.Controllers
                 Quantity = product.Quantity,
                 Title = product.Title,
                 YearOfPublishing = product.YearOfPublishing,
-                UsersCount = _userServices.GetAllUsers().Count
+                UsersCount = _userServices.GetAllUsers().Count,
+                Picture = product.Picture
             }).ToList();
 
             AllProductsHomeViewModel all = new AllProductsHomeViewModel()

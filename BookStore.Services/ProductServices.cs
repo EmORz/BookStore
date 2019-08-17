@@ -17,7 +17,7 @@ namespace BookStore.Services
             this.context = context;
         }
 
-        public bool Create(string Title, string productType, decimal price, int quantity, string description, string author, string publishng, string yearOfPublishing)
+        public bool Create(string Title, string productType, decimal price, int quantity, string description, string author, string publishng, string yearOfPublishing, string picture)
         {
             var productTypeTemp = Enum.TryParse<ProductTypes>(productType, true, out ProductTypes resultProductType);
 
@@ -30,7 +30,8 @@ namespace BookStore.Services
                 Author = author,
                 Description = description,
                 Publishing = publishng,
-                YearOfPublishing = yearOfPublishing
+                YearOfPublishing = yearOfPublishing,
+                Picture = picture
 
             };
 
