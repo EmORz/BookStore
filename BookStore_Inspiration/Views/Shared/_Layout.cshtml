@@ -53,6 +53,21 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Other">Други</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+                        {
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                                    <b>Покупки</b>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Info" asp-action="ReceiptsClient">Бележки</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                        
                         @if (User.IsInRole("Admin") && User.Identity.IsAuthenticated)
                         {
                             <div class="dropdown">
@@ -64,7 +79,11 @@
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="AllUsers">Всички потребители</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Info" asp-action="Receipts">Бележки от продажбите</a>
+                                    </li>
                                 </ul>
+                   
                             </div>
 
                             <div class="dropdown">
@@ -86,6 +105,7 @@
                                     </li>
                                 </ul>
                             </div>
+
                         }
                     </ul>
                 </div>

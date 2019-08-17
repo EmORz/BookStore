@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BookStore.Services;
 using BookStore.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Authorization = System.Net.Authorization;
 using SearchProductViewModel = BookStore_Inspiration.ViewModels.Product.SearchBox.SearchProductViewModel;
@@ -89,13 +91,50 @@ namespace BookStore_Inspiration.Controllers
         }
 
         [HttpGet]
-        //todo search box Controller
+        [Authorize(Roles = "Admin")]
         public IActionResult Receipts()
         {
             var result = System.IO.File.ReadAllLines($"C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\OrderResult.txt");
+            var total = 0.0;
+            for (int i = 0; i < result.Length; i++)
+            {
+                if (result[i].Contains("Total:"))
+                {
+                    var tokens = result[i].Split(" ")[1];
+                    total += Convert.ToDouble(tokens);
+                }
 
+            }
 
-            return View(result);
+            var resultList = result.ToList();
+            resultList.Add("Общо постъпления от продадени артикули: " + total.ToString() + "\n");
+            var last = resultList.FindLast(x => x.Contains("Общо постъпления от продадени артикули:"));
+            resultList.Insert(0, last);
+
+            return View(resultList);
+        }
+
+        [HttpGet]
+        public IActionResult ReceiptsClient()
+        {
+            var result = System.IO.File.ReadAllLines($"C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\OrderResult.txt");
+
+            var userListReceipts = new List<string>();
+
+            for (int i = 0; i < result.Length; i++)
+            {
+
+                if (result[i].Contains($"ClientName: {this.User.Identity.Name}") )
+                {
+                    for (int j = 0; j < 6; j++)
+                    {
+                        userListReceipts.Add(result[i+j]);
+                    }
+                    userListReceipts.Add("***********************************");
+
+                }
+            }
+            return View(userListReceipts);
         }
 
     }
