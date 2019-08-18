@@ -137,5 +137,35 @@ namespace BookStore_Inspiration.Controllers
             return View(userListReceipts);
         }
 
+        [Authorize(Roles = ("Admin"))]
+        [HttpGet]
+        public IActionResult ReceiptsClientA(string id)
+        {
+            var result = System.IO.File.ReadAllLines($"C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\OrderResult.txt");
+
+
+            var userListReceipts = new List<string>();
+
+            for (int i = 0; i < result.Length; i++)
+            {
+
+                if (result[i].Contains($"ClientName: "))
+                {
+                    var tempUsername = result[i].Split(" ")[1];
+                    var tempUser = userServices.GetUserByUsername(tempUsername);
+                    if (tempUser!=null && tempUser.Id == id)
+                    {
+                        for (int j = 0; j < 6; j++)
+                        {
+                            userListReceipts.Add(result[i + j]);
+                        }
+                        userListReceipts.Add("***********************************");
+                    }
+
+                }
+            }
+            return View(userListReceipts);
+        }
+
     }
 }

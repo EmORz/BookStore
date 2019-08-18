@@ -1,4 +1,5 @@
-﻿using BookStore.Data;
+﻿using System.Collections.Generic;
+using BookStore.Data;
 using BookStore.Model;
 using BookStore.Services.Contracts;
 using BookStore_Inspiration.ViewModels.User.Edit;
@@ -65,6 +66,26 @@ namespace BookStore_Inspiration.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult AllUsers()
         {
+            //todo get receipts for every user
+            var listOfUsersReceits = _userServices.GetAllUsers().ToList();
+            
+            var result = System.IO.File.ReadAllLines($"C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\OrderResult.txt");
+
+            //var userListReceipts = new List<string>();
+
+            //for (int i = 0; i < result.Length; i++)
+            //{
+            //    var usernameFromDb = listOfUsersReceits[i].UserName;
+            //    if (result[i].Contains($"ClientName: {usernameFromDb}"))
+            //    {
+            //        for (int j = 0; j < 6; j++)
+            //        {
+            //            userListReceipts.Add(result[i + j]);
+            //        }
+            //        userListReceipts.Add("***********************************");
+
+            //    }
+            //}
             var listOfUsers = _userServices.GetAllUsers().Select(x => new ListOfAllUserViewModels
             {
                 Id = x.Id,
@@ -74,6 +95,7 @@ namespace BookStore_Inspiration.Controllers
                 Lastname = x.LastName,
                 Phonenumber = x.PhoneNumber,
                 UCN = x.UCN
+              
 
             }).ToList();
             CollectionOfUsers allUsers = new CollectionOfUsers();

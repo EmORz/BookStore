@@ -1,4 +1,6 @@
-﻿namespace BookStore_Inspiration.ViewModels.User.Index
+﻿using System.Collections.Generic;
+
+namespace BookStore_Inspiration.ViewModels.User.Index
 {
     public class ListOfAllUserViewModels
     {
@@ -15,6 +17,8 @@
         public string UCN { get; set; }
 
         public string Phonenumber { get; set; }
+
+        //public List<string> Receipts { get; set; } = new List<string>();
 
 
     }

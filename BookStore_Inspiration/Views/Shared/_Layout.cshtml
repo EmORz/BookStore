@@ -53,7 +53,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Other">Други</a>
                         </li>
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("User") || User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
                         {
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">

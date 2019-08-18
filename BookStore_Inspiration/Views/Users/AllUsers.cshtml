@@ -25,6 +25,7 @@
             <th scope="col">Phonenumber</th>
             <th scope="col">UCN</th>
             <th scope="col">Delete</th>
+            <th scope="col">Receipts</th>
 
         </tr>
     </thead>
@@ -52,8 +53,20 @@
                             @Html.ActionLink(text, "Delete", "Users", new { id = users[i].Id })
                         </button>
                     </span>
+                  
                 </td>
-                
+                <td>
+                    
+                    <span class="table-remove">
+                        <button type="button"
+                                class="btn btn-default btn-rounded btn-sm my-0 mobile-fondsize-20">
+                            @Html.ActionLink("Receipts", "ReceiptsClientA", "Info", new { id = users[i].Id })
+                        </button>
+                    </span>
+
+                </td>
+         
+
 
 
             </tr>
