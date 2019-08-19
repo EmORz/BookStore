@@ -18,6 +18,8 @@ namespace BookStore.Data
         public DbSet<Personal> Personals { get; set; }
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<Supplier> Suppliers { get; set; }
+
         //public DbSet<Music> Musics { get; set; }
         //public DbSet<Film> Films { get; set; }
         //public DbSet<Image> Images { get; set; }

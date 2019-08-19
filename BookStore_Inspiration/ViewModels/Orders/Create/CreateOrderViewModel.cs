@@ -13,6 +13,14 @@ namespace BookStore_Inspiration.ViewModels.Orders.Create
 
         public ProductOrderViewModel ProductOrderViewModel { get; set; }
 
+
+        public IList<SupplierViewModel> SuppliersViewModel { get; set; }
+
+
+        public DeliveryType DeliveryType { get; set; }
+
+        public int SupplierId { get; set; }
+
         public int? DeliveryAddressId { get; set; }
 
         public PaymentType PaymentType { get; set; }
@@ -47,5 +55,17 @@ namespace BookStore_Inspiration.ViewModels.Orders.Create
         public string CityName { get; set; }
 
         public string CityPostcode { get; set; }
+    }
+    public class SupplierViewModel
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public decimal PriceToHome { get; set; }
+
+        public decimal PriceToOffice { get; set; }
+
+        public bool IsDefault { get; set; }
     }
 }

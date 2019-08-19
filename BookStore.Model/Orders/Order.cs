@@ -23,6 +23,10 @@ namespace BookStore.Model.Orders
 
         public decimal DeliveryPrice { get; set; }
 
+        public string Recipient { get; set; }
+
+        public string RecipientPhoneNumber { get; set; }
+
         public PaymentType PaymentType { get; set; }
 
         public string UserId { get; set; }

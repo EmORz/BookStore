@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AutoMapper;
 using BookStore.Data;
 using BookStore.Model;
 using BookStore.Model.Address;
@@ -17,27 +18,48 @@ namespace BookStore_Inspiration.Controllers
         private readonly IAddressesServices _addressesServices;
         private readonly IProductServices _productServices;
         private readonly BookStoreDbContext _db;
+        private readonly ISuppliersService _suppliersService;
+        private readonly IOrderServices _orderServices;
 
-        public OrdersController(IUserServices userServices, IAddressesServices addressesServices, IProductServices productServices, BookStoreDbContext db)
+
+        public OrdersController(IUserServices userServices, IAddressesServices addressesServices, IProductServices productServices, BookStoreDbContext db, ISuppliersService suppliersService, IOrderServices orderServices)
         {
             _userServices = userServices;
             _addressesServices = addressesServices;
             _productServices = productServices;
             _db = db;
+            _suppliersService = suppliersService;
+            _orderServices = orderServices;
         }
 
         [HttpPost]
-        public IActionResult Create(CreateOrderViewModel order)
+        public IActionResult Create(CreateOrderViewModel model)
         {
-            var fullName = order.FullName;
-            var adddress = _addressesServices.GetAllAddresses().Where(x => x.Id==order.DeliveryAddressId);
-           
-           
+            var order = this._orderServices.GetProcessingOrder(this.User.Identity.Name);
+            if (order == null)
+            {
+                order = this._orderServices.CreateOrder(this.User.Identity.Name);
+            }
+
+            decimal deliveryPrice = _suppliersService.GetDiliveryPrice(model.SupplierId, model.DeliveryType);
+            this._orderServices.SetOrderDetails(order, model.FullName, model.PhoneNumber, model.PaymentType, model.DeliveryAddressId.Value, deliveryPrice);
+
+
+            var fullName = order.BookStoreUser.FirstName+ order.BookStoreUser.LastName;
+            var adddress = _addressesServices.GetAllAddresses().Where(x => x.Id == order.DeliveryAddressId);
+
+            var taxes = deliveryPrice;
+
+
             var typeOfPayment = order.PaymentType.ToString();
-            var productFromDb = _productServices.GetProductById(order.ProductOrderViewModel.ProductId);
-            var temporalEnterQuantity = productFromDb.Quantity - order.ProductOrderViewModel.ClientsQuantity;
+
+            var productFromDb = _productServices.GetProductById(model.ProductOrderViewModel.ProductId);
+            var temporalEnterQuantity = productFromDb.Quantity - model.ProductOrderViewModel.ClientsQuantity;
             var tempText = new List<string>();
+
             tempText.Add($"ClientName: {this.User.Identity.Name}");
+            tempText.Add($"PaymentMethod: {typeOfPayment}");
+            tempText.Add($"DeliverPrice: {taxes}");
             StringBuilder sb = new StringBuilder();
             foreach (var address in adddress)
             {
@@ -53,21 +75,21 @@ namespace BookStore_Inspiration.Controllers
             if (temporalEnterQuantity > 0)
             {
                 productFromDb.Quantity = temporalEnterQuantity;
-                tempText.Add($"Quantity: {order.ProductOrderViewModel.ClientsQuantity}");
+                tempText.Add($"Quantity: {model.ProductOrderViewModel.ClientsQuantity}");
                 tempText.Add($"Price: {productFromDb.Price}");
-                tempText.Add($"Total: {order.ProductOrderViewModel.ClientsQuantity * productFromDb.Price}");
+                tempText.Add($"Total: {model.ProductOrderViewModel.ClientsQuantity * productFromDb.Price}");
                 tempText.Add($"DateTimeOfPurchase: {DateTime.Now}");
                 tempText.Add($"***********************************");
             }
             else
             {
-              tempText.Add($"Quantity: NO");
+                tempText.Add($"Quantity: NO");
             }
 
             this._db.Products.Update(productFromDb);
             this._db.SaveChanges();
 
-            System.IO.File.AppendAllLines($"C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\OrderResult.txt", tempText );
+            System.IO.File.AppendAllLines($"C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\OrderResult.txt", tempText);
 
 
             return Redirect("/");
@@ -97,6 +119,16 @@ namespace BookStore_Inspiration.Controllers
                 Id = x.Id
             }).ToList();
 
+            var supplierViewModels = this._suppliersService.All().Select(x => new SupplierViewModel()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                IsDefault = x.IsDefault,
+                PriceToHome = x.PriceToHome,
+                PriceToOffice = x.PriceToOffice
+            }).ToList();
+         //   var supplierViewModels = _mapper.Map<IList<SupplierViewModel>>(suppliers);
+
             if (user.FirstName == null)
             {
                 user.FirstName = "XXX";
@@ -122,6 +154,7 @@ namespace BookStore_Inspiration.Controllers
                 OrderAddressesViewModel = addressViewModel.ToList(),
      
                 ProductOrderViewModel = productsView,
+                SuppliersViewModel = supplierViewModels
                
             };
 
