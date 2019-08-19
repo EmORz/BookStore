@@ -126,7 +126,7 @@ namespace BookStore_Inspiration.Controllers
 
                 if (result[i].Contains($"ClientName: {this.User.Identity.Name}") )
                 {
-                    for (int j = 0; j < 6; j++)
+                    for (int j = 0; j < 7; j++)
                     {
                         userListReceipts.Add(result[i+j]);
                     }
@@ -155,7 +155,7 @@ namespace BookStore_Inspiration.Controllers
                     var tempUser = userServices.GetUserByUsername(tempUsername);
                     if (tempUser!=null && tempUser.Id == id)
                     {
-                        for (int j = 0; j < 6; j++)
+                        for (int j = 0; j < 7; j++)
                         {
                             userListReceipts.Add(result[i + j]);
                         }

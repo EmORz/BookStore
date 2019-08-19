@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using BookStore.Data;
 using BookStore.Model;
 using BookStore.Model.Address;
@@ -28,10 +29,25 @@ namespace BookStore_Inspiration.Controllers
         [HttpPost]
         public IActionResult Create(CreateOrderViewModel order)
         {
+            var fullName = order.FullName;
+            var adddress = _addressesServices.GetAllAddresses().Where(x => x.Id==order.DeliveryAddressId);
+           
+           
+            var typeOfPayment = order.PaymentType.ToString();
             var productFromDb = _productServices.GetProductById(order.ProductOrderViewModel.ProductId);
             var temporalEnterQuantity = productFromDb.Quantity - order.ProductOrderViewModel.ClientsQuantity;
             var tempText = new List<string>();
             tempText.Add($"ClientName: {this.User.Identity.Name}");
+            StringBuilder sb = new StringBuilder();
+            foreach (var address in adddress)
+            {
+
+                sb.Append("Град: " + address.City.Name.ToString() + " " + address.City.Postcode);
+                sb.Append("Адрес: " + address.Street + " ");
+                sb.Append("№ " + address.BuildingNumber + " ");
+                sb.AppendLine("Допълнително описание: " + address.Description);
+            }
+            tempText.Add($"AddressForDeliver: {sb.ToString().Trim()}");
             tempText.Add($"ProductId: {productFromDb.Id}");
 
             if (temporalEnterQuantity > 0)
@@ -103,8 +119,10 @@ namespace BookStore_Inspiration.Controllers
 
                 FullName = fullName,
                 PhoneNumber = user.PhoneNumber,
-                OrderAddressesViewModel = addressViewModel,
-                ProductOrderViewModel = productsView
+                OrderAddressesViewModel = addressViewModel.ToList(),
+     
+                ProductOrderViewModel = productsView,
+               
             };
 
             return this.View(createOrderViewModel);

@@ -11,6 +11,7 @@ namespace BookStore.Services.Contracts
 
         void AddAddressToUser(string username, Address address);
 
-        IEnumerable<Address> GetAllUserAddresses(string name);
+        IEnumerable<Address> GetAllUserAddresses(string userName);
+        IEnumerable<Address> GetAllAddresses();
     }
 }

@@ -59,9 +59,15 @@ namespace BookStore.Services
             this.Db.SaveChanges();
         }
 
-        public IEnumerable<Address> GetAllUserAddresses(string name)
+        public IEnumerable<Address> GetAllUserAddresses(string userName)
         {
-            var allAddresses = this.Db.Addresses.Include(x => x.City).Where(x => x.BookStoreUser.UserName == name).ToList();
+            var allAddresses = this.Db.Addresses.Include(x => x.City).Where(x => x.BookStoreUser.UserName == userName).ToList();
+            return allAddresses;
+        }
+
+        public IEnumerable<Address> GetAllAddresses()
+        {
+            var allAddresses = Db.Addresses.Include(x => x.City).ToList();
             return allAddresses;
         }
     }
