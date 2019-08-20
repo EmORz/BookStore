@@ -25,7 +25,8 @@ namespace BookStore_Inspiration.Controllers
                 Price = x.Price,
                 Picture = x.Picture,
                 Publishing = x.Publishing,
-                Title = x.Title
+                Title = x.Title,
+                UsersCount = _userServices.GetAllUsers().Count
             }).ToList();
 
             AllProductIndex allP = new AllProductIndex()

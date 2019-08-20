@@ -1,74 +1,88 @@
 ﻿
+@using BookStore.Data
+@model BookStore_Inspiration.Controllers.AllProductIndex
+
 @{
-    ViewData["Title"] = "Films";
+    ViewData["Title"] = "Филми";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    var userName = @User.Identity.Name;
 
+}
 <h1>Филми</h1>
 
-@*<iframe width="420" height="345" src="https://www.youtube.com/embed/1akixU65dDY"> </iframe>
-<iframe width="420" height="345" src="https://www.youtube.com/embed/YGEZ_936HEY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-<iframe width="420" height="345" src="https://www.youtube.com/embed/Mq4m3yAoW8E" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>*@
+@*<iframe src="https://www.bookrix.com/book.html?bookID=hanax1_1362072616.7748110294#0,558,110661" width="800" height="600"></iframe>
+    <iframe src="https://www.bookrix.com/book.html?bookID=booklover96_1292190490.9736299515#0,558,16270" width="800" height="600"></iframe>
+    <iframe src="https://www.bookrix.com/book.html?bookID=ericthered38_1333495825.6803750992#0,558,92875" width="800" height="600"></iframe>*@
 
 
-    
+
+<div class="text-center">
+
     @if (User.IsInRole("User") && User.Identity.IsAuthenticated || User.Identity.IsAuthenticated)
     {
-    <hr class="hr-2 bg-primary">
-    <div id="products" class="mt-3">
-        @for (int i = 0; i < Model.Products.Count; i += 5)
-        {
-            <div class="products-row row d-flex justify-content-around my-5">
-                @for (int j = i; j < i + 5; j++)
-                {
-                    if (j < Model.Products.Count)
+        <hr class="hr-2 bg-primary">
+        <div id="products" class="mt-3">
+            @for (int i = 0; i < Model.Products.Count; i += 5)
+            {
+                <div class="products-row row d-flex justify-content-around my-5">
+                    @for (int j = i; j < i + 5; j++)
                     {
-                        <div class="product col-md-2">
+                        if (j < Model.Products.Count)
+                        {
+                            <div class="product col-md-2">
 
-                            <h5 class="text-center mt-3">@Model.Products[j].Id</h5>
-                            <h5 class="text-center mt-3">@Model.Products[j].Title</h5>
-                            <h5 class="text-center mt-3">@Model.Products[j].Author</h5>
-                            <h5 class="text-center mt-3">@Model.Products[j].Description</h5>
-                            <h5 class="text-center mt-3">@Model.Products[j].ISBN</h5>
-                            <h5 class="text-center mt-3">@Model.Products[j].Publishing</h5>
-                            <h5 class="text-center mt-3">@Model.Products[j].YearOfPublishing</h5>
-                            <h5 class="text-center mt-3">Price: $@Model.Products[j].Price.ToString("F2")</h5>
-                            <div class="image-holder d-flex justify-content-center">
-                          
-                                <img class="img-thumbnail product-image" src="@Model.Products[j].Picture" alt="...">
-                          
+                                <h5 class="text-center mt-3">ID @Model.Products[j].Id</h5>
+                                <h5 class="text-center mt-3">@Model.Products[j].Title</h5>
+                                <h5 class="text-center mt-3">@Model.Products[j].Publishing</h5>
+                                <h5 class="text-center mt-3">Price: $@Model.Products[j].Price.ToString("F2")</h5>
+
+                                <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Products[j].Id">
+                                    <div class="card-img-top img-wrapper">
+                                        <img class="img-responsive" src="@Model.Products[j].Picture" alt="@Model.Products[j].Title">
+                                    </div>
+                                </a>
+
+
+                                <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
+                                    @{
+                                        string urlOrder = Url.Action("Create", "Orders", new {id = @Model.Products[j].Id});
+                                        string urlDetails = Url.Action("Details", "Product", new {id = @Model.Products[j].Id});
+                                    }
+                            
+                                    <button type="button" class="btn btn-primary btn-md" onclick="location.href='@urlOrder'" >
+                                        Купи
+                                    </button>
+                            
+                                    <button type="button" class="btn btn-info btn-xs" onclick="location.href='@urlDetails'">
+                                        Детайли
+                                    </button>
+                            
+
+                                </div>
+
+
                             </div>
 
-
-                            <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
-                                @{
-                                    string url = Url.Action("Create", "Orders", new { id = @Model.Products[j].Id });
-                                }
-
-                                <button type="button" class="btn btn-primary btn-md" onclick="location.href='@url'">
-                                    Купи
-                                </button>
-
-
-
+                        }
+                        else
+                        {
+                            <div class="product col-md-2 empty">
                             </div>
-
-
-                        </div>
+                        }
 
                     }
-                    else
-                    {
-                        <div class="product col-md-2 empty">
-                        </div>
-                    }
+                </div>
+            }
 
-                }
-            </div>
-        }
-    </div>
+        </div>
     }
-    
+
+</div>
+
+
+
 
 
 

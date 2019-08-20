@@ -20,6 +20,10 @@
             <dl>
                 <dt>@Html.DisplayNameFor(model => model.Description)</dt>
                 <dd>@Html.DisplayFor(model => model.Description)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Price)</dt>
+                <dd>@Html.DisplayFor(model => model.Price)</dd>
+                <dt>@Html.DisplayNameFor(model => model.ISBN)</dt>
+                <dd>@Html.DisplayFor(model => model.ISBN)</dd>
                 <dt>@Html.DisplayNameFor(model => model.Author)</dt>
                 <dd>@Html.DisplayFor(model => model.Author)</dd>
                 <dt>@Html.DisplayNameFor(model => model.Publishing)</dt>
@@ -30,11 +34,6 @@
             <a asp-controller="Orders" asp-action="Create" asp-route-id="@Model.Id" asp-route-direct="true" class="btn btn-danger btn-lg btn-block"><i class="far fa-credit-card"></i> Купи</a>
         </div>
     </div>
-    @*<div class="mt-4">
-        <div class="mb-2">
-            <a asp-controller="Orders" asp-action="Create" asp-route-id="@Model.Id" asp-route-direct="true" class="btn btn-danger btn-lg btn-block"><i class="far fa-credit-card"></i> Купи</a>
-        </div>
-     
-    </div>*@
+
 </div>
 
