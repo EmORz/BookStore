@@ -39,10 +39,15 @@ namespace BookStore_Inspiration.Controllers
             var DetailsProductViewModel = new DetailsProductViewModel()
             {
                 Id = product.Id,
-                Name = product.Title,
+                Title = product.Title,
                 Price = product.Price,
                 Quantity = product.Quantity,
-                ProductTypes = product.ProductTypes.ToString()
+                ProductTypes = product.ProductTypes.ToString(),
+                Author = product.Author,
+                Description = product.Description,
+                ISBN = product.ISBN,
+                Picture = product.Picture,
+                Publishing = product.Publishing
             };
 
             return View(DetailsProductViewModel);

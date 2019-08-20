@@ -1,5 +1,5 @@
 ﻿@using BookStore.Data
-@model BookStore_Inspiration.ViewModels.Product.Home.AllProductsHomeViewModel
+@model BookStore_Inspiration.Controllers.AllProductIndex
 
 
 
@@ -50,17 +50,23 @@
 
                         <h5 class="text-center mt-3">ID @Model.Products[j].Id</h5>
                         <h5 class="text-center mt-3">@Model.Products[j].Title</h5>
-                        <h5 class="text-center mt-3">@Model.Products[j].Author</h5>
-                        <h5 class="text-center mt-3">@Model.Products[j].Description</h5>
-                        <h5 class="text-center mt-3">@Model.Products[j].ISBN</h5>
+                        @*<h5 class="text-center mt-3">@Model.Products[j].Author</h5>*@
+                        @*<h5 class="text-center mt-3">@Model.Products[j].Description</h5>*@
+                        @*<h5 class="text-center mt-3">@Model.Products[j].ISBN</h5>*@
                         <h5 class="text-center mt-3">@Model.Products[j].Publishing</h5>
-                        <h5 class="text-center mt-3">@Model.Products[j].YearOfPublishing</h5>
+                        @*<h5 class="text-center mt-3">@Model.Products[j].YearOfPublishing</h5>*@
                         <h5 class="text-center mt-3">Price: $@Model.Products[j].Price.ToString("F2")</h5>
-                        <div class="image-holder d-flex justify-content-center">
+                        @*<div class="image-holder d-flex justify-content-center">
                           
-                                <img class="img-thumbnail product-image" src="@Model.Products[j].Picture" alt="...">
+                            <img class="img-thumbnail product-image" src="@Model.Products[j].Picture" alt="...">
                           
-                        </div>
+                        </div>*@
+                        
+                        <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Products[j].Id">
+                            <div class="card-img-top zoom">
+                                <img src="@Model.Products[j].Picture" alt="@Model.Products[j].Title">
+                            </div>
+                        </a>
                         
                         
                         <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">

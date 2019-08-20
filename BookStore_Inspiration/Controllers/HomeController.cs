@@ -1,4 +1,5 @@
-﻿using BookStore.Services.Contracts;
+﻿using System.Collections.Generic;
+using BookStore.Services.Contracts;
 using BookStore_Inspiration.ViewModels.Product.Home;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -17,31 +18,72 @@ namespace BookStore_Inspiration.Controllers
         }
         public IActionResult Index()
         {
-            var allProducts = _productServices.GetAllProducts().Select(product => new ProductHomeViewModel
+            var allProductsN = _productServices.GetAllProducts().Select(x => new ProductIndexHomeViewModel
             {
-                Author = product.Author,
-                Description = product.Description,
-                Id = product.Id,
-                ISBN = product.ISBN,
-                Price = product.Price,
-                ProductTypes = product.ProductTypes.ToString(),
-                Publishing = product.Publishing,
-                Quantity = product.Quantity,
-                Title = product.Title,
-                YearOfPublishing = product.YearOfPublishing,
-                UsersCount = _userServices.GetAllUsers().Count,
-                Picture = product.Picture
+                Id = x.Id,
+                Description = x.Description,
+                Price = x.Price,
+                Picture = x.Picture,
+                Publishing = x.Publishing,
+                Title = x.Title
             }).ToList();
 
-            AllProductsHomeViewModel all = new AllProductsHomeViewModel()
+            AllProductIndex allP = new AllProductIndex()
             {
-                Products = allProducts
+                Products = allProductsN
             };
 
-            return View(all);
+
+            //var allProducts = _productServices.GetAllProducts().Select(product => new ProductHomeViewModel
+            //{
+            //    Author = product.Author,
+            //    Description = product.Description,
+            //    Id = product.Id,
+            //    ISBN = product.ISBN,
+            //    Price = product.Price,
+            //    ProductTypes = product.ProductTypes.ToString(),
+            //    Publishing = product.Publishing,
+            //    Quantity = product.Quantity,
+            //    Title = product.Title,
+            //    YearOfPublishing = product.YearOfPublishing,
+            //    UsersCount = _userServices.GetAllUsers().Count,
+            //    Picture = product.Picture
+            //}).ToList();
+
+            //AllProductsHomeViewModel all = new AllProductsHomeViewModel()
+            //{
+            //    Products = allProducts
+            //};
+
+            return View(allP);
         }
 
        
         
+    }
+
+    public class AllProductIndex
+    {
+        public List<ProductIndexHomeViewModel> Products { get; set; } = new List<ProductIndexHomeViewModel>();
+    }
+
+    public class ProductIndexHomeViewModel
+    {
+        public int Id { get; set; }
+
+        public string Title { get; set; }
+
+
+        public decimal Price { get; set; }
+
+        //???
+        public string Description { get; set; }
+
+
+        public string Publishing { get; set; }
+
+        public string Picture { get; set; }
+
+        public int UsersCount { get; set; }
     }
 }

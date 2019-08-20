@@ -7,17 +7,28 @@ namespace BookStore_Inspiration.ViewModels
     {
         public int Id { get; set; }
 
-        [Display(Name = "Име")]
-        public string Name { get; set; }
+        public string Title { get; set; }
 
-        [Display(Name = "Вид на продукта")]
         public string ProductTypes { get; set; }
 
-        [Display(Name = "Цена")]
         public decimal Price { get; set; }
 
-        [Display(Name = "Количество")]
+        //???
         public int Quantity { get; set; }
+
+        public string Description { get; set; }
+
+        public string Author { get; set; }
+
+        public string Publishing { get; set; }
+
+        public string ISBN { get; set; }
+
+        public string YearOfPublishing { get; set; }
+
+        public int UsersCount { get; set; }
+
+        public string Picture { get; set; }
 
     }
 }
