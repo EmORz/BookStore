@@ -20,7 +20,7 @@ namespace BookStore.Services.Contracts
 
         bool EditProduct(Product product);
 
-        IEnumerable<SearchProductViewModel> GetProductsBySearch(string searchString="0");
+        IEnumerable<Product> GetProductsBySearch(string searchString);
 
         void Delete(int id);
 

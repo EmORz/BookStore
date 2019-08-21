@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BookStore.Services;
+﻿using BookStore.Data;
+using BookStore.Model;
 using BookStore.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Authorization = System.Net.Authorization;
-using SearchProductViewModel = BookStore_Inspiration.ViewModels.Product.SearchBox.SearchProductViewModel;
+using Microsoft.VisualStudio.Services.Common;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using BookStore_Inspiration.ViewModels.Search;
 
 namespace BookStore_Inspiration.Controllers
 {
@@ -14,11 +15,17 @@ namespace BookStore_Inspiration.Controllers
     {
         private readonly IUserServices userServices;
         private readonly IProductServices _productServices;
+        private readonly BookStoreDbContext _db;
+        private readonly IAddressesServices _addressesServices;
+        private readonly IOrderServices _orderServices;
 
-        public InfoController(IUserServices userServices, IProductServices productServices)
+        public InfoController(IUserServices userServices, IProductServices productServices, BookStoreDbContext db, IAddressesServices addressesServices, IOrderServices orderServices)
         {
             this.userServices = userServices;
             _productServices = productServices;
+            _db = db;
+            _addressesServices = addressesServices;
+            _orderServices = orderServices;
         }
 
         public IActionResult UserDetails(string username)
@@ -33,6 +40,17 @@ namespace BookStore_Inspiration.Controllers
 
         public IActionResult Contact()
         {
+        //    var user = userServices.GetUserByUsername(User.Identity.Name);
+        //    var order = this._orderServices.GetProcessingOrder(this.User.Identity.Name);
+        //    var adddress = _addressesServices.GetAllAddresses().Where(x => x.Id == order.DeliveryAddressId);
+
+        //    //var address = _addressesServices.GetAllAddresses();
+        //    var userPosition = "";
+        //    if (user != null)
+        //    {
+           //     userPosition = adddress.GetEnumerator().Current.City.Name;
+
+        //    }
             return View();
         }
 
@@ -46,25 +64,20 @@ namespace BookStore_Inspiration.Controllers
             return View();
         }
 
-        //[HttpGet]
-
-        //public IActionResult SearchBox()
-        //{
-
-        //    return View();
-        //}
-
         [HttpGet]
+
         public IActionResult SearchBox()
         {
-            SearchProductViewModel inputSearch = new SearchProductViewModel();
-            var search = _productServices.GetProductsBySearch(inputSearch.Input).ToList();
 
-            SearchResultViewModels result = new SearchResultViewModels()
-            {
-                Result = search
-            };
+            return View();
+        }
 
+        [HttpPost]
+        public IActionResult SearchBox(Input input)
+        {
+            var search = _productServices.GetProductsBySearch(input.InputStr).ToList();
+
+       
             List<string> temp = new List<string>();
             foreach (var model in search)
             {
@@ -77,22 +90,34 @@ namespace BookStore_Inspiration.Controllers
                 temp.Add(isbn);
                 temp.Add(publishing);
             }
+            temp.Add("Търсенето бе извършено на "+DateTime.Now);
             System.IO.File.AppendAllLines("C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\SearchResult.txt", temp);
 
-            //return this.View(search);
 
             return Redirect("Result");
         }
 
         [HttpGet]
         //todo search box Controller
-        public IActionResult Result(SearchResultViewModels result)
+        public IActionResult Result()
         {
-            SearchResultViewModels res = result;
 
-          //  var result = System.IO.File.ReadAllLines("C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\SearchResult.txt");
+           
+
+           var result = System.IO.File.ReadAllLines("C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\SearchResult.txt");
 
             return View(result);
+        }
+
+        [HttpGet]
+        //todo search box Controller
+        public IActionResult DeleteHistoty()
+        {
+
+
+            System.IO.File.Delete("C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\SearchResult.txt");
+
+            return Redirect("/");
         }
 
         [HttpGet]

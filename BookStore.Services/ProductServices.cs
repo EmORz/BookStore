@@ -140,19 +140,12 @@ namespace BookStore.Services
 
         //todo search box service
         //заглавие, автор, ISBN или търсите книга от определено издателство
-        public IEnumerable<SearchProductViewModel> GetProductsBySearch(string searchString = "0")
+        public IEnumerable<Product> GetProductsBySearch(string searchString)
         {
 
             var tokens = searchString.Trim().ToLower();
-            var productsAll = this.context.Products.Select(x => new SearchProductViewModel
-            {
-                Title = x.Title,
-                Author = x.Author,
-                ISBN = x.ISBN,
-                Publishing = x.Publishing
-
-            }).ToList();
-            var searchResult = new List<SearchProductViewModel>();
+            var productsAll = this.context.Products.ToList();
+            var searchResult = new List<Product>();
             foreach (var product in productsAll)
             {
                 if (product.Author == null)
@@ -200,23 +193,5 @@ namespace BookStore.Services
             this.context.Products.Remove(productFromDb);
             this.context.SaveChanges();
         }
-    }
-
-    public class SearchResultViewModels
-    {
-        public List<SearchProductViewModel> Result { get; set; } = new List<SearchProductViewModel>();
-    }
-
-    public class SearchProductViewModel
-    {
-        public string Title { get; set; }
-
-        public string Author { get; set; }
-
-        public string Publishing { get; set; }
-
-        public string ISBN { get; set; }
-
-        public string Input { get; set; }
     }
 }
