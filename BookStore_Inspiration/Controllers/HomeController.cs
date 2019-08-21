@@ -16,9 +16,10 @@ namespace BookStore_Inspiration.Controllers
             _productServices = productServices;
             _userServices = userServices;
         }
-        public IActionResult Index()
+        public IActionResult Index([FromQuery]string criteria = null)
         {
-            var allProductsN = _productServices.GetAllProducts().Select(x => new ProductIndexHomeViewModel
+   
+            var allProductsN =_productServices.GetAllProducts(criteria).Select(x => new ProductIndexHomeViewModel
             {
                 Id = x.Id,
                 Description = x.Description,
@@ -28,6 +29,8 @@ namespace BookStore_Inspiration.Controllers
                 Title = x.Title,
                 UsersCount = _userServices.GetAllUsers().Count
             }).ToList();
+
+            this.ViewData["criteria"] = criteria;
 
             AllProductIndex allP = new AllProductIndex()
             {
@@ -66,25 +69,5 @@ namespace BookStore_Inspiration.Controllers
     public class AllProductIndex
     {
         public List<ProductIndexHomeViewModel> Products { get; set; } = new List<ProductIndexHomeViewModel>();
-    }
-
-    public class ProductIndexHomeViewModel
-    {
-        public int Id { get; set; }
-
-        public string Title { get; set; }
-
-
-        public decimal Price { get; set; }
-
-        //???
-        public string Description { get; set; }
-
-
-        public string Publishing { get; set; }
-
-        public string Picture { get; set; }
-
-        public int UsersCount { get; set; }
     }
 }

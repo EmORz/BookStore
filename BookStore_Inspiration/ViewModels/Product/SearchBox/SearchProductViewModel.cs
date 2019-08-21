@@ -2,7 +2,7 @@
 {
     public class SearchProductViewModel
     {
-        public string Input { get; set; }
+        public string Input { get; set; }= "0";
 
     }
 }

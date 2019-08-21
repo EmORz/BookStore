@@ -46,17 +46,18 @@ namespace BookStore_Inspiration.Controllers
             return View();
         }
 
-        [HttpGet]
+        //[HttpGet]
 
+        //public IActionResult SearchBox()
+        //{
+
+        //    return View();
+        //}
+
+        [HttpGet]
         public IActionResult SearchBox()
         {
-
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult SearchBox(SearchProductViewModel inputSearch)
-        {
+            SearchProductViewModel inputSearch = new SearchProductViewModel();
             var search = _productServices.GetProductsBySearch(inputSearch.Input).ToList();
 
             SearchResultViewModels result = new SearchResultViewModels()
@@ -78,14 +79,18 @@ namespace BookStore_Inspiration.Controllers
             }
             System.IO.File.AppendAllLines("C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\SearchResult.txt", temp);
 
+            //return this.View(search);
+
             return Redirect("Result");
         }
 
         [HttpGet]
         //todo search box Controller
-        public IActionResult Result()
+        public IActionResult Result(SearchResultViewModels result)
         {
-            var result = System.IO.File.ReadAllLines("C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\SearchResult.txt");
+            SearchResultViewModels res = result;
+
+          //  var result = System.IO.File.ReadAllLines("C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\SearchResult.txt");
 
             return View(result);
         }

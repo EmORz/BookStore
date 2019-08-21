@@ -31,6 +31,9 @@ namespace BookStore.Model
 
         public string Picture { get; set; }
 
+
+        public string YouTubeLink { get; set; }
+
         public virtual ICollection<Image> Images { get; set; }
 
         public virtual ICollection<Book> Books { get; set; }

@@ -10,6 +10,11 @@ namespace BookStore.Services
 {
     public class ProductServices : IProductServices
     {
+        private const string PriceLowestToHighestProductOrderCriteria = "price-lowest-to-highest";
+
+        private const string PriceHighestToLowestProductOrderCriteria = "price-highest-to-lowest";
+
+
         private readonly BookStoreDbContext context;
 
         public ProductServices(BookStoreDbContext context)
@@ -17,9 +22,46 @@ namespace BookStore.Services
             this.context = context;
         }
 
-        public bool Create(string Title, string productType, decimal price, int quantity, string description, string author, string publishng, string yearOfPublishing, string picture)
+
+        private IQueryable<Product> GetAllProductsByPriceAscending()
+        {
+            return this.context.Products.OrderBy(product => product.Price);
+        }
+
+        private IQueryable<Product> GetAllProductsByPriceDescending()
+        {
+            return this.context.Products.OrderByDescending(product => product.Price);
+        }
+
+        //todo its not work
+        public IQueryable<Product> GetAllProducts(string criteria = null)
+        {
+            //todo add viewModel!!!
+
+            switch (criteria)
+            {
+                case PriceLowestToHighestProductOrderCriteria: return this.GetAllProductsByPriceAscending();
+                case PriceHighestToLowestProductOrderCriteria: return this.GetAllProductsByPriceDescending();
+            }
+
+            return this.context.Products;
+        }
+
+        public bool Create(string Title, string productType, decimal price, int quantity, string description, string author, string publishng, string yearOfPublishing, string picture, string youTubeLink)
         {
             var productTypeTemp = Enum.TryParse<ProductTypes>(productType, true, out ProductTypes resultProductType);
+
+            //https://youtu.be/TNofc-YY4Pc
+            var youTubeRender = youTubeLink.Split("/");
+            var tempLinkKey = "";
+            if (youTubeRender.Length != 4)
+            {
+                tempLinkKey = "xx";
+            }
+            else
+            {
+                tempLinkKey = youTubeRender[3];
+            }
 
             Product temp = new Product()
             {
@@ -31,7 +73,9 @@ namespace BookStore.Services
                 Description = description,
                 Publishing = publishng,
                 YearOfPublishing = yearOfPublishing,
-                Picture = picture
+                Picture = picture,
+                YouTubeLink = tempLinkKey
+
 
             };
 
@@ -96,7 +140,7 @@ namespace BookStore.Services
 
         //todo search box service
         //заглавие, автор, ISBN или търсите книга от определено издателство
-        public IEnumerable<SearchProductViewModel> GetProductsBySearch(string searchString)
+        public IEnumerable<SearchProductViewModel> GetProductsBySearch(string searchString = "0")
         {
 
             var tokens = searchString.Trim().ToLower();
@@ -111,7 +155,7 @@ namespace BookStore.Services
             var searchResult = new List<SearchProductViewModel>();
             foreach (var product in productsAll)
             {
-                if (product.Author==null)
+                if (product.Author == null)
                 {
                     product.Author = "xxx";
                 }
@@ -127,7 +171,7 @@ namespace BookStore.Services
                 {
                     product.Title = "xxx";
                 }
-              
+
                 var check = product?.Title.ToLower() == tokens
                             || product?.Author.ToLower() == tokens
                             || product?.ISBN.ToLower() == tokens
@@ -172,5 +216,7 @@ namespace BookStore.Services
         public string Publishing { get; set; }
 
         public string ISBN { get; set; }
+
+        public string Input { get; set; }
     }
 }

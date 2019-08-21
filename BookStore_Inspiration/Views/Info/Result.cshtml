@@ -1,4 +1,4 @@
-﻿
+﻿@model BookStore.Services.SearchResultViewModels
 
 @{
     ViewData["Title"] = "Резултат от търсенето";
@@ -10,9 +10,9 @@
 
 
 
-@foreach (var r in Model)
+@foreach (var r in Model.Result)
 {
-    <h2>@r</h2>
+    <h2>@r.Title</h2>
    
 }
 

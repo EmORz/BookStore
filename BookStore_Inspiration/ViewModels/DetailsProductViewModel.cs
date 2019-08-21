@@ -30,5 +30,7 @@ namespace BookStore_Inspiration.ViewModels
 
         public string Picture { get; set; }
 
+        public string YouTubeLink { get; set; }
+
     }
 }

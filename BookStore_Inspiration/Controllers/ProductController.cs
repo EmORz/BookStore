@@ -19,6 +19,8 @@ namespace BookStore_Inspiration.Controllers
         private readonly IUserServices _userServices;
         private readonly ICloudinaryServices _cloudinaryService;
 
+        private const string  youTubeEmbed = "https://www.youtube.com/embed/";
+
         public ProductController(IProductServices productServices,
             IImagesService imagesService, IUserServices userServices, ICloudinaryServices cloudinaryService)
         {
@@ -35,6 +37,17 @@ namespace BookStore_Inspiration.Controllers
             {
                 return NotFound();
             }
+            var link = "";
+
+            if (product.YouTubeLink=="xx")
+            {
+                link = product.YouTubeLink;
+            }
+            else
+            {
+                link = youTubeEmbed + product.YouTubeLink;
+            }
+
 
             var DetailsProductViewModel = new DetailsProductViewModel()
             {
@@ -47,7 +60,8 @@ namespace BookStore_Inspiration.Controllers
                 Description = product.Description,
                 ISBN = product.ISBN,
                 Picture = product.Picture,
-                Publishing = product.Publishing
+                Publishing = product.Publishing,
+                YouTubeLink = link
             };
 
             return View(DetailsProductViewModel);
@@ -73,6 +87,7 @@ namespace BookStore_Inspiration.Controllers
                 Publishing = product.Publishing,
                 Quantity = product.Quantity,
                 YearOfPublishing = product.YearOfPublishing,
+                youTubeLink = product.YouTubeLink
    
             };
             return this.View(model);
@@ -91,6 +106,18 @@ namespace BookStore_Inspiration.Controllers
                 model.Title);
             Enum.TryParse<ProductTypes>(model.ProductTypes, true, out ProductTypes result);
 
+            var youTubeRender = model.youTubeLink.Split("/");
+            var tempLinkKey = "";
+            if (youTubeRender.Length != 4)
+            {
+                tempLinkKey = "xx";
+            }
+            else
+            {
+                tempLinkKey = youTubeRender[3];
+            }
+
+
             var product = new Product()
             {
                 Id = model.Id,
@@ -101,7 +128,8 @@ namespace BookStore_Inspiration.Controllers
                 Author = model.Author,
                 Description = model.Description,
                 ISBN = model.ISBN,
-                Picture = pictureUrl
+                Picture = pictureUrl,
+                YouTubeLink = tempLinkKey
             };
             this.productServices.EditProduct(product);
 
@@ -168,7 +196,7 @@ namespace BookStore_Inspiration.Controllers
 
             productServices.Create(createProduct.Title, createProduct.ProductTypes, createProduct.Price,
                 createProduct.Quantity, createProduct.Description, createProduct.Author, createProduct.Publishing,
-                createProduct.YearOfPublishing, pictureUrl);
+                createProduct.YearOfPublishing, pictureUrl, createProduct.YouTubeLink);
             return this.Redirect("/");
         }
 

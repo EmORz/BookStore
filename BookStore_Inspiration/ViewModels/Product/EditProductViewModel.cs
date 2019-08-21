@@ -27,5 +27,7 @@ namespace BookStore_Inspiration.ViewModels.Product
         public string YearOfPublishing { get; set; }
 
         public IFormFile Picture { get; set; }
+
+        public string youTubeLink { get; set; }   
     }
 }

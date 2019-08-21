@@ -25,5 +25,7 @@ namespace BookStore_Inspiration.ViewModels.Product
 
         public IFormFile Picture { get; set; }
 
+        public string YouTubeLink { get; set; }
+
     }
 }

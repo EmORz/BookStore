@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using BookStore.Model;
 
 namespace BookStore.Services.Contracts
 {
     public interface IProductServices
     {
-        bool Create(string Title, string productType, decimal price, int quantity, string description, string author, string publishng, string yearOfPublishing, string picture);
+        IQueryable<Product> GetAllProducts(string criteria = null);
+
+        bool Create(string Title, string productType, decimal price, int quantity, string description, string author, string publishng, string yearOfPublishing, string picture, string youTubeLink);
 
         void AddProduct(Product product);
 
@@ -17,7 +20,7 @@ namespace BookStore.Services.Contracts
 
         bool EditProduct(Product product);
 
-        IEnumerable<SearchProductViewModel> GetProductsBySearch(string searchString);
+        IEnumerable<SearchProductViewModel> GetProductsBySearch(string searchString="0");
 
         void Delete(int id);
 
