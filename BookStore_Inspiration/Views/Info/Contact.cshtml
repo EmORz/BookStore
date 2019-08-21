@@ -1,8 +1,10 @@
 ﻿@using BookStore.Data
 @using BookStore.Services
+@model BookStore_Inspiration.ViewModels.GetAddress
 
-
-
+@{
+    var address = Model.Address;
+}
 
 @{
     ViewData["Title"] = "Contact";
@@ -15,9 +17,11 @@
 
 <h2>Интернет книжарница</h2>
 <div>
-    <p>Център за обслужване на клиенти
+    <p>
+        Център за обслужване на клиенти
         тел. 084 440 40 81, 084 480 48 80
-        E-mail: service@inspiration.bg</p>
+        E-mail: service@inspiration.bg
+    </p>
 </div>
 
 
@@ -28,27 +32,46 @@
     @if (DateTime.Now.DayOfWeek != DayOfWeek.Saturday && DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
     {
         @if (DateTime.Now.Hour >= 9 && DateTime.Now.Hour < 17)
-         {
-             isOpen = "ОТВОРЕНО";
-         }
+        {
+            isOpen = "ОТВОРЕНО";
+        }
     }
     <div>
         <h2>
             <b>Работно време</b> :
         </h2>
         <p>
-            9.00 - 17.00 ч. - понеделник до петък <h1>@isOpen</h1> 
+            9.00 - 17.00 ч. - понеделник до петък <h1>@isOpen</h1>
         </p>
     </div>
-    
+
 </div>
 
 
+@{
+    var link = $"https://www.google.com/maps/dir/{address}/@43.5276236,26.520341,16z/data=!4m8!4m7!1m0!1m5!1m1!1s0x40af0e86d16cde67:0x65e0237e5731aa47!2m2!1d26.5267602!2d43.5269361?hl=bg";
+    //var newLink = $"https://www.google.com/maps/embed/v1/directions?origin=place_id:ChIJZ95s0YYOr0ARR6oxV34j4GU&destination={link}&key=..."; 
 
+}
 
+@*<iframe width="600" height="450" frameborder="0" style="border:0"
+        src="https://www.google.com/maps/embed/v1/directions?origin=...&destination=...&key=..." allowfullscreen></iframe> Its good, but unfortuanly is pay $$
+    
+    https://developers.google.com/maps/documentation/embed/start?hl=bg
+    
+    *@
 
 
 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d385.8819870632953!2d26.52640124686279!3d43.52674131364883!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40af0e86d16cde67%3A0x65e0237e5731aa47!2z0KDQtdCz0LjQvtC90LDQu9C90LAg0LHQuNCx0LvQuNC-0YLQtdC60LAg0J_RgNC-0YQuINCR0L7Rj9C9INCf0LXQvdC10LIg0KDQsNC30LPRgNCw0LQ!5e0!3m2!1sbg!2sbg!4v1561963978132!5m2!1sbg!2sbg" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
-<br/>
+<br />
 <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScK9OCKP18NZW1IhyVbRWoe6e1ISMZJaDL1nFr5w6R_rXhGSg/viewform?embedded=true" width="1024" height="672" frameborder="0" marginheight="0" marginwidth="0">Зарежда се…</iframe>
+<br />
+<p>
+    Виж относително разстояние до офиса ни, според данните, които сте предоставили
+    <a href="@link">Link</a>
+
+</p>
+
+
+
 

@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.Services.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BookStore_Inspiration.ViewModels;
 using BookStore_Inspiration.ViewModels.Search;
 
 namespace BookStore_Inspiration.Controllers
@@ -40,18 +41,30 @@ namespace BookStore_Inspiration.Controllers
 
         public IActionResult Contact()
         {
-        //    var user = userServices.GetUserByUsername(User.Identity.Name);
-        //    var order = this._orderServices.GetProcessingOrder(this.User.Identity.Name);
-        //    var adddress = _addressesServices.GetAllAddresses().Where(x => x.Id == order.DeliveryAddressId);
+            GetAddress addressViewMOdel = new GetAddress();
+            var street = "ьь";
+            var town = "ьь";
+            var fullAddress = "ьь ьь";
 
-        //    //var address = _addressesServices.GetAllAddresses();
-        //    var userPosition = "";
-        //    if (user != null)
-        //    {
-           //     userPosition = adddress.GetEnumerator().Current.City.Name;
+            var user = userServices.GetUserByUsername(User.Identity.Name);
+            var order = this._orderServices.GetProcessingOrder(this.User.Identity.Name);
+            if (order !=null)
+            {
+                var adddress = _addressesServices.GetAllAddresses().Where(x => x.Id == order.DeliveryAddressId);
+                foreach (var address in adddress)
+                {
+                    street = address.Street + " " + address.BuildingNumber;
+                    town = address.City.Name + " " + address.City.Postcode;
+                    fullAddress = street + " " + town;
+                    addressViewMOdel.Address = fullAddress;
+                }
+            }
+            else
+            {
+                addressViewMOdel.Address = fullAddress;
+            }
 
-        //    }
-            return View();
+            return View(addressViewMOdel);
         }
 
         public IActionResult PaymentMethods()
