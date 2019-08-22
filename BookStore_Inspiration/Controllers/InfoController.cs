@@ -44,7 +44,7 @@ namespace BookStore_Inspiration.Controllers
             GetAddress addressViewMOdel = new GetAddress();
             var street = "ьь";
             var town = "ьь";
-            var fullAddress = "ьь ьь";
+            var fullAddress = "в Системата няма данни за Вашият адрес.";
 
             var user = userServices.GetUserByUsername(User.Identity.Name);
             var order = this._orderServices.GetProcessingOrder(this.User.Identity.Name);

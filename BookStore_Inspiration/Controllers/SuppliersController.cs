@@ -6,6 +6,8 @@ using AutoMapper;
 using BookStore.Model;
 using BookStore.Services.Contracts;
 using BookStore_Inspiration.ViewModels.Orders.Create;
+using BookStore_Inspiration.ViewModels.Suppliers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore_Inspiration.Controllers
@@ -21,11 +23,13 @@ namespace BookStore_Inspiration.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return this.View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Create(CreateSupplierViewModel model)
         {
@@ -39,22 +43,25 @@ namespace BookStore_Inspiration.Controllers
             return this.RedirectToAction(nameof(All));
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult All()
         {
             var supplierViewModels = this.suppliersService.All().Select(x => new SupplierViewModel()
             {
+
                Name = x.Name,
                PriceToOffice = x.PriceToOffice,
                PriceToHome = x.PriceToHome,
-               IsDefault = x.IsDefault
+               IsDefault = x.IsDefault,
+               Id = x.Id
                 
             }).ToList();
 
-            //var supplierViewModels = mapper.Map<IList<SupplierViewModel>>(suppliers);
 
             return View(supplierViewModels);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult MakeDafault(int id)
         {
             this.suppliersService.MakeDafault(id);
@@ -62,46 +69,43 @@ namespace BookStore_Inspiration.Controllers
             return this.RedirectToAction(nameof(All));
         }
 
-        //public IActionResult Delete(int id)
-        //{
-        //    this.suppliersService.Delete(id);
 
-        //    return this.RedirectToAction(nameof(All));
-        //}
+        [Authorize(Roles = "Admin")]
+        public IActionResult Delete(int id)
+        {
+            this.suppliersService.Delete(id);
 
-        //public IActionResult Edit(int id)
-        //{
-        //    Supplier supplier = this.suppliersService.GetSupplierById(id);
+            return this.RedirectToAction(nameof(All));
+        }
 
-        //    var editViewModel = mapper.Map<EditSupplierViewModel>(supplier);
+        [Authorize(Roles = "Admin")]
+        public IActionResult Edit(int id)
+        {
+            Supplier supplier = this.suppliersService.GetSupplierById(id);
+            
+            var editViewModel = new EditSupplierViewModel()
+            {
+                Id = supplier.Id,
+                Name = supplier.Name,
+                PriceToOffice = supplier.PriceToOffice,
+                PriceToHome = supplier.PriceToHome
+            };
 
-        //    return this.View(editViewModel);
-        //}
+            return this.View(editViewModel);
+        }
 
-        //[HttpPost]
-        //public IActionResult Edit(EditSupplierViewModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return this.View(model);
-        //    }
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public IActionResult Edit(EditSupplierViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
 
-        //    this.suppliersService.Edit(model.Id, model.Name, model.PriceToHome, model.PriceToOffice);
+            this.suppliersService.Edit(model.Id, model.Name, model.PriceToHome, model.PriceToOffice);
 
-        //    return this.RedirectToAction(nameof(All));
-        //}
-    }
-
-    public class CreateSupplierViewModel
-    {
-
-        public string Name { get; set; }
-
-        public decimal PriceToHome { get; set; }
-
-
-        public decimal PriceToOffice { get; set; }
-
-        public bool IsDefault { get; set; }
+            return this.RedirectToAction(nameof(All));
+        }
     }
 }

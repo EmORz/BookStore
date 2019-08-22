@@ -8,6 +8,7 @@ using BookStore.Model;
 using BookStore.Model.Address;
 using BookStore.Services.Contracts;
 using BookStore_Inspiration.ViewModels.Orders.Create;
+using BookStore_Inspiration.ViewModels.Suppliers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore_Inspiration.Controllers

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using BookStore.Model.Enum;
+using BookStore_Inspiration.ViewModels.Suppliers;
 
 namespace BookStore_Inspiration.ViewModels.Orders.Create
 {
@@ -32,40 +33,5 @@ namespace BookStore_Inspiration.ViewModels.Orders.Create
         public string LastName { get; set; }
 
         public string PhoneNumber { get; set; }
-    }
-
-    public class ProductOrderViewModel
-    {
-        public int ProductId { get; set; }
-        public string Title { get; set; }
-
-        public decimal Price { get; set; }
-
-        public int ClientsQuantity { get; set; } = 1;
-    }
-
-    public class OrderAdressViewModel
-    {
-        public int Id { get; set; }
-
-        public string Street { get; set; }
-
-        public string Description { get; set; }
-
-        public string CityName { get; set; }
-
-        public string CityPostcode { get; set; }
-    }
-    public class SupplierViewModel
-    {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
-        public decimal PriceToHome { get; set; }
-
-        public decimal PriceToOffice { get; set; }
-
-        public bool IsDefault { get; set; }
     }
 }

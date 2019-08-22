@@ -1,4 +1,4 @@
-﻿@model IList<BookStore_Inspiration.ViewModels.Orders.Create.SupplierViewModel>
+﻿@model IList<BookStore_Inspiration.ViewModels.Suppliers.SupplierViewModel>
 @{
     ViewData["Title"] = "Всички доставчици";
 }
@@ -41,7 +41,7 @@
                         }
                         else
                         {
-                            @*<div class="mr-2">
+                            <div class="mr-2">
                                 <a asp-controller="Suppliers" asp-action="MakeDafault" asp-route-id="@supplier.Id" class="btn btn-primary btn-sm mobile-fondsize-11">По подразбиране</a>
                             </div>
                             <div class="mr-2">
@@ -49,7 +49,7 @@
                             </div>
                             <div class="mr-2">
                                 <a asp-controller="Suppliers" asp-action="Delete" asp-route-id="@supplier.Id" class="btn btn-outline-danger btn-sm mobile-fondsize-11">Изтрий</a>
-                            </div>*@
+                            </div>
                         }
                     </td>
                 </tr>
