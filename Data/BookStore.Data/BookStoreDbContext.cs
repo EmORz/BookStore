@@ -18,12 +18,13 @@ namespace BookStore.Data
         public DbSet<Personal> Personals { get; set; }
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<Genre> Genres { get; set; }
 
         public DbSet<Supplier> Suppliers { get; set; }
 
         //public DbSet<Music> Musics { get; set; }
         //public DbSet<Film> Films { get; set; }
-        //public DbSet<Image> Images { get; set; }
+ 
         //public DbSet<Other> Others { get; set; }
         //public DbSet<Book> Books { get; set; }
         public BookStoreDbContext(DbContextOptions<BookStoreDbContext> options): base(options)

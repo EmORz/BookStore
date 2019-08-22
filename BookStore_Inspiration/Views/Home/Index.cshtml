@@ -1,17 +1,8 @@
-﻿
-
-@using BookStore.Data
-@model BookStore_Inspiration.Controllers.AllProductIndex
-
-
-
-@using BookStore.Services.Contracts
-@using BookStore_Inspiration.ViewModels.User
+﻿@model BookStore_Inspiration.Controllers.AllProductIndex
 
 @{
     ViewData["Title"] = "Home Page"; 
     
-    // TODO: Refactor this!
     var criteria = new Dictionary<string, string>()
     {
         { "price-lowest-to-highest", "Price (lowest to highest)" },

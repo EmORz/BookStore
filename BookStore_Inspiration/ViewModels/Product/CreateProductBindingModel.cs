@@ -5,6 +5,8 @@ namespace BookStore_Inspiration.ViewModels.Product
 {
     public class CreateProductBindingModel
     {
+
+        public BookStore.Model.Genre Genre { get; set; }
         public string Title { get; set; }
 
         public string ProductTypes { get; set; }

@@ -3,8 +3,9 @@ using System.Linq;
 using BookStore.Data;
 using BookStore.Model;
 using BookStore.Model.Enum;
+using BookStore.Services.Contracts;
 
-namespace BookStore.Services.Contracts
+namespace BookStore.Services
 {
     public class SuppliersService : ISuppliersService
     {

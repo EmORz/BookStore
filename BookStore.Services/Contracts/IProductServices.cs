@@ -8,7 +8,7 @@ namespace BookStore.Services.Contracts
     {
         IQueryable<Product> GetAllProducts(string criteria = null);
 
-        bool Create(string Title, string productType, decimal price, int quantity, string description, string author, string publishng, string yearOfPublishing, string picture, string youTubeLink);
+        bool Create(string Title, string productType, decimal price, int quantity, string description, string author, string publishng, string yearOfPublishing, string picture, string youTubeLink, Genre genre);
 
         void AddProduct(Product product);
 

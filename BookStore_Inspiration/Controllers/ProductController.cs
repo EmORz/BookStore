@@ -196,7 +196,7 @@ namespace BookStore_Inspiration.Controllers
 
             productServices.Create(createProduct.Title, createProduct.ProductTypes, createProduct.Price,
                 createProduct.Quantity, createProduct.Description, createProduct.Author, createProduct.Publishing,
-                createProduct.YearOfPublishing, pictureUrl, createProduct.YouTubeLink);
+                createProduct.YearOfPublishing, pictureUrl, createProduct.YouTubeLink, createProduct.Genre);
             return this.Redirect("/");
         }
 
