@@ -63,5 +63,11 @@ namespace BookStore.Services
             var genre = this.db.Genres.FirstOrDefault(x => x.Id == id);
             return genre;
         }
+
+        public Genre GetGenreByName(string name)
+        {
+            var genre = this.db.Genres.FirstOrDefault(x => x.Name == name);
+            return genre;
+        }
     }
 }

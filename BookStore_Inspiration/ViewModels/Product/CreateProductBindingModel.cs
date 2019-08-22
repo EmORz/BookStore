@@ -1,4 +1,5 @@
-﻿using BookStore.Model.Enum;
+﻿using System.Collections.Generic;
+using BookStore.Model.Enum;
 using Microsoft.AspNetCore.Http;
 
 namespace BookStore_Inspiration.ViewModels.Product
@@ -6,7 +7,10 @@ namespace BookStore_Inspiration.ViewModels.Product
     public class CreateProductBindingModel
     {
 
-        public BookStore.Model.Genre Genre { get; set; }
+        public IList<GenreViewModels> GenresViewModel { get; set; }
+        public int GenreId { get; set; }
+
+
         public string Title { get; set; }
 
         public string ProductTypes { get; set; }
@@ -29,5 +33,12 @@ namespace BookStore_Inspiration.ViewModels.Product
 
         public string YouTubeLink { get; set; }
 
+    }
+
+    public class GenreViewModels
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
     }
 }

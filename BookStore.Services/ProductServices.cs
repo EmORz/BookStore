@@ -16,10 +16,12 @@ namespace BookStore.Services
 
 
         private readonly BookStoreDbContext context;
+        private readonly IGenreService _genreService;
 
-        public ProductServices(BookStoreDbContext context)
+        public ProductServices(BookStoreDbContext context, IGenreService genreService)
         {
             this.context = context;
+            _genreService = genreService;
         }
 
 
@@ -47,9 +49,12 @@ namespace BookStore.Services
             return this.context.Products;
         }
 
-        public bool Create(string Title, string productType, decimal price, int quantity, string description, string author, string publishng, string yearOfPublishing, string picture, string youTubeLink, Genre genre)
+        public bool Create(string Title, string productType, decimal price, int quantity, string description, string author, string publishng, string yearOfPublishing, string picture, string youTubeLink, int genreId)
         {
             var productTypeTemp = Enum.TryParse<ProductTypes>(productType, true, out ProductTypes resultProductType);
+
+            var genreTypeTemp = _genreService.GetGenreById(genreId);
+
 
             //https://youtu.be/TNofc-YY4Pc
             var youTubeRender = youTubeLink.Split("/");
@@ -75,7 +80,7 @@ namespace BookStore.Services
                 YearOfPublishing = yearOfPublishing,
                 Picture = picture,
                 YouTubeLink = tempLinkKey,
-                Genre = genre
+                GenreId = genreTypeTemp.Id
 
 
             };

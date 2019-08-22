@@ -18,16 +18,18 @@ namespace BookStore_Inspiration.Controllers
         private readonly IImagesService imagesService;
         private readonly IUserServices _userServices;
         private readonly ICloudinaryServices _cloudinaryService;
+        private readonly IGenreService _genreService;
 
         private const string  youTubeEmbed = "https://www.youtube.com/embed/";
 
         public ProductController(IProductServices productServices,
-            IImagesService imagesService, IUserServices userServices, ICloudinaryServices cloudinaryService)
+            IImagesService imagesService, IUserServices userServices, ICloudinaryServices cloudinaryService, IGenreService genreService)
         {
             this.productServices = productServices;
             this.imagesService = imagesService;
             _userServices = userServices;
             _cloudinaryService = cloudinaryService;
+            _genreService = genreService;
         }
 
         public IActionResult Details(int id)
@@ -151,12 +153,7 @@ namespace BookStore_Inspiration.Controllers
             return this.Redirect("/");
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
+      
 
         //[Authorize(Roles = "Admin")]
         [HttpGet]
@@ -183,6 +180,25 @@ namespace BookStore_Inspiration.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var genres = _genreService.All().Select(x => new GenreViewModels()
+            {
+                Id = x.Id,
+                Name = x.Name
+            }).ToList();
+
+            CreateProductBindingModel createProduct = new CreateProductBindingModel()
+            {
+
+                GenresViewModel = genres
+            };
+            return View(createProduct);
+        }
+
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Create(CreateProductBindingModel createProduct)
         {
@@ -196,7 +212,7 @@ namespace BookStore_Inspiration.Controllers
 
             productServices.Create(createProduct.Title, createProduct.ProductTypes, createProduct.Price,
                 createProduct.Quantity, createProduct.Description, createProduct.Author, createProduct.Publishing,
-                createProduct.YearOfPublishing, pictureUrl, createProduct.YouTubeLink, createProduct.Genre);
+                createProduct.YearOfPublishing, pictureUrl, createProduct.YouTubeLink, createProduct.GenreId);
             return this.Redirect("/");
         }
 
@@ -205,7 +221,7 @@ namespace BookStore_Inspiration.Controllers
         public IActionResult Book()
         {
             var allProductsN = productServices.GetAllProducts()
-                .Where(type => type.ProductTypes == ProductTypes.Book)
+                .Where(type => type.ProductTypes == ProductTypes.Book && type.GenreId==2)
                 .Select(x => new ProductIndexHomeViewModel
             {
                 Id = x.Id,

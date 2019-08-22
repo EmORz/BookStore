@@ -15,5 +15,7 @@ namespace BookStore.Services.Contracts
 
         Genre GetGenreById(int id);
 
+        Genre GetGenreByName(string name);
+
     }
 }

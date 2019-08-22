@@ -48,8 +48,12 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Book">Всички книги</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Children">Детска литература</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="History">История и политика</a>
+                                </li>
+
                             </ul>
                         </div>
                         <div class="dropdown">
@@ -136,6 +140,14 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Suppliers" asp-action="All">Списък с доставчици</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Genre" asp-action="Create">Създай жанр</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Genre" asp-action="All">Списък с жанрове</a>
                                     </li>
 
                                     <li class="divider"></li>

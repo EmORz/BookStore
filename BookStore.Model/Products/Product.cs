@@ -10,7 +10,7 @@ namespace BookStore.Model
 
         public ProductTypes ProductTypes { get; set; }
 
-        public Genre Genre { get; set; }
+        public int GenreId { get; set; }
 
 
         public decimal Price { get; set; }

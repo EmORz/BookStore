@@ -10,7 +10,7 @@
             <tr class="row">
                 <th scope="col" class="col-1 d-flex justify-content-center">#</th>
                 <th scope="col" class="col-3 d-flex justify-content-center">Име</th>
-       
+
                 <th scope="col" class="col-4 d-flex justify-content-center"></th>
             </tr>
         </thead>
@@ -26,18 +26,16 @@
                     </td>
 
                     <td class="col-md-4 d-flex justify-content-around">
-                   
-                        }
-                        else
-                        {
-                 
-                            <div class="mr-2">
-                                <a asp-controller="Genre" asp-action="Edit" asp-route-id="@genre.Id" class="btn btn-outline-success btn-sm mobile-fondsize-11">Промени</a>
-                            </div>
-                            <div class="mr-2">
-                                <a asp-controller="Genre" asp-action="Delete" asp-route-id="@genre.Id" class="btn btn-outline-danger btn-sm mobile-fondsize-11">Изтрий</a>
-                            </div>
-                        }
+
+                        
+
+                        <div class="mr-2">
+                            <a asp-controller="Genre" asp-action="Edit" asp-route-id="@genre.Id" class="btn btn-outline-success btn-sm mobile-fondsize-11">Промени</a>
+                        </div>
+                        <div class="mr-2">
+                            <a asp-controller="Genre" asp-action="Delete" asp-route-id="@genre.Id" class="btn btn-outline-danger btn-sm mobile-fondsize-11">Изтрий</a>
+                        </div>
+                        
                     </td>
                 </tr>
             }

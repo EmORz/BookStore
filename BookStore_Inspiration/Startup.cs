@@ -54,6 +54,7 @@ namespace BookStore_Inspiration
             services.AddScoped<IOrderServices, OrderServices>();
             services.AddScoped<IAddressesServices, AddressesServices>();
             services.AddScoped<ISuppliersService, SuppliersService>();
+            services.AddScoped<IGenreService, GenreService>();
             services.AddTransient<ICloudinaryServices, CloudinaryServices>();
             services.AddTransient<IImagesService, ImagesService>();
 
