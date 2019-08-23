@@ -1,4 +1,4 @@
-﻿
+﻿@model List<BookStore_Inspiration.ViewModels.Recipient.Receiptclient>
 
 @{
     ViewData["Title"] = "Бележки от продажбите";
@@ -12,8 +12,19 @@
 
 @foreach (var r in Model)
 {
-    <h2>@r</h2>
-   
+    <h2>Клиентски номе: @r.UserId</h2>
+    <br />
+    <h2>Адрес на доставката: @r.Address</h2>
+    <br />
+
+    <h2>Идент. № на продукта @r.productId</h2>
+    <br />
+    <h2>Общо сума на поръчката: @r.Totalmoney</h2>
+
+    <h2>Дата и час на поръчката: @r.TimeOfPurchase</h2>
+    <br />
+
+
 }
 
 

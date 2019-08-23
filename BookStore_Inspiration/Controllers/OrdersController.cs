@@ -21,9 +21,11 @@ namespace BookStore_Inspiration.Controllers
         private readonly BookStoreDbContext _db;
         private readonly ISuppliersService _suppliersService;
         private readonly IOrderServices _orderServices;
+        private readonly IIncomeMoneyService _incomeMoneyService;
 
 
-        public OrdersController(IUserServices userServices, IAddressesServices addressesServices, IProductServices productServices, BookStoreDbContext db, ISuppliersService suppliersService, IOrderServices orderServices)
+        public OrdersController(IUserServices userServices, IAddressesServices addressesServices, IProductServices productServices, BookStoreDbContext db,
+            ISuppliersService suppliersService, IOrderServices orderServices, IIncomeMoneyService incomeMoneyService)
         {
             _userServices = userServices;
             _addressesServices = addressesServices;
@@ -31,17 +33,29 @@ namespace BookStore_Inspiration.Controllers
             _db = db;
             _suppliersService = suppliersService;
             _orderServices = orderServices;
+            _incomeMoneyService = incomeMoneyService;
         }
 
         [HttpPost]
         public IActionResult Create(CreateOrderViewModel model)
         {
+            var user = _userServices.GetUserByUsername(this.User.Identity.Name);
+
+            var userId = user.Id;
+            var totalMoney = 0.0m;
+            var productIdForRecord = 0;
+            var AddressDelivery = "";
+            var quantityForRecord = 0;
+            var paymentMethodRec = "";
+         
+            var dayOfPurchase = DateTime.Now;
+
             var order = this._orderServices.GetProcessingOrder(this.User.Identity.Name);
             if (order == null)
             {
                 order = this._orderServices.CreateOrder(this.User.Identity.Name);
             }
-
+            
             decimal deliveryPrice = _suppliersService.GetDiliveryPrice(model.SupplierId, model.DeliveryType);
             this._orderServices.SetOrderDetails(order, model.FullName, model.PhoneNumber, model.PaymentType, model.DeliveryAddressId.Value, deliveryPrice);
 
@@ -53,6 +67,7 @@ namespace BookStore_Inspiration.Controllers
 
 
             var typeOfPayment = order.PaymentType.ToString();
+            paymentMethodRec = typeOfPayment;
 
             var productFromDb = _productServices.GetProductById(model.ProductOrderViewModel.ProductId);
             var temporalEnterQuantity = productFromDb.Quantity - model.ProductOrderViewModel.ClientsQuantity;
@@ -70,15 +85,24 @@ namespace BookStore_Inspiration.Controllers
                 sb.Append("№ " + address.BuildingNumber + " ");
                 sb.AppendLine("Допълнително описание: " + address.Description);
             }
-            tempText.Add($"AddressForDeliver: {sb.ToString().Trim()}");
-            tempText.Add($"ProductId: {productFromDb.Id}");
+
+            productIdForRecord = productFromDb.Id;
+            AddressDelivery = sb.ToString().Trim();
+            tempText.Add($"AddressForDeliver: {AddressDelivery}");
+            tempText.Add($"ProductId: {productIdForRecord}");
 
             if (temporalEnterQuantity > 0)
             {
                 productFromDb.Quantity = temporalEnterQuantity;
+                var priceWithAddTaxes = productFromDb.Price * 0.1M+productFromDb.Price;
+
                 tempText.Add($"Quantity: {model.ProductOrderViewModel.ClientsQuantity}");
-                tempText.Add($"Price: {productFromDb.Price}");
-                tempText.Add($"Total: {model.ProductOrderViewModel.ClientsQuantity * productFromDb.Price}");
+                quantityForRecord = model.ProductOrderViewModel.ClientsQuantity;
+                totalMoney = model.ProductOrderViewModel.ClientsQuantity * priceWithAddTaxes;
+
+            tempText.Add($"Price: {productFromDb.Price}");
+                tempText.Add($"Price after added taxes from 10 %: {priceWithAddTaxes}");
+                tempText.Add($"Total: {totalMoney}");
                 tempText.Add($"DateTimeOfPurchase: {DateTime.Now}");
                 tempText.Add($"***********************************");
             }
@@ -86,6 +110,7 @@ namespace BookStore_Inspiration.Controllers
             {
                 tempText.Add($"Quantity: NO");
             }
+            _incomeMoneyService.Create(userId, totalMoney, productIdForRecord, quantityForRecord, paymentMethodRec, AddressDelivery, dayOfPurchase);
 
             this._db.Products.Update(productFromDb);
             this._db.SaveChanges();

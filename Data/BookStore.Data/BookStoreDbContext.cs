@@ -21,6 +21,7 @@ namespace BookStore.Data
         public DbSet<Genre> Genres { get; set; }
 
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<IncomeMoney> IcIncomeMonies { get; set; }
 
         //public DbSet<Music> Musics { get; set; }
         //public DbSet<Film> Films { get; set; }

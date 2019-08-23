@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BookStore_Inspiration.ViewModels;
+using BookStore_Inspiration.ViewModels.Recipient;
 using BookStore_Inspiration.ViewModels.Search;
 
 namespace BookStore_Inspiration.Controllers
@@ -19,14 +20,16 @@ namespace BookStore_Inspiration.Controllers
         private readonly BookStoreDbContext _db;
         private readonly IAddressesServices _addressesServices;
         private readonly IOrderServices _orderServices;
+        private readonly IIncomeMoneyService _incomeMoneyService;
 
-        public InfoController(IUserServices userServices, IProductServices productServices, BookStoreDbContext db, IAddressesServices addressesServices, IOrderServices orderServices)
+        public InfoController(IUserServices userServices, IProductServices productServices, BookStoreDbContext db, IAddressesServices addressesServices, IOrderServices orderServices, IIncomeMoneyService incomeMoneyService)
         {
             this.userServices = userServices;
             _productServices = productServices;
             _db = db;
             _addressesServices = addressesServices;
             _orderServices = orderServices;
+            _incomeMoneyService = incomeMoneyService;
         }
 
         public IActionResult UserDetails(string username)
@@ -160,6 +163,16 @@ namespace BookStore_Inspiration.Controllers
         [HttpGet]
         public IActionResult ReceiptsClient()
         {
+            var user = userServices.GetUserByUsername(this.User.Identity.Name);
+            var clientReceipts = _incomeMoneyService.AllPurchase().Where(x => x.UserId == user.Id).Select(x => new Receiptclient
+            {
+                UserId = x.UserId,
+                Address = x.AddressDelivery,
+                paymentMethod = x.PaymentMethod,
+                TimeOfPurchase = x.DateTimeOfPurchase,
+                productId = x.ProductId,
+                Totalmoney = x.TotalMoney
+            }).ToList();
             var result = System.IO.File.ReadAllLines($"C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\OrderResult.txt");
 
             var userListReceipts = new List<string>();
@@ -169,7 +182,7 @@ namespace BookStore_Inspiration.Controllers
 
                 if (result[i].Contains($"ClientName: {this.User.Identity.Name}") )
                 {
-                    for (int j = 0; j < 8; j++)
+                    for (int j = 0; j < 10; j++)
                     {
                         userListReceipts.Add(result[i+j]);
                     }
@@ -177,7 +190,7 @@ namespace BookStore_Inspiration.Controllers
 
                 }
             }
-            return View(userListReceipts);
+            return View(clientReceipts);
         }
 
         [Authorize(Roles = ("Admin"))]
@@ -198,7 +211,7 @@ namespace BookStore_Inspiration.Controllers
                     var tempUser = userServices.GetUserByUsername(tempUsername);
                     if (tempUser!=null && tempUser.Id == id)
                     {
-                        for (int j = 0; j < 8; j++)
+                        for (int j = 0; j < 10; j++)
                         {
                             userListReceipts.Add(result[i + j]);
                         }
