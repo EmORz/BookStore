@@ -7,12 +7,12 @@ using System.Linq;
 
 namespace BookStore_Inspiration.Controllers
 {
-    public class BookController : Controller
+    public class OtherController : Controller
     {
         private readonly IProductServices productServices;
         private readonly IUserServices _userServices;
 
-        public BookController(IProductServices productServices, IUserServices userServices)
+        public OtherController(IProductServices productServices, IUserServices userServices)
         {
             this.productServices = productServices;
             _userServices = userServices;
@@ -20,33 +20,10 @@ namespace BookStore_Inspiration.Controllers
 
 
         [Authorize]
-        public IActionResult Children()
+        public IActionResult Headphones()
         {
             var allProductsN = productServices.GetAllProducts()
-                .Where(type => type.ProductTypes == ProductTypes.Book && type.GenreId == 2)
-                .Select(x => new ProductIndexHomeViewModel
-                {
-                    Id = x.Id,
-                    Description = x.Description,
-                    Price = x.Price,
-                    Picture = x.Picture,
-                    Publishing = x.Publishing,
-                    Title = x.Title,
-                    UsersCount = _userServices.GetAllUsers().Count
-                }).ToList();
-
-            AllProductIndex allP = new AllProductIndex()
-            {
-                Products = allProductsN
-            };
-            return View(allP);
-        }
-
-        [Authorize]
-        public IActionResult History()
-        {
-            var allProductsN = productServices.GetAllProducts()
-                .Where(type => type.ProductTypes == ProductTypes.Book && type.GenreId == 1)
+                .Where(type => type.ProductTypes == ProductTypes.Other && type.GenreId == 7)
                 .Select(x => new ProductIndexHomeViewModel
                 {
                     Id = x.Id,

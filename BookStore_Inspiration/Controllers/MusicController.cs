@@ -1,18 +1,21 @@
-﻿using BookStore.Model.Enum;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using BookStore.Model.Enum;
 using BookStore.Services.Contracts;
 using BookStore_Inspiration.ViewModels.Product.Home;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 
 namespace BookStore_Inspiration.Controllers
 {
-    public class BookController : Controller
+    public class MusicController : Controller
     {
         private readonly IProductServices productServices;
         private readonly IUserServices _userServices;
 
-        public BookController(IProductServices productServices, IUserServices userServices)
+        public MusicController(IProductServices productServices, IUserServices userServices)
         {
             this.productServices = productServices;
             _userServices = userServices;
@@ -20,10 +23,10 @@ namespace BookStore_Inspiration.Controllers
 
 
         [Authorize]
-        public IActionResult Children()
+        public IActionResult Clasic()
         {
             var allProductsN = productServices.GetAllProducts()
-                .Where(type => type.ProductTypes == ProductTypes.Book && type.GenreId == 2)
+                .Where(type => type.ProductTypes == ProductTypes.Music && type.GenreId == 4)
                 .Select(x => new ProductIndexHomeViewModel
                 {
                     Id = x.Id,
@@ -43,10 +46,10 @@ namespace BookStore_Inspiration.Controllers
         }
 
         [Authorize]
-        public IActionResult History()
+        public IActionResult Estrada()
         {
             var allProductsN = productServices.GetAllProducts()
-                .Where(type => type.ProductTypes == ProductTypes.Book && type.GenreId == 1)
+                .Where(type => type.ProductTypes == ProductTypes.Music && type.GenreId == 5)
                 .Select(x => new ProductIndexHomeViewModel
                 {
                     Id = x.Id,
