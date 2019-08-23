@@ -11,11 +11,13 @@ namespace BookStore_Inspiration.Controllers
     {
         private readonly IProductServices productServices;
         private readonly IUserServices _userServices;
+        private readonly IGenreService _genreService;
 
-        public BookController(IProductServices productServices, IUserServices userServices)
+        public BookController(IProductServices productServices, IUserServices userServices, IGenreService genreService)
         {
             this.productServices = productServices;
             _userServices = userServices;
+            _genreService = genreService;
         }
 
 
@@ -23,7 +25,7 @@ namespace BookStore_Inspiration.Controllers
         public IActionResult Children()
         {
             var allProductsN = productServices.GetAllProducts()
-                .Where(type => type.ProductTypes == ProductTypes.Book && type.GenreId == 2)
+                .Where(type => type.ProductTypes == ProductTypes.Book && type.GenreId == 1)
                 .Select(x => new ProductIndexHomeViewModel
                 {
                     Id = x.Id,
@@ -46,7 +48,7 @@ namespace BookStore_Inspiration.Controllers
         public IActionResult History()
         {
             var allProductsN = productServices.GetAllProducts()
-                .Where(type => type.ProductTypes == ProductTypes.Book && type.GenreId == 1)
+                .Where(type => type.ProductTypes == ProductTypes.Book && type.GenreId == 2)
                 .Select(x => new ProductIndexHomeViewModel
                 {
                     Id = x.Id,

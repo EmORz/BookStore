@@ -140,24 +140,19 @@ namespace BookStore_Inspiration.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Receipts()
         {
-            var result = System.IO.File.ReadAllLines($"C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\OrderResult.txt");
-            var total = 0.0;
-            for (int i = 0; i < result.Length; i++)
+            var clientReceipts = _incomeMoneyService.AllPurchase().Select(x => new Receiptclient
             {
-                if (result[i].Contains("Total:"))
-                {
-                    var tokens = result[i].Split(" ")[1];
-                    total += Convert.ToDouble(tokens);
-                }
+                UserId = x.UserId,
+                Address = x.AddressDelivery,
+                paymentMethod = x.PaymentMethod,
+                TimeOfPurchase = x.DateTimeOfPurchase,
+                productId = x.ProductId,
+                Totalmoney = x.TotalMoney
+            }).ToList();
 
-            }
 
-            var resultList = result.ToList();
-            resultList.Add("Общо постъпления от продадени артикули: " + total.ToString() + "\n");
-            var last = resultList.FindLast(x => x.Contains("Общо постъпления от продадени артикули:"));
-            resultList.Insert(0, last);
 
-            return View(resultList);
+            return View(clientReceipts);
         }
 
         [HttpGet]
@@ -173,23 +168,7 @@ namespace BookStore_Inspiration.Controllers
                 productId = x.ProductId,
                 Totalmoney = x.TotalMoney
             }).ToList();
-            var result = System.IO.File.ReadAllLines($"C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\OrderResult.txt");
-
-            var userListReceipts = new List<string>();
-
-            for (int i = 0; i < result.Length; i++)
-            {
-
-                if (result[i].Contains($"ClientName: {this.User.Identity.Name}") )
-                {
-                    for (int j = 0; j < 10; j++)
-                    {
-                        userListReceipts.Add(result[i+j]);
-                    }
-                    userListReceipts.Add("***********************************");
-
-                }
-            }
+       
             return View(clientReceipts);
         }
 
@@ -197,30 +176,18 @@ namespace BookStore_Inspiration.Controllers
         [HttpGet]
         public IActionResult ReceiptsClientA(string id)
         {
-            var result = System.IO.File.ReadAllLines($"C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\OrderResult.txt");
-
-
-            var userListReceipts = new List<string>();
-
-            for (int i = 0; i < result.Length; i++)
+         
+            var clientReceipts = _incomeMoneyService.AllPurchase().Where(x => x.UserId == id).Select(x => new Receiptclient
             {
+                UserId = x.UserId,
+                Address = x.AddressDelivery,
+                paymentMethod = x.PaymentMethod,
+                TimeOfPurchase = x.DateTimeOfPurchase,
+                productId = x.ProductId,
+                Totalmoney = x.TotalMoney
+            }).ToList();
 
-                if (result[i].Contains($"ClientName: "))
-                {
-                    var tempUsername = result[i].Split(" ")[1];
-                    var tempUser = userServices.GetUserByUsername(tempUsername);
-                    if (tempUser!=null && tempUser.Id == id)
-                    {
-                        for (int j = 0; j < 10; j++)
-                        {
-                            userListReceipts.Add(result[i + j]);
-                        }
-                        userListReceipts.Add("***********************************");
-                    }
-
-                }
-            }
-            return View(userListReceipts);
+            return View(clientReceipts);
         }
 
     }

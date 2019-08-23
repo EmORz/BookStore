@@ -7,25 +7,32 @@
 
 <h1>Отчетни бележки за покупките на @User.Identity.Name</h1>
 
+<hr class="hr-2 bg-primary w-50">
+<div class="">
+    @foreach (var r in Model)
+    {
+        <div class="">
+      
+                <h4>Клиентски №: @r.UserId</h4>
+      
+                <h4 class="">Адрес: @(r.Address)</h4>
+                <h4 class="">Продукт №: @(r.productId)</h4>
+           
+                <h4 class=" ">Всичко: @(r.Totalmoney) лев</h4>
+                <h4 class="">Метод на плащане: @(r.paymentMethod)</h4>
+            <h4 class="">Дата на поръчката: @(r.TimeOfPurchase)</h4>
+            <hr class="align-content-lg-end"/>
+         
+        </div>
+
+  
+
+
+    }
+</div>
 
 
 
-@foreach (var r in Model)
-{
-    <h2>Клиентски номе: @r.UserId</h2>
-    <br />
-    <h2>Адрес на доставката: @r.Address</h2>
-    <br />
-
-    <h2>Идент. № на продукта @r.productId</h2>
-    <br />
-    <h2>Общо сума на поръчката: @r.Totalmoney</h2>
-
-    <h2>Дата и час на поръчката: @r.TimeOfPurchase</h2>
-    <br />
-
-
-}
 
 
 
