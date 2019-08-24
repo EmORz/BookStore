@@ -5,6 +5,7 @@ using BookStore.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
 
 namespace BookStore.Services
 {
@@ -17,11 +18,15 @@ namespace BookStore.Services
 
         private readonly BookStoreDbContext context;
         private readonly IGenreService _genreService;
+        private readonly ISearchService _searchService;
+        private readonly IUserServices _userServices;
 
-        public ProductServices(BookStoreDbContext context, IGenreService genreService)
+        public ProductServices(BookStoreDbContext context, IGenreService genreService, ISearchService searchService, IUserServices userServices)
         {
             this.context = context;
             _genreService = genreService;
+            _searchService = searchService;
+            _userServices = userServices;
         }
 
 
@@ -148,6 +153,7 @@ namespace BookStore.Services
         //заглавие, автор, ISBN или търсите книга от определено издателство
         public IEnumerable<Product> GetProductsBySearch(string searchString)
         {
+  
 
             var tokens = searchString.Trim().ToLower();
             var productsAll = this.context.Products.ToList();
@@ -177,6 +183,7 @@ namespace BookStore.Services
                             || product?.Publishing.ToLower() == tokens;
                 if (check)
                 {
+                  
                     searchResult.Add(product);
                 }
 

@@ -20,15 +20,18 @@ namespace BookStore_Inspiration.Controllers
         private readonly BookStoreDbContext _db;
         private readonly IAddressesServices _addressesServices;
         private readonly IOrderServices _orderServices;
+        private readonly ISearchService _searchService;
         private readonly IIncomeMoneyService _incomeMoneyService;
 
-        public InfoController(IUserServices userServices, IProductServices productServices, BookStoreDbContext db, IAddressesServices addressesServices, IOrderServices orderServices, IIncomeMoneyService incomeMoneyService)
+        public InfoController(IUserServices userServices, IProductServices productServices, BookStoreDbContext db, 
+            IAddressesServices addressesServices, IOrderServices orderServices, IIncomeMoneyService incomeMoneyService, ISearchService searchService)
         {
             this.userServices = userServices;
             _productServices = productServices;
             _db = db;
             _addressesServices = addressesServices;
             _orderServices = orderServices;
+            _searchService = searchService;
             _incomeMoneyService = incomeMoneyService;
         }
 
@@ -91,23 +94,24 @@ namespace BookStore_Inspiration.Controllers
         [HttpPost]
         public IActionResult SearchBox(Input input)
         {
+           
+        
+            var userId = userServices.GetUserByUsername(User.Identity.Name).Id;
             var search = _productServices.GetProductsBySearch(input.InputStr).ToList();
 
-       
-            List<string> temp = new List<string>();
-            foreach (var model in search)
+            foreach (var searchProduct in search)
             {
-                var author = model.Author;
-                var title = model.Title;
-                var isbn = model.ISBN;
-                var publishing = model.Publishing;
-                temp.Add(author);
-                temp.Add(title);
-                temp.Add(isbn);
-                temp.Add(publishing);
+                _searchService.Create(
+                    searchProduct.Id,
+                    searchProduct.Author,
+                    searchProduct.ISBN,
+                    searchProduct.Publishing,
+                    searchProduct.Title,
+                    userId);
             }
-            temp.Add("Търсенето бе извършено на "+DateTime.Now);
-            System.IO.File.AppendAllLines("C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\SearchResult.txt", temp);
+
+       
+            
 
 
             return Redirect("Result");
@@ -118,11 +122,17 @@ namespace BookStore_Inspiration.Controllers
         public IActionResult Result()
         {
 
-           
+            var userId = userServices.GetUserByUsername(User.Identity.Name).Id;
+            var resultFromSearch = _searchService.AllSearchesResults().Where(x => x.UserId == userId && x.DateTime.Day == DateTime.Now.Day).Select(x => new SearchProductViewModel()
+            {
+                Author = x.Author,
+                ISBN = x.ISBN,
+                Publishing = x.Publishing,
+                Title = x.Title,
+                DateTimeOfSearch = x.DateTime
+            }).ToList();
 
-           var result = System.IO.File.ReadAllLines("C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\SearchResult.txt");
-
-            return View(result);
+            return View(resultFromSearch);
         }
 
         [HttpGet]
@@ -130,8 +140,10 @@ namespace BookStore_Inspiration.Controllers
         public IActionResult DeleteHistoty()
         {
 
+            var userId = userServices.GetUserByUsername(User.Identity.Name).Id;
+            _searchService.DeleteHistotyOfSearch(userId);
 
-            System.IO.File.Delete("C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\SearchResult.txt");
+         
 
             return Redirect("/");
         }

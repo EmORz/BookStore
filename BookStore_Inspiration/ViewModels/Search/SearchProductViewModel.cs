@@ -1,4 +1,6 @@
-﻿namespace BookStore_Inspiration.ViewModels.Search
+﻿using System;
+
+namespace BookStore_Inspiration.ViewModels.Search
 {
     public class SearchProductViewModel
     {
@@ -9,6 +11,8 @@
         public string Publishing { get; set; }
 
         public string ISBN { get; set; }
+
+        public DateTime DateTimeOfSearch { get; set; }
 
         
     }

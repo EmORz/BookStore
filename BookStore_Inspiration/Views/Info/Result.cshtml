@@ -1,4 +1,5 @@
-﻿
+﻿@model List<BookStore_Inspiration.ViewModels.Search.SearchProductViewModel>
+
 
 @{
     ViewData["Title"] = "Резултат от търсенето";
@@ -9,14 +10,24 @@
 
 
 
+<hr class="hr-2 bg-primary w-50">
+<div class="">
 
-@foreach (var r in Model)
-{
-    <h2>@r</h2>
-   
-}
+    @foreach (var r in Model)
+    {
+        <div class="">
+
+            <h4>@r.Title</h4>
+            <h4>@r.Author</h4>
+            <h4>@r.ISBN</h4>
+            <h4>@r.Publishing</h4>
+            <h4>Търсенето е извършено на @r.DateTimeOfSearch</h4>
+            <hr class="align-content-lg-end"/>
+        </div>
+
+    }
 
 
 
-
+</div>
 
