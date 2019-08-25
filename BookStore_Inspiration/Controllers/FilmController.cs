@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BookStore.Model.Enum;
 using BookStore.Services.Contracts;
+using BookStore_Inspiration.Helper;
 using BookStore_Inspiration.ViewModels.Product.Home;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,19 +15,24 @@ namespace BookStore_Inspiration.Controllers
     {
         private readonly IProductServices productServices;
         private readonly IUserServices _userServices;
+        private readonly IGenreService _genreService;
 
-        public FilmController(IProductServices productServices, IUserServices userServices)
+        public FilmController(IProductServices productServices, IUserServices userServices, IGenreService genreService)
         {
             this.productServices = productServices;
             _userServices = userServices;
+            _genreService = genreService;
         }
 
 
         [Authorize]
         public IActionResult StValentin()
         {
+            var stValent = GenreList.GenreNames[2];
+            var genreId = _genreService.All().Where(x => x.Name.ToLower().Contains(stValent.ToLower())).Select(x => x.Id).FirstOrDefault();
+
             var allProductsN = productServices.GetAllProducts()
-                .Where(type => type.ProductTypes == ProductTypes.Film && type.GenreId == 6)
+                .Where(type => type.ProductTypes == ProductTypes.Film && type.GenreId == genreId)
                 .Select(x => new ProductIndexHomeViewModel
                 {
                     Id = x.Id,

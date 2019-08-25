@@ -4,6 +4,7 @@ using BookStore_Inspiration.ViewModels.Product.Home;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using BookStore_Inspiration.Helper;
 
 namespace BookStore_Inspiration.Controllers
 {
@@ -24,8 +25,12 @@ namespace BookStore_Inspiration.Controllers
         [Authorize]
         public IActionResult Children()
         {
+
+            var children = GenreList.GenreNames[0];
+            var genreId = _genreService.All().Where(x => x.Name.ToLower().Contains(children.ToLower())).Select(x => x.Id).FirstOrDefault();
+
             var allProductsN = productServices.GetAllProducts()
-                .Where(type => type.ProductTypes == ProductTypes.Book && type.GenreId == 1)
+                .Where(type => type.ProductTypes == ProductTypes.Book && type.GenreId == genreId)
                 .Select(x => new ProductIndexHomeViewModel
                 {
                     Id = x.Id,
@@ -47,8 +52,12 @@ namespace BookStore_Inspiration.Controllers
         [Authorize]
         public IActionResult History()
         {
+
+            var history = GenreList.GenreNames[1];
+            var genreId = _genreService.All().Where(x => x.Name.ToLower().Contains(history.ToLower())).Select(x => x.Id).FirstOrDefault();
+
             var allProductsN = productServices.GetAllProducts()
-                .Where(type => type.ProductTypes == ProductTypes.Book && type.GenreId == 2)
+                .Where(type => type.ProductTypes == ProductTypes.Book && type.GenreId == genreId)
                 .Select(x => new ProductIndexHomeViewModel
                 {
                     Id = x.Id,
