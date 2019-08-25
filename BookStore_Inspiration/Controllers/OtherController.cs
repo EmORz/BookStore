@@ -4,6 +4,7 @@ using BookStore_Inspiration.ViewModels.Product.Home;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using BookStore_Inspiration.Helper;
 
 namespace BookStore_Inspiration.Controllers
 {
@@ -11,19 +12,24 @@ namespace BookStore_Inspiration.Controllers
     {
         private readonly IProductServices productServices;
         private readonly IUserServices _userServices;
+        private readonly IGenreService _genreService;
 
-        public OtherController(IProductServices productServices, IUserServices userServices)
+        public OtherController(IProductServices productServices, IUserServices userServices, IGenreService genreService)
         {
             this.productServices = productServices;
             _userServices = userServices;
+            _genreService = genreService;
         }
 
 
         [Authorize]
         public IActionResult Headphones()
         {
+            var headphones = GenreList.GenreNames[5];
+            var genreId = _genreService.All().Where(x => x.Name.ToLower().Contains(headphones.ToLower())).Select(x => x.Id).FirstOrDefault();
+
             var allProductsN = productServices.GetAllProducts()
-                .Where(type => type.ProductTypes == ProductTypes.Other && type.GenreId == 7)
+                .Where(type => type.ProductTypes == ProductTypes.Other && type.GenreId == genreId)
                 .Select(x => new ProductIndexHomeViewModel
                 {
                     Id = x.Id,

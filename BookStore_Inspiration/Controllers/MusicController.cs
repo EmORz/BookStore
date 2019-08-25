@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BookStore.Model.Enum;
 using BookStore.Services.Contracts;
+using BookStore_Inspiration.Helper;
 using BookStore_Inspiration.ViewModels.Product.Home;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,19 +15,25 @@ namespace BookStore_Inspiration.Controllers
     {
         private readonly IProductServices productServices;
         private readonly IUserServices _userServices;
+        private readonly IGenreService _genreService;
 
-        public MusicController(IProductServices productServices, IUserServices userServices)
+        public MusicController(IProductServices productServices, IUserServices userServices, IGenreService genreService)
         {
             this.productServices = productServices;
             _userServices = userServices;
+            _genreService = genreService;
         }
 
 
         [Authorize]
         public IActionResult Clasic()
         {
+
+            var clasic = GenreList.GenreNames[3];
+            var genreId = _genreService.All().Where(x => x.Name.ToLower().Contains(clasic.ToLower())).Select(x => x.Id).FirstOrDefault();
+
             var allProductsN = productServices.GetAllProducts()
-                .Where(type => type.ProductTypes == ProductTypes.Music && type.GenreId == 4)
+                .Where(type => type.ProductTypes == ProductTypes.Music && type.GenreId == genreId)
                 .Select(x => new ProductIndexHomeViewModel
                 {
                     Id = x.Id,
@@ -48,8 +55,11 @@ namespace BookStore_Inspiration.Controllers
         [Authorize]
         public IActionResult Estrada()
         {
+            var estrada = GenreList.GenreNames[4];
+            var genreId = _genreService.All().Where(x => x.Name.ToLower().Contains(estrada.ToLower())).Select(x => x.Id).FirstOrDefault();
+
             var allProductsN = productServices.GetAllProducts()
-                .Where(type => type.ProductTypes == ProductTypes.Music && type.GenreId == 5)
+                .Where(type => type.ProductTypes == ProductTypes.Music && type.GenreId == genreId)
                 .Select(x => new ProductIndexHomeViewModel
                 {
                     Id = x.Id,
