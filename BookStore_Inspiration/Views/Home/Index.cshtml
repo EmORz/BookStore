@@ -1,4 +1,11 @@
-﻿@model BookStore_Inspiration.Controllers.AllProductIndex
+﻿@using BookStore.Services
+@using BookStore.Services.Contracts
+@model BookStore_Inspiration.Controllers.AllProductIndex
+
+@inject IIncomeMoneyService IncomeMoneyService
+@inject IUserServices UserServices
+
+
 
 @{
     ViewData["Title"] = "Home Page"; 
@@ -31,7 +38,15 @@
         }
         else if (User.IsInRole("Admin") && User.Identity.IsAuthenticated)
         {
+            var totalSum = @IncomeMoneyService.AllPurchase().Sum(x => x.TotalMoney);
+            var countUsers = UserServices.GetAllUsers().Count;
+
             <h1 class="display-4">Добре дошли администратор => @userName!</h1>
+            <h3>Към @DateTime.Now има постъпили от продажби => @totalSum.ToString("F2") лева </h3>
+            <h3>
+                В Система са регистрирани общо @countUsers бр. потребители!
+            </h3>
+                                                                                             
             <h3>Желаем Ви приятна работа :) </h3>
         }
         else if (User.IsInRole("User") && User.Identity.IsAuthenticated || User.Identity.IsAuthenticated)

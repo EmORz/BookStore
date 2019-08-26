@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using BookStore.Data;
 using BookStore.Model;
+using BookStore.Services.Contracts;
 
-namespace BookStore.Services.Contracts
+namespace BookStore.Services
 {
     public class IncomeMoneyService : IIncomeMoneyService
     {
