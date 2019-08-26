@@ -88,8 +88,7 @@ namespace BookStore.Services.Tests
             var year = clientInfo[0].Year == "1930";
             var month = clientInfo[0].Month == "8";
             var region = clientInfo[0].Region == "Разград";
-            
-            ;
+     
             Assert.True(isValidUcn);
             Assert.True(gender);
             Assert.True(year);
@@ -155,6 +154,36 @@ namespace BookStore.Services.Tests
             Assert.Equal(tempUcnB, testEncrUcn);
             Assert.True(temp != null && temp.UserName.Contains("DesiUser"));
         }
+
+        [Fact]
+        public void TestToDeleteUcnShouldSetUcnToNull()
+        {
+            var options = new DbContextOptionsBuilder<BookStoreDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
+            //
+
+            var dbContext = new BookStoreDbContext(options);
+
+            var userServices = new UserServices(dbContext);
+
+            var testUser = new BookStoreUser()
+            {
+                UserName = "DesiUser",
+                //For tests are use automate generate UCN from this site => https://georgi.unixsol.org/programs/egn.php?a=gen&s=0&d=0&m=0&y=0&n=5&r=0
+                UCN = userServices.EncryptData("6602100531")
+            };
+
+            dbContext.Users.Add(testUser);
+            dbContext.SaveChanges();
+
+            userServices.DeleteUCN(testUser);
+
+            var isUcnOnUserIsSetToNull = testUser.UCN == null;
+
+            Assert.True(isUcnOnUserIsSetToNull);
+        }
+
         [Fact]
         public void EditFirstNameOfUserShouldChangeFirstName()
         {
@@ -324,6 +353,37 @@ namespace BookStore.Services.Tests
             Assert.Equal(testUsername, currentUser);
         }
 
+
+        [Fact]
+        public void GetUserByIdShouldReturnCurrentUser()
+        {
+            var options = new DbContextOptionsBuilder<BookStoreDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
+
+            var dbContext = new BookStoreDbContext(options);
+
+            var testUser = new BookStoreUser()
+            {
+                UserName = "DesiUser",
+                PhoneNumber = "0897000607"
+            };
+
+            dbContext.Users.Add(testUser);
+            dbContext.SaveChanges();
+
+
+
+            var userServices = new UserServices(dbContext);
+            var testUsername = "DesiUser";
+
+            var currentUser = userServices.GetUserById(testUser.Id);
+
+            var isReturnCorrectUser = currentUser.UserName == testUsername;
+
+            Assert.True(isReturnCorrectUser);
+        }
+
         [Fact]
         public void GetUserByUsernameShouldReturnNull()
         {
@@ -353,6 +413,49 @@ namespace BookStore.Services.Tests
         }
 
         [Fact]
+        public void DeleteUserShouldSetUsernameFirstNameLastNameUcnPhonenumberEmailToXXX()
+        {
+            var options = new DbContextOptionsBuilder<BookStoreDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
+
+            var dbContext = new BookStoreDbContext(options);
+
+            var testUser = new BookStoreUser()
+            {
+                UserName = "DesiUser",
+                PhoneNumber = "0897000607",
+                FirstName = "Desi",
+                LastName = "Simeonova",
+                UCN = "VAkZJfsiMFxQGlolWk7hBA==",
+                Email = "desi@abv.bg"
+            };
+
+            dbContext.Users.Add(testUser);
+            dbContext.SaveChanges();
+
+
+            var userServices = new UserServices(dbContext);
+            
+
+            userServices.DeleteUser(testUser.Id);
+
+            var username = testUser.UserName == "xxx";
+            var firstName = testUser.FirstName == "xxx";
+            var lastName = testUser.LastName == "xxx";
+            var phonenumberName = testUser.PhoneNumber == "xxx";
+            var ucn = testUser.UCN == "xxx";
+            var email = testUser.Email == "xxx";
+
+            Assert.True(username);
+            Assert.True(firstName);
+            Assert.True(lastName);
+            Assert.True(phonenumberName);
+            Assert.True(ucn);
+            Assert.True(email);
+        }
+
+        [Fact]
         public void GetUsersShouldReturnCollectionOfBookStoreUsers()
         {
             var userServices = new UserServices(SeedBoolStoreUsers());
@@ -362,6 +465,8 @@ namespace BookStore.Services.Tests
 
             Assert.Equal(2, currentUsersCollection.Count);
         }
+
+
 
 
         private BookStoreDbContext SeedBoolStoreUsers()
