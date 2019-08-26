@@ -178,7 +178,22 @@
                 <input asp-for="ProductOrderViewModel.ProductId" class="form-control" type="hidden" readonly="">
 
             </div>
+            @{
+                var diff = @Model.ProductOrderViewModel.QuantityFromDb - @Model.ProductOrderViewModel.ClientsQuantity;
+            }
+            @if (@Model.ProductOrderViewModel.QuantityFromDb <= 1)
+            {
+                <h2 class="text-danger">Заявката ви не може да се изпълни, поради не достатъчна наличност. За повече информация се свържете с администрацията на фирмата.</h2>
+            }
+            else
+            {
+                <div>
+                    <label> Разполагаме с @Model.ProductOrderViewModel.QuantityFromDb бр. от продукта.Ако въведете количество по-голямо от наличното в Базата ни данни, ще бъдете пренасочен отново към тази страница. </label>
+                    <input asp-for="ProductOrderViewModel.QuantityFromDb" class="form-control" type="hidden" readonly="">
 
+                </div>
+            }
+         
             @{
                 var total = @Model.ProductOrderViewModel.Price * @Model.ProductOrderViewModel.ClientsQuantity;
             }

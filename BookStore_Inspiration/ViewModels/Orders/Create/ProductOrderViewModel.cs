@@ -8,5 +8,7 @@
         public decimal Price { get; set; }
 
         public int ClientsQuantity { get; set; } = 1;
+
+        public int QuantityFromDb { get; set; }
     }
 }
