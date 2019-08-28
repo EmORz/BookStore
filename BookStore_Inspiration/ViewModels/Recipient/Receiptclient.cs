@@ -6,6 +6,8 @@ namespace BookStore_Inspiration.ViewModels.Recipient
     {
         public string UserId { get; set; }
 
+        public int QuantityOfProduct { get; set; }
+
         public DateTime TimeOfPurchase { get; set; }
 
         public string Address { get; set; }

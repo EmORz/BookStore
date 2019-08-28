@@ -25,7 +25,27 @@ namespace BookStore.Services.Tests
 
             var _userServices = new Mock<IUserServices>();
 
+
+            var user = new BookStoreUser
+            {
+                Id = "2200A9B3-2622-44C3-A42F-6EBE640FFE74",
+                UserName = "Test1"
+            };
+            _userServices.Setup(x => x.GetUserByUsername(user.UserName)).Returns(user);
+
+            dbContext.BookStoreUsers.Add(user);
+            dbContext.SaveChanges();
+
             var orderService = new OrderServices(_userServices.Object, dbContext);
+            var isCreateOrder = orderService.CreateOrder(user.UserName);
+
+            var getProcessingOrder = orderService.GetProcessingOrder(user.UserName);
+
+            Assert.True(getProcessingOrder !=null);
+            Assert.True(getProcessingOrder.Status == OrderStatus.Processing);
+
+
+
 
         }
 

@@ -159,7 +159,8 @@ namespace BookStore_Inspiration.Controllers
                 paymentMethod = x.PaymentMethod,
                 TimeOfPurchase = x.DateTimeOfPurchase,
                 productId = x.ProductId,
-                Totalmoney = x.TotalMoney
+                Totalmoney = x.TotalMoney,
+                QuantityOfProduct = x.Quantity
             }).ToList();
 
 
@@ -178,7 +179,8 @@ namespace BookStore_Inspiration.Controllers
                 paymentMethod = x.PaymentMethod,
                 TimeOfPurchase = x.DateTimeOfPurchase,
                 productId = x.ProductId,
-                Totalmoney = x.TotalMoney
+                Totalmoney = x.TotalMoney,
+                QuantityOfProduct = x.Quantity
             }).ToList();
        
             return View(clientReceipts);
@@ -196,7 +198,8 @@ namespace BookStore_Inspiration.Controllers
                 paymentMethod = x.PaymentMethod,
                 TimeOfPurchase = x.DateTimeOfPurchase,
                 productId = x.ProductId,
-                Totalmoney = x.TotalMoney
+                Totalmoney = x.TotalMoney,
+                QuantityOfProduct = x.Quantity
             }).ToList();
 
             return View(clientReceipts);

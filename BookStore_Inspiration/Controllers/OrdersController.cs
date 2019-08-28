@@ -58,9 +58,7 @@ namespace BookStore_Inspiration.Controllers
             
             decimal deliveryPrice = _suppliersService.GetDiliveryPrice(model.SupplierId, model.DeliveryType);
             this._orderServices.SetOrderDetails(order, model.FullName, model.PhoneNumber, model.PaymentType, model.DeliveryAddressId.Value, deliveryPrice);
-
-
-            var fullName = order.BookStoreUser.FirstName+ order.BookStoreUser.LastName;
+            
             var adddress = _addressesServices.GetAllAddresses().Where(x => x.Id == order.DeliveryAddressId);
 
             var taxes = deliveryPrice;
@@ -83,15 +81,10 @@ namespace BookStore_Inspiration.Controllers
             {
                 return RedirectToAction("Create", "Orders", model.ProductOrderViewModel.ProductId);
             }
-            //var tempText = new List<string>();
 
-            //tempText.Add($"ClientName: {this.User.Identity.Name}");
-            //tempText.Add($"PaymentMethod: {typeOfPayment}");
-            //tempText.Add($"DeliverPrice: {taxes}");
             StringBuilder sb = new StringBuilder();
             foreach (var address in adddress)
             {
-
                 sb.Append("Град: " + address.City.Name.ToString() + " " + address.City.Postcode);
                 sb.Append("Адрес: " + address.Street + " ");
                 sb.Append("№ " + address.BuildingNumber + " ");
@@ -100,34 +93,21 @@ namespace BookStore_Inspiration.Controllers
 
             productIdForRecord = productFromDb.Id;
             AddressDelivery = sb.ToString().Trim();
-            //tempText.Add($"AddressForDeliver: {AddressDelivery}");
-            //tempText.Add($"ProductId: {productIdForRecord}");
 
             if (temporalEnterQuantity > 0)
             {
                 productFromDb.Quantity = temporalEnterQuantity;
                 var priceWithAddTaxes = productFromDb.Price * 0.1M+productFromDb.Price;
 
-                //tempText.Add($"Quantity: {model.ProductOrderViewModel.ClientsQuantity}");
                 quantityForRecord = model.ProductOrderViewModel.ClientsQuantity;
                 totalMoney = model.ProductOrderViewModel.ClientsQuantity * priceWithAddTaxes;
-
-            //tempText.Add($"Price: {productFromDb.Price}");
-            //    tempText.Add($"Price after added taxes from 10 %: {priceWithAddTaxes}");
-            //    tempText.Add($"Total: {totalMoney}");
-            //    tempText.Add($"DateTimeOfPurchase: {DateTime.Now}");
-            //    tempText.Add($"***********************************");
             }
-            //else
-            //{
-            //    tempText.Add($"Quantity: NO");
-            //}
+
             _incomeMoneyService.Create(userId, totalMoney, productIdForRecord, quantityForRecord, paymentMethodRec, AddressDelivery, dayOfPurchase);
 
             this._db.Products.Update(productFromDb);
             this._db.SaveChanges();
 
-            //System.IO.File.AppendAllLines($"C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\OrderResult.txt", tempText);
 
 
             return Redirect("/");

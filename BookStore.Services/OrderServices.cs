@@ -30,7 +30,7 @@ namespace BookStore.Services
             var order = this._db.Orders.Include(x => x.DeliveryAddress)
                 .ThenInclude(x => x.City)
                 .Include(x => x.OrderProducts)
-                .FirstOrDefault(x => x.BookStoreUser.UserName == username && x.Status == OrderStatus.Processing);
+                .FirstOrDefault(x => x.BookStoreUser.UserName == user.UserName && x.Status == OrderStatus.Processing);
 
             return order;
         }

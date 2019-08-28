@@ -89,7 +89,8 @@ namespace BookStore_Inspiration.Controllers
                 Publishing = product.Publishing,
                 Quantity = product.Quantity,
                 YearOfPublishing = product.YearOfPublishing,
-                youTubeLink = product.YouTubeLink
+                youTubeLink = product.YouTubeLink,
+                GenreId = product.GenreId
    
             };
             return this.View(model);
@@ -131,7 +132,8 @@ namespace BookStore_Inspiration.Controllers
                 Description = model.Description,
                 ISBN = model.ISBN,
                 Picture = pictureUrl,
-                YouTubeLink = tempLinkKey
+                YouTubeLink = tempLinkKey,
+                GenreId = model.GenreId
             };
             this.productServices.EditProduct(product);
 
