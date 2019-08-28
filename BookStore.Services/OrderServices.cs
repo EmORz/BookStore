@@ -66,12 +66,14 @@ namespace BookStore.Services
 
         public Order GetOrderById(int orderId)
         {
-            throw new System.NotImplementedException();
+            var orderFromDb = _db.Orders.FirstOrDefault(x => x.Id == orderId);
+            return orderFromDb;
         }
 
         public Order GetUserOrderById(int orderId, string username)
         {
-            throw new System.NotImplementedException();
+            var orderFromDb = _db.Orders.FirstOrDefault(x => x.Id == orderId && x.BookStoreUser.UserName == username);
+            return orderFromDb;
         }
     }
 }
