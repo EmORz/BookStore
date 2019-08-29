@@ -80,14 +80,14 @@ namespace BookStore_Inspiration.Controllers
             return View(addressViewMOdel);
         }
         [HttpPost]
-        public IActionResult Contact(GetAddress address)
+        public IActionResult Contact(GetAddress addresss)
         {
             if (!ModelState.IsValid)
             {
-                return this.View(address);
+                return this.View(addresss);
             }
 
-            this._userRequestsService.Create(address.Title, address.Email, address.Content);
+            this._userRequestsService.Create(addresss.Title, addresss.Email, addresss.Content);
 
             return Redirect("/");
         }
