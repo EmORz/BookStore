@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using BookStore_Inspiration.Helper;
+using BookStore_Inspiration.ViewModels;
 
 namespace BookStore_Inspiration.Controllers
 {

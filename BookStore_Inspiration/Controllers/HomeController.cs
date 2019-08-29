@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using BookStore.Services.Contracts;
+﻿using BookStore.Services.Contracts;
 using BookStore_Inspiration.ViewModels.Product.Home;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using BookStore_Inspiration.ViewModels;
 
 namespace BookStore_Inspiration.Controllers
 {
@@ -36,38 +36,10 @@ namespace BookStore_Inspiration.Controllers
             {
                 Products = allProductsN
             };
-
-
-            //var allProducts = _productServices.GetAllProducts().Select(product => new ProductHomeViewModel
-            //{
-            //    Author = product.Author,
-            //    Description = product.Description,
-            //    Id = product.Id,
-            //    ISBN = product.ISBN,
-            //    Price = product.Price,
-            //    ProductTypes = product.ProductTypes.ToString(),
-            //    Publishing = product.Publishing,
-            //    Quantity = product.Quantity,
-            //    Title = product.Title,
-            //    YearOfPublishing = product.YearOfPublishing,
-            //    UsersCount = _userServices.GetAllUsers().Count,
-            //    Picture = product.Picture
-            //}).ToList();
-
-            //AllProductsHomeViewModel all = new AllProductsHomeViewModel()
-            //{
-            //    Products = allProducts
-            //};
-
             return View(allP);
         }
 
        
         
-    }
-
-    public class AllProductIndex
-    {
-        public List<ProductIndexHomeViewModel> Products { get; set; } = new List<ProductIndexHomeViewModel>();
     }
 }

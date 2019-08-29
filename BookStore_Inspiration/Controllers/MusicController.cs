@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BookStore.Model.Enum;
 using BookStore.Services.Contracts;
 using BookStore_Inspiration.Helper;
+using BookStore_Inspiration.ViewModels;
 using BookStore_Inspiration.ViewModels.Product.Home;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

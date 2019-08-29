@@ -44,7 +44,6 @@ namespace BookStore_Inspiration.ViewModels.Orders.Create
         public string LastName { get; set; }
 
         [Display(Name = "Тел. номер")]
-
         public string PhoneNumber { get; set; }
     }
 }

@@ -1,28 +1,15 @@
-﻿using System.Collections.Generic;
-using BookStore.Data;
+﻿using BookStore.Data;
 using BookStore.Model;
 using BookStore.Services.Contracts;
+using BookStore_Inspiration.ViewModels.User;
 using BookStore_Inspiration.ViewModels.User.Edit;
 using BookStore_Inspiration.ViewModels.User.Index;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using BookStore_Inspiration.ViewModels.User;
 
 namespace BookStore_Inspiration.Controllers
 {
-    public class EditClientFirstLastNamePhoneNumber
-    {
-        
-        public string Firstname { get; set; }
-
-
-        public string Lastname { get; set; }
-
-        public string Phonenumber { get; set; }
-
-
-    }
     public class UsersController : Controller
     {
         private readonly IUserServices _userServices;
@@ -66,26 +53,6 @@ namespace BookStore_Inspiration.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult AllUsers()
         {
-            //todo get receipts for every user
-            var listOfUsersReceits = _userServices.GetAllUsers().ToList();
-            
-            var result = System.IO.File.ReadAllLines($"C:\\Users\\User\\source\\repos\\BookStore_Inspiration\\BookStore\\BookStore_Inspiration\\Views\\Info\\OrderResult.txt");
-
-            //var userListReceipts = new List<string>();
-
-            //for (int i = 0; i < result.Length; i++)
-            //{
-            //    var usernameFromDb = listOfUsersReceits[i].UserName;
-            //    if (result[i].Contains($"ClientName: {usernameFromDb}"))
-            //    {
-            //        for (int j = 0; j < 6; j++)
-            //        {
-            //            userListReceipts.Add(result[i + j]);
-            //        }
-            //        userListReceipts.Add("***********************************");
-
-            //    }
-            //}
             var listOfUsers = _userServices.GetAllUsers().Select(x => new ListOfAllUserViewModels
             {
                 Id = x.Id,
@@ -151,13 +118,7 @@ namespace BookStore_Inspiration.Controllers
                 LastName = editUser.Lastname,
                 PhoneNumber = editUser.Phonenumber
             };
-            //_userServices.EditFirstName(user, editUser.FirstName);
-            //_userServices.EditLastName(user, editUser.Lastname);
-            //_userServices.EditEmail(user, editUser.Email);
-            //_userServices.EditPhonenumber(user, editUser.Phonenumber);
-
-
-            //_userServices.EditAdmin(user);
+           
 
             return this.Redirect("/Users/AllUsers");
 
