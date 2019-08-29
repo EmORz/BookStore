@@ -57,6 +57,7 @@ namespace BookStore_Inspiration
             services.AddScoped<IGenreService, GenreService>();
             services.AddScoped<IIncomeMoneyService, IncomeMoneyService>();
             services.AddScoped<ISearchService, SearchService>();
+            services.AddScoped<IUserRequestsService, UserRequestsService>();
             services.AddTransient<ICloudinaryServices, CloudinaryServices>();
             services.AddTransient<IImagesService, ImagesService>();
 

@@ -21,10 +21,11 @@ namespace BookStore_Inspiration.Controllers
         private readonly IAddressesServices _addressesServices;
         private readonly IOrderServices _orderServices;
         private readonly ISearchService _searchService;
+        private readonly IUserRequestsService _userRequestsService;
         private readonly IIncomeMoneyService _incomeMoneyService;
 
         public InfoController(IUserServices userServices, IProductServices productServices, BookStoreDbContext db, 
-            IAddressesServices addressesServices, IOrderServices orderServices, IIncomeMoneyService incomeMoneyService, ISearchService searchService)
+            IAddressesServices addressesServices, IOrderServices orderServices, IIncomeMoneyService incomeMoneyService, ISearchService searchService, IUserRequestsService userRequestsService)
         {
             this.userServices = userServices;
             _productServices = productServices;
@@ -32,6 +33,7 @@ namespace BookStore_Inspiration.Controllers
             _addressesServices = addressesServices;
             _orderServices = orderServices;
             _searchService = searchService;
+            _userRequestsService = userRequestsService;
             _incomeMoneyService = incomeMoneyService;
         }
 
@@ -52,6 +54,11 @@ namespace BookStore_Inspiration.Controllers
             var town = "ьь";
             var fullAddress = "в Системата няма данни за Вашият адрес.";
 
+
+            if (User.Identity.IsAuthenticated)
+            {
+                addressViewMOdel.Email = User.Identity.Name;
+            }
             var user = userServices.GetUserByUsername(User.Identity.Name);
             var order = this._orderServices.GetProcessingOrder(this.User.Identity.Name);
             if (order !=null)
@@ -71,6 +78,18 @@ namespace BookStore_Inspiration.Controllers
             }
 
             return View(addressViewMOdel);
+        }
+        [HttpPost]
+        public IActionResult Contact(GetAddress address)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View(address);
+            }
+
+            this._userRequestsService.Create(address.Title, address.Email, address.Content);
+
+            return Redirect("/");
         }
 
         public IActionResult PaymentMethods()
