@@ -13,7 +13,7 @@ namespace BookStore_Inspiration.ViewModels.Product
 
         public string Title { get; set; }
 
-        [Display(Name = "Тип на прродукта")]
+        [Display(Name = "Тип на продукта")]
 
         public string ProductTypes { get; set; }
 

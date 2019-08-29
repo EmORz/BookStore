@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
-using BookStore_Inspiration.ViewModels.Product.Home;
-using BookStore.Services;
 
 namespace BookStore_Inspiration.Controllers
 {
@@ -219,100 +217,6 @@ namespace BookStore_Inspiration.Controllers
         }
 
 
-        [Authorize()]
-        public IActionResult Book()
-        {
-            var allProductsN = productServices.GetAllProducts()
-                .Where(type => type.ProductTypes == ProductTypes.Book && type.GenreId==2)
-                .Select(x => new ProductIndexHomeViewModel
-            {
-                Id = x.Id,
-                Description = x.Description,
-                Price = x.Price,
-                Picture = x.Picture,
-                Publishing = x.Publishing,
-                Title = x.Title,
-                UsersCount = _userServices.GetAllUsers().Count
-            }).ToList();
 
-            AllProductIndex allP = new AllProductIndex()
-            {
-                Products = allProductsN
-            };
-
-            return View(allP);
-        }
-
-        [Authorize]
-        public IActionResult Film()
-        {
-            var allProductsN = productServices.GetAllProducts()
-                .Where(type => type.ProductTypes == ProductTypes.Film)
-                .Select(x => new ProductIndexHomeViewModel
-                {
-                    Id = x.Id,
-                    Description = x.Description,
-                    Price = x.Price,
-                    Picture = x.Picture,
-                    Publishing = x.Publishing,
-                    Title = x.Title,
-                    UsersCount = _userServices.GetAllUsers().Count
-                }).ToList();
-
-            AllProductIndex allP = new AllProductIndex()
-            {
-                Products = allProductsN
-            };
-
-            return View(allP);
-        }
-
-        [Authorize]
-        public IActionResult Music()
-        {
-            var allProductsN = productServices.GetAllProducts()
-                .Where(type => type.ProductTypes == ProductTypes.Music)
-                .Select(x => new ProductIndexHomeViewModel
-                {
-                    Id = x.Id,
-                    Description = x.Description,
-                    Price = x.Price,
-                    Picture = x.Picture,
-                    Publishing = x.Publishing,
-                    Title = x.Title,
-                    UsersCount = _userServices.GetAllUsers().Count
-                }).ToList();
-
-            AllProductIndex allP = new AllProductIndex()
-            {
-                Products = allProductsN
-            };
-
-            return View(allP);
-        }
-
-        [Authorize]
-        public IActionResult Other()
-        {
-            var allProductsN = productServices.GetAllProducts()
-                .Where(type => type.ProductTypes == ProductTypes.Other)
-                .Select(x => new ProductIndexHomeViewModel
-                {
-                    Id = x.Id,
-                    Description = x.Description,
-                    Price = x.Price,
-                    Picture = x.Picture,
-                    Publishing = x.Publishing,
-                    Title = x.Title,
-                    UsersCount = _userServices.GetAllUsers().Count
-                }).ToList();
-
-            AllProductIndex allP = new AllProductIndex()
-            {
-                Products = allProductsN
-            };
-
-            return View(allP);
-        }
     }
 }
