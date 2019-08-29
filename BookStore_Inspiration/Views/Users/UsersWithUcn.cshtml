@@ -1,0 +1,36 @@
+﻿@model BookStore_Inspiration.Controllers.PersonalInfo
+
+
+@{
+    ViewData["Title"] = "Персонална информация";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Персонална информация за клиента - по ЕГН</h1>
+
+
+
+<hr class="hr-2 bg-primary w-50">
+<div class="">
+    @foreach (var r in Model.PersonaInfo)
+    {
+        <div class="">
+
+            <h4>Клиентско име: @r.UserName</h4>
+
+            <h4 class="">Година на раждане: @(r.Year)</h4>
+            <h4 class="">Месец на раждане: @(r.Month)</h4>
+            <h4 class="">Ден на раждане: @(r.Day)</h4>
+
+            <h4 class=" ">Пол: @(r.Gender) </h4>
+            <h4 class="">Регион/област на раждане: @(r.Region)</h4>
+            <h4 class="">Валидност на данните според системата: @(r.IsValidUCN)</h4>
+            <hr class="align-content-lg-end" />
+        
+        </div>
+
+  
+
+
+    }
+</div>

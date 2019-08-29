@@ -1,4 +1,5 @@
-﻿using BookStore.Data;
+﻿using System.Collections.Generic;
+using BookStore.Data;
 using BookStore.Model;
 using BookStore.Services.Contracts;
 using BookStore_Inspiration.ViewModels.User;
@@ -7,6 +8,8 @@ using BookStore_Inspiration.ViewModels.User.Index;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using BookStore.Services.Helper;
+using Microsoft.VisualStudio.Services.Common;
 
 namespace BookStore_Inspiration.Controllers
 {
@@ -15,11 +18,35 @@ namespace BookStore_Inspiration.Controllers
         private readonly IUserServices _userServices;
         private readonly BookStoreDbContext context;
 
+
         public UsersController(IUserServices userServices, BookStoreDbContext context)
         {
             _userServices = userServices;
             this.context = context;
         }
+
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult UsersWithUCN()
+        {
+            var allUsers = _userServices.GetAllUsers().Where(x => x.UCN!=null);
+            var personalInfo = new PersonalInfo();
+            foreach (var user in allUsers)
+            {
+
+                var decriptUcn =_userServices.DecryptData(user.UCN);
+               
+                var result = _userServices.ClientMetric(decriptUcn);
+                foreach (var ofert in result)
+                {
+                    ofert.UserName = user.UserName;
+                }
+                personalInfo.PersonaInfo.AddRange(result);
+            }
+
+            return View(personalInfo);
+        }
+        [Authorize(Roles = "Admin")]
 
         public IActionResult EditClientData(EditClientFirstLastNamePhoneNumber edit)
         {
@@ -123,5 +150,10 @@ namespace BookStore_Inspiration.Controllers
             return this.Redirect("/Users/AllUsers");
 
         }
+    }
+
+    public class PersonalInfo
+    {
+        public IList<PersonalUserDataForSpecialOfert> PersonaInfo = new List<PersonalUserDataForSpecialOfert>();
     }
 }
