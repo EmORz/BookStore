@@ -17,12 +17,14 @@ namespace BookStore_Inspiration.Controllers
     {
         private readonly IUserServices _userServices;
         private readonly BookStoreDbContext context;
+        private readonly IProductServices _productServices;
 
 
-        public UsersController(IUserServices userServices, BookStoreDbContext context)
+        public UsersController(IUserServices userServices, BookStoreDbContext context, IProductServices productServices)
         {
             _userServices = userServices;
             this.context = context;
+            _productServices = productServices;
         }
 
 
@@ -30,6 +32,14 @@ namespace BookStore_Inspiration.Controllers
         public IActionResult UsersWithUCN()
         {
             var allUsers = _userServices.GetAllUsers().Where(x => x.UCN!=null);
+            var allProducts = _productServices.GetAllProducts().ToList();
+            
+            //var potencialProducts = new List<string>();
+
+            foreach (var product in allProducts)
+            {
+                var t = product.Title.ToLower();
+            }
             var personalInfo = new PersonalInfo();
             foreach (var user in allUsers)
             {
@@ -40,8 +50,18 @@ namespace BookStore_Inspiration.Controllers
                 foreach (var ofert in result)
                 {
                     ofert.UserName = user.UserName;
+                    var regT = ofert.Region.ToLower();
+                    foreach (var product in allProducts)
+                    {
+                        var isHaveMatch = product.Title.ToLower().Contains(regT) || product.Description.ToLower().Contains(regT);
+                        if (isHaveMatch)
+                        {
+                            ofert.potencialProductOfInteres.Add(product.Title);
+                        }
+                    }
                 }
                 personalInfo.PersonaInfo.AddRange(result);
+                //personalInfo.PersonaInfo.Add();
             }
 
             return View(personalInfo);
