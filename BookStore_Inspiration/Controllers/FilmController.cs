@@ -22,6 +22,31 @@ namespace BookStore_Inspiration.Controllers
             _genreService = genreService;
         }
 
+        [Authorize]
+        public IActionResult Dvd()
+        {
+            var headphones = GenreList.GenreNames[11];
+            var genreId = _genreService.All().Where(x => x.Name.ToLower().Contains(headphones.ToLower())).Select(x => x.Id).FirstOrDefault();
+
+            var allProductsN = productServices.GetAllProducts()
+                .Where(type => type.ProductTypes == ProductTypes.Film && type.GenreId == genreId)
+                .Select(x => new ProductIndexHomeViewModel
+                {
+                    Id = x.Id,
+                    Description = x.Description,
+                    Price = x.Price,
+                    Picture = x.Picture,
+                    Publishing = x.Publishing,
+                    Title = x.Title,
+                    UsersCount = _userServices.GetAllUsers().Count
+                }).ToList();
+
+            AllProductIndex allP = new AllProductIndex()
+            {
+                Products = allProductsN
+            };
+            return View(allP);
+        }
 
         [Authorize]
         public IActionResult StValentin()

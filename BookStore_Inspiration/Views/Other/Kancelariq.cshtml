@@ -1,0 +1,85 @@
+﻿
+@using BookStore.Data
+@model BookStore_Inspiration.ViewModels.AllProductIndex
+
+@{
+    ViewData["Title"] = "Канцеларски материали";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var userName = @User.Identity.Name;
+
+}
+<h1>@ViewData["Title"]</h1>
+
+
+
+
+
+<div class="text-center">
+
+    @if (User.IsInRole("User") && User.Identity.IsAuthenticated || User.Identity.IsAuthenticated)
+    {
+        <hr class="hr-2 bg-primary">
+        <div id="products" class="mt-3">
+            @for (int i = 0; i < Model.Products.Count; i += 5)
+            {
+                <div class="products-row row d-flex justify-content-around my-5">
+                    @for (int j = i; j < i + 5; j++)
+                    {
+                        if (j < Model.Products.Count)
+                        {
+                            <div class="product col-md-2">
+
+                                <h5 class="text-center mt-3">ID @Model.Products[j].Id</h5>
+                                <h5 class="text-center mt-3">@Model.Products[j].Title</h5>
+                                <h5 class="text-center mt-3">@Model.Products[j].Publishing</h5>
+                                <h5 class="text-center mt-3">Price: $@Model.Products[j].Price.ToString("F2")</h5>
+
+                                <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Products[j].Id">
+                                    <div class="card-img-top img-wrapper">
+                                        <img width="200" height="250" class="img-responsive" src="@Model.Products[j].Picture" alt="@Model.Products[j].Title">
+                                    </div>
+                                </a>
+
+                                <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
+                                    @{
+                                        string urlOrder = Url.Action("Create", "Orders", new {id = @Model.Products[j].Id});
+                                        string urlDetails = Url.Action("Details", "Product", new {id = @Model.Products[j].Id});
+                                    }
+                            
+                                    <button type="button" class="btn btn-primary btn-md" onclick="location.href='@urlOrder'" >
+                                        Купи
+                                    </button>
+                            
+                                    <button type="button" class="btn btn-info btn-xs" onclick="location.href='@urlDetails'">
+                                        Детайли
+                                    </button>
+                            
+
+                                </div>
+
+
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="product col-md-2 empty">
+                            </div>
+                        }
+
+                    }
+                </div>
+            }
+
+        </div>
+    }
+
+</div>
+
+
+
+
+
+

@@ -27,6 +27,60 @@ namespace BookStore_Inspiration.Controllers
 
 
         [Authorize]
+        public IActionResult DetskiPrikazkiIPesni()
+        {
+
+            var clasic = GenreList.GenreNames[10];
+            var genreId = _genreService.All().Where(x => x.Name.ToLower().Contains(clasic.ToLower())).Select(x => x.Id).FirstOrDefault();
+
+            var allProductsN = productServices.GetAllProducts()
+                .Where(type => type.ProductTypes == ProductTypes.Music && type.GenreId == genreId)
+                .Select(x => new ProductIndexHomeViewModel
+                {
+                    Id = x.Id,
+                    Description = x.Description,
+                    Price = x.Price,
+                    Picture = x.Picture,
+                    Publishing = x.Publishing,
+                    Title = x.Title,
+                    UsersCount = _userServices.GetAllUsers().Count
+                }).ToList();
+
+            AllProductIndex allP = new AllProductIndex()
+            {
+                Products = allProductsN
+            };
+            return View(allP);
+        }
+
+        [Authorize]
+        public IActionResult Opera()
+        {
+
+            var clasic = GenreList.GenreNames[9];
+            var genreId = _genreService.All().Where(x => x.Name.ToLower().Contains(clasic.ToLower())).Select(x => x.Id).FirstOrDefault();
+
+            var allProductsN = productServices.GetAllProducts()
+                .Where(type => type.ProductTypes == ProductTypes.Music && type.GenreId == genreId)
+                .Select(x => new ProductIndexHomeViewModel
+                {
+                    Id = x.Id,
+                    Description = x.Description,
+                    Price = x.Price,
+                    Picture = x.Picture,
+                    Publishing = x.Publishing,
+                    Title = x.Title,
+                    UsersCount = _userServices.GetAllUsers().Count
+                }).ToList();
+
+            AllProductIndex allP = new AllProductIndex()
+            {
+                Products = allProductsN
+            };
+            return View(allP);
+        }
+
+        [Authorize]
         public IActionResult Clasic()
         {
 
